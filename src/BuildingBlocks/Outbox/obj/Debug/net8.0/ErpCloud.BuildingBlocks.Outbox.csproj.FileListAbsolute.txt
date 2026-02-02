@@ -1,0 +1,12 @@
+C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Outbox\bin\Debug\net8.0\ErpCloud.BuildingBlocks.Outbox.deps.json
+C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Outbox\bin\Debug\net8.0\ErpCloud.BuildingBlocks.Outbox.dll
+C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Outbox\bin\Debug\net8.0\ErpCloud.BuildingBlocks.Outbox.pdb
+C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Outbox\obj\Debug\net8.0\ErpCloud.BuildingBlocks.Outbox.csproj.AssemblyReference.cache
+C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Outbox\obj\Debug\net8.0\ErpCloud.BuildingBlocks.Outbox.GeneratedMSBuildEditorConfig.editorconfig
+C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Outbox\obj\Debug\net8.0\ErpCloud.BuildingBlocks.Outbox.AssemblyInfoInputs.cache
+C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Outbox\obj\Debug\net8.0\ErpCloud.BuildingBlocks.Outbox.AssemblyInfo.cs
+C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Outbox\obj\Debug\net8.0\ErpCloud.BuildingBlocks.Outbox.csproj.CoreCompileInputs.cache
+C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Outbox\obj\Debug\net8.0\ErpCloud.BuildingBlocks.Outbox.dll
+C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Outbox\obj\Debug\net8.0\refint\ErpCloud.BuildingBlocks.Outbox.dll
+C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Outbox\obj\Debug\net8.0\ErpCloud.BuildingBlocks.Outbox.pdb
+C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Outbox\obj\Debug\net8.0\ref\ErpCloud.BuildingBlocks.Outbox.dll

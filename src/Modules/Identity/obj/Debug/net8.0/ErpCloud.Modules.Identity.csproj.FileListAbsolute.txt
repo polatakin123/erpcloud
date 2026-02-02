@@ -1,0 +1,11 @@
+C:\xampp\htdocs\projeler\ErpCloud\src\Modules\Identity\bin\Debug\net8.0\ErpCloud.Modules.Identity.deps.json
+C:\xampp\htdocs\projeler\ErpCloud\src\Modules\Identity\bin\Debug\net8.0\ErpCloud.Modules.Identity.dll
+C:\xampp\htdocs\projeler\ErpCloud\src\Modules\Identity\bin\Debug\net8.0\ErpCloud.Modules.Identity.pdb
+C:\xampp\htdocs\projeler\ErpCloud\src\Modules\Identity\obj\Debug\net8.0\ErpCloud.Modules.Identity.GeneratedMSBuildEditorConfig.editorconfig
+C:\xampp\htdocs\projeler\ErpCloud\src\Modules\Identity\obj\Debug\net8.0\ErpCloud.Modules.Identity.AssemblyInfoInputs.cache
+C:\xampp\htdocs\projeler\ErpCloud\src\Modules\Identity\obj\Debug\net8.0\ErpCloud.Modules.Identity.AssemblyInfo.cs
+C:\xampp\htdocs\projeler\ErpCloud\src\Modules\Identity\obj\Debug\net8.0\ErpCloud.Modules.Identity.csproj.CoreCompileInputs.cache
+C:\xampp\htdocs\projeler\ErpCloud\src\Modules\Identity\obj\Debug\net8.0\ErpCloud.Modules.Identity.dll
+C:\xampp\htdocs\projeler\ErpCloud\src\Modules\Identity\obj\Debug\net8.0\refint\ErpCloud.Modules.Identity.dll
+C:\xampp\htdocs\projeler\ErpCloud\src\Modules\Identity\obj\Debug\net8.0\ErpCloud.Modules.Identity.pdb
+C:\xampp\htdocs\projeler\ErpCloud\src\Modules\Identity\obj\Debug\net8.0\ref\ErpCloud.Modules.Identity.dll

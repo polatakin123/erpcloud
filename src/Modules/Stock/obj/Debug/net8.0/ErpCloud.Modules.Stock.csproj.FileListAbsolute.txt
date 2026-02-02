@@ -1,0 +1,11 @@
+C:\xampp\htdocs\projeler\ErpCloud\src\Modules\Stock\bin\Debug\net8.0\ErpCloud.Modules.Stock.deps.json
+C:\xampp\htdocs\projeler\ErpCloud\src\Modules\Stock\bin\Debug\net8.0\ErpCloud.Modules.Stock.dll
+C:\xampp\htdocs\projeler\ErpCloud\src\Modules\Stock\bin\Debug\net8.0\ErpCloud.Modules.Stock.pdb
+C:\xampp\htdocs\projeler\ErpCloud\src\Modules\Stock\obj\Debug\net8.0\ErpCloud.Modules.Stock.GeneratedMSBuildEditorConfig.editorconfig
+C:\xampp\htdocs\projeler\ErpCloud\src\Modules\Stock\obj\Debug\net8.0\ErpCloud.Modules.Stock.AssemblyInfoInputs.cache
+C:\xampp\htdocs\projeler\ErpCloud\src\Modules\Stock\obj\Debug\net8.0\ErpCloud.Modules.Stock.AssemblyInfo.cs
+C:\xampp\htdocs\projeler\ErpCloud\src\Modules\Stock\obj\Debug\net8.0\ErpCloud.Modules.Stock.csproj.CoreCompileInputs.cache
+C:\xampp\htdocs\projeler\ErpCloud\src\Modules\Stock\obj\Debug\net8.0\ErpCloud.Modules.Stock.dll
+C:\xampp\htdocs\projeler\ErpCloud\src\Modules\Stock\obj\Debug\net8.0\refint\ErpCloud.Modules.Stock.dll
+C:\xampp\htdocs\projeler\ErpCloud\src\Modules\Stock\obj\Debug\net8.0\ErpCloud.Modules.Stock.pdb
+C:\xampp\htdocs\projeler\ErpCloud\src\Modules\Stock\obj\Debug\net8.0\ref\ErpCloud.Modules.Stock.dll

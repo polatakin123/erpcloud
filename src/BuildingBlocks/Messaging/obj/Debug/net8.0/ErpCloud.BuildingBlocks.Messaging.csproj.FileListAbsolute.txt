@@ -1,0 +1,12 @@
+C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Messaging\bin\Debug\net8.0\ErpCloud.BuildingBlocks.Messaging.deps.json
+C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Messaging\bin\Debug\net8.0\ErpCloud.BuildingBlocks.Messaging.dll
+C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Messaging\bin\Debug\net8.0\ErpCloud.BuildingBlocks.Messaging.pdb
+C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Messaging\obj\Debug\net8.0\ErpCloud.BuildingBlocks.Messaging.csproj.AssemblyReference.cache
+C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Messaging\obj\Debug\net8.0\ErpCloud.BuildingBlocks.Messaging.GeneratedMSBuildEditorConfig.editorconfig
+C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Messaging\obj\Debug\net8.0\ErpCloud.BuildingBlocks.Messaging.AssemblyInfoInputs.cache
+C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Messaging\obj\Debug\net8.0\ErpCloud.BuildingBlocks.Messaging.AssemblyInfo.cs
+C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Messaging\obj\Debug\net8.0\ErpCloud.BuildingBlocks.Messaging.csproj.CoreCompileInputs.cache
+C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Messaging\obj\Debug\net8.0\ErpCloud.BuildingBlocks.Messaging.dll
+C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Messaging\obj\Debug\net8.0\refint\ErpCloud.BuildingBlocks.Messaging.dll
+C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Messaging\obj\Debug\net8.0\ErpCloud.BuildingBlocks.Messaging.pdb
+C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Messaging\obj\Debug\net8.0\ref\ErpCloud.BuildingBlocks.Messaging.dll

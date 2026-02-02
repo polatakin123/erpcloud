@@ -1,0 +1,11 @@
+C:\xampp\htdocs\projeler\ErpCloud\src\Modules\Accounting\bin\Debug\net8.0\ErpCloud.Modules.Accounting.deps.json
+C:\xampp\htdocs\projeler\ErpCloud\src\Modules\Accounting\bin\Debug\net8.0\ErpCloud.Modules.Accounting.dll
+C:\xampp\htdocs\projeler\ErpCloud\src\Modules\Accounting\bin\Debug\net8.0\ErpCloud.Modules.Accounting.pdb
+C:\xampp\htdocs\projeler\ErpCloud\src\Modules\Accounting\obj\Debug\net8.0\ErpCloud.Modules.Accounting.GeneratedMSBuildEditorConfig.editorconfig
+C:\xampp\htdocs\projeler\ErpCloud\src\Modules\Accounting\obj\Debug\net8.0\ErpCloud.Modules.Accounting.AssemblyInfoInputs.cache
+C:\xampp\htdocs\projeler\ErpCloud\src\Modules\Accounting\obj\Debug\net8.0\ErpCloud.Modules.Accounting.AssemblyInfo.cs
+C:\xampp\htdocs\projeler\ErpCloud\src\Modules\Accounting\obj\Debug\net8.0\ErpCloud.Modules.Accounting.csproj.CoreCompileInputs.cache
+C:\xampp\htdocs\projeler\ErpCloud\src\Modules\Accounting\obj\Debug\net8.0\ErpCloud.Modules.Accounting.dll
+C:\xampp\htdocs\projeler\ErpCloud\src\Modules\Accounting\obj\Debug\net8.0\refint\ErpCloud.Modules.Accounting.dll
+C:\xampp\htdocs\projeler\ErpCloud\src\Modules\Accounting\obj\Debug\net8.0\ErpCloud.Modules.Accounting.pdb
+C:\xampp\htdocs\projeler\ErpCloud\src\Modules\Accounting\obj\Debug\net8.0\ref\ErpCloud.Modules.Accounting.dll

@@ -1,0 +1,15 @@
+C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Auditing\bin\Debug\net8.0\ErpCloud.BuildingBlocks.Auditing.deps.json
+C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Auditing\bin\Debug\net8.0\ErpCloud.BuildingBlocks.Auditing.dll
+C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Auditing\bin\Debug\net8.0\ErpCloud.BuildingBlocks.Auditing.pdb
+C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Auditing\bin\Debug\net8.0\ErpCloud.BuildingBlocks.Tenant.dll
+C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Auditing\bin\Debug\net8.0\ErpCloud.BuildingBlocks.Tenant.pdb
+C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Auditing\obj\Debug\net8.0\ErpCloud.BuildingBlocks.Auditing.csproj.AssemblyReference.cache
+C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Auditing\obj\Debug\net8.0\ErpCloud.BuildingBlocks.Auditing.GeneratedMSBuildEditorConfig.editorconfig
+C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Auditing\obj\Debug\net8.0\ErpCloud.BuildingBlocks.Auditing.AssemblyInfoInputs.cache
+C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Auditing\obj\Debug\net8.0\ErpCloud.BuildingBlocks.Auditing.AssemblyInfo.cs
+C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Auditing\obj\Debug\net8.0\ErpCloud.BuildingBlocks.Auditing.csproj.CoreCompileInputs.cache
+C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Auditing\obj\Debug\net8.0\ErpCloud.E6399C62.Up2Date
+C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Auditing\obj\Debug\net8.0\ErpCloud.BuildingBlocks.Auditing.dll
+C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Auditing\obj\Debug\net8.0\refint\ErpCloud.BuildingBlocks.Auditing.dll
+C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Auditing\obj\Debug\net8.0\ErpCloud.BuildingBlocks.Auditing.pdb
+C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Auditing\obj\Debug\net8.0\ref\ErpCloud.BuildingBlocks.Auditing.dll

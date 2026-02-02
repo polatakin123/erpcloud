@@ -1,0 +1,12 @@
+C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Tenant\bin\Debug\net8.0\ErpCloud.BuildingBlocks.Tenant.deps.json
+C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Tenant\bin\Debug\net8.0\ErpCloud.BuildingBlocks.Tenant.dll
+C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Tenant\bin\Debug\net8.0\ErpCloud.BuildingBlocks.Tenant.pdb
+C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Tenant\obj\Debug\net8.0\ErpCloud.BuildingBlocks.Tenant.csproj.AssemblyReference.cache
+C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Tenant\obj\Debug\net8.0\ErpCloud.BuildingBlocks.Tenant.GeneratedMSBuildEditorConfig.editorconfig
+C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Tenant\obj\Debug\net8.0\ErpCloud.BuildingBlocks.Tenant.AssemblyInfoInputs.cache
+C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Tenant\obj\Debug\net8.0\ErpCloud.BuildingBlocks.Tenant.AssemblyInfo.cs
+C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Tenant\obj\Debug\net8.0\ErpCloud.BuildingBlocks.Tenant.csproj.CoreCompileInputs.cache
+C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Tenant\obj\Debug\net8.0\ErpCloud.BuildingBlocks.Tenant.dll
+C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Tenant\obj\Debug\net8.0\refint\ErpCloud.BuildingBlocks.Tenant.dll
+C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Tenant\obj\Debug\net8.0\ErpCloud.BuildingBlocks.Tenant.pdb
+C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Tenant\obj\Debug\net8.0\ref\ErpCloud.BuildingBlocks.Tenant.dll

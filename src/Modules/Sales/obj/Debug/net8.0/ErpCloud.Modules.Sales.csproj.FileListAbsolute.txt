@@ -1,0 +1,11 @@
+C:\xampp\htdocs\projeler\ErpCloud\src\Modules\Sales\bin\Debug\net8.0\ErpCloud.Modules.Sales.deps.json
+C:\xampp\htdocs\projeler\ErpCloud\src\Modules\Sales\bin\Debug\net8.0\ErpCloud.Modules.Sales.dll
+C:\xampp\htdocs\projeler\ErpCloud\src\Modules\Sales\bin\Debug\net8.0\ErpCloud.Modules.Sales.pdb
+C:\xampp\htdocs\projeler\ErpCloud\src\Modules\Sales\obj\Debug\net8.0\ErpCloud.Modules.Sales.GeneratedMSBuildEditorConfig.editorconfig
+C:\xampp\htdocs\projeler\ErpCloud\src\Modules\Sales\obj\Debug\net8.0\ErpCloud.Modules.Sales.AssemblyInfoInputs.cache
+C:\xampp\htdocs\projeler\ErpCloud\src\Modules\Sales\obj\Debug\net8.0\ErpCloud.Modules.Sales.AssemblyInfo.cs
+C:\xampp\htdocs\projeler\ErpCloud\src\Modules\Sales\obj\Debug\net8.0\ErpCloud.Modules.Sales.csproj.CoreCompileInputs.cache
+C:\xampp\htdocs\projeler\ErpCloud\src\Modules\Sales\obj\Debug\net8.0\ErpCloud.Modules.Sales.dll
+C:\xampp\htdocs\projeler\ErpCloud\src\Modules\Sales\obj\Debug\net8.0\refint\ErpCloud.Modules.Sales.dll
+C:\xampp\htdocs\projeler\ErpCloud\src\Modules\Sales\obj\Debug\net8.0\ErpCloud.Modules.Sales.pdb
+C:\xampp\htdocs\projeler\ErpCloud\src\Modules\Sales\obj\Debug\net8.0\ref\ErpCloud.Modules.Sales.dll

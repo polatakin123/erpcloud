@@ -1,0 +1,85 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\xampp\\htdocs\\projeler\\ErpCloud\\src\\BuildingBlocks\\Messaging\\ErpCloud.BuildingBlocks.Messaging.csproj": {}
+  },
+  "projects": {
+    "C:\\xampp\\htdocs\\projeler\\ErpCloud\\src\\BuildingBlocks\\Messaging\\ErpCloud.BuildingBlocks.Messaging.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\xampp\\htdocs\\projeler\\ErpCloud\\src\\BuildingBlocks\\Messaging\\ErpCloud.BuildingBlocks.Messaging.csproj",
+        "projectName": "ErpCloud.BuildingBlocks.Messaging",
+        "projectPath": "C:\\xampp\\htdocs\\projeler\\ErpCloud\\src\\BuildingBlocks\\Messaging\\ErpCloud.BuildingBlocks.Messaging.csproj",
+        "packagesPath": "C:\\Users\\Polat\\.nuget\\packages\\",
+        "outputPath": "C:\\xampp\\htdocs\\projeler\\ErpCloud\\src\\BuildingBlocks\\Messaging\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Polat\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "allWarningsAsErrors": true,
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "Microsoft.Extensions.Configuration.Abstractions": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            },
+            "Microsoft.Extensions.Configuration.Binder": {
+              "target": "Package",
+              "version": "[8.0.2, )"
+            },
+            "Microsoft.Extensions.Logging.Abstractions": {
+              "target": "Package",
+              "version": "[8.0.2, )"
+            },
+            "RabbitMQ.Client": {
+              "target": "Package",
+              "version": "[6.8.1, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.417/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

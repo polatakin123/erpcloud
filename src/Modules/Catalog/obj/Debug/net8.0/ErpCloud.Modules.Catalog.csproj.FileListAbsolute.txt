@@ -1,0 +1,11 @@
+C:\xampp\htdocs\projeler\ErpCloud\src\Modules\Catalog\bin\Debug\net8.0\ErpCloud.Modules.Catalog.deps.json
+C:\xampp\htdocs\projeler\ErpCloud\src\Modules\Catalog\bin\Debug\net8.0\ErpCloud.Modules.Catalog.dll
+C:\xampp\htdocs\projeler\ErpCloud\src\Modules\Catalog\bin\Debug\net8.0\ErpCloud.Modules.Catalog.pdb
+C:\xampp\htdocs\projeler\ErpCloud\src\Modules\Catalog\obj\Debug\net8.0\ErpCloud.Modules.Catalog.GeneratedMSBuildEditorConfig.editorconfig
+C:\xampp\htdocs\projeler\ErpCloud\src\Modules\Catalog\obj\Debug\net8.0\ErpCloud.Modules.Catalog.AssemblyInfoInputs.cache
+C:\xampp\htdocs\projeler\ErpCloud\src\Modules\Catalog\obj\Debug\net8.0\ErpCloud.Modules.Catalog.AssemblyInfo.cs
+C:\xampp\htdocs\projeler\ErpCloud\src\Modules\Catalog\obj\Debug\net8.0\ErpCloud.Modules.Catalog.csproj.CoreCompileInputs.cache
+C:\xampp\htdocs\projeler\ErpCloud\src\Modules\Catalog\obj\Debug\net8.0\ErpCloud.Modules.Catalog.dll
+C:\xampp\htdocs\projeler\ErpCloud\src\Modules\Catalog\obj\Debug\net8.0\refint\ErpCloud.Modules.Catalog.dll
+C:\xampp\htdocs\projeler\ErpCloud\src\Modules\Catalog\obj\Debug\net8.0\ErpCloud.Modules.Catalog.pdb
+C:\xampp\htdocs\projeler\ErpCloud\src\Modules\Catalog\obj\Debug\net8.0\ref\ErpCloud.Modules.Catalog.dll
