@@ -9,3 +9,4 @@ C:\xampp\htdocs\projeler\ErpCloud\src\Modules\Accounting\obj\Debug\net8.0\ErpClo
 C:\xampp\htdocs\projeler\ErpCloud\src\Modules\Accounting\obj\Debug\net8.0\refint\ErpCloud.Modules.Accounting.dll
 C:\xampp\htdocs\projeler\ErpCloud\src\Modules\Accounting\obj\Debug\net8.0\ErpCloud.Modules.Accounting.pdb
 C:\xampp\htdocs\projeler\ErpCloud\src\Modules\Accounting\obj\Debug\net8.0\ref\ErpCloud.Modules.Accounting.dll
+C:\xampp\htdocs\projeler\ErpCloud\src\Modules\Accounting\obj\Debug\net8.0\ErpCloud.Modules.Accounting.sourcelink.json

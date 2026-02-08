@@ -9,3 +9,4 @@ C:\xampp\htdocs\projeler\ErpCloud\src\Modules\Stock\obj\Debug\net8.0\ErpCloud.Mo
 C:\xampp\htdocs\projeler\ErpCloud\src\Modules\Stock\obj\Debug\net8.0\refint\ErpCloud.Modules.Stock.dll
 C:\xampp\htdocs\projeler\ErpCloud\src\Modules\Stock\obj\Debug\net8.0\ErpCloud.Modules.Stock.pdb
 C:\xampp\htdocs\projeler\ErpCloud\src\Modules\Stock\obj\Debug\net8.0\ref\ErpCloud.Modules.Stock.dll
+C:\xampp\htdocs\projeler\ErpCloud\src\Modules\Stock\obj\Debug\net8.0\ErpCloud.Modules.Stock.sourcelink.json

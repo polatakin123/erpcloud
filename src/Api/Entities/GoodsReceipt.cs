@@ -18,4 +18,5 @@ public class GoodsReceipt : TenantEntity
     public Branch Branch { get; set; } = null!;
     public Warehouse Warehouse { get; set; } = null!;
     public ICollection<GoodsReceiptLine> Lines { get; set; } = new List<GoodsReceiptLine>();
+    public ICollection<PurchaseReturn> PurchaseReturns { get; set; } = new List<PurchaseReturn>();
 }

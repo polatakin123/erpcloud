@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\xampp\\htdocs\\projeler\\ErpCloud\\src\\BuildingBlocks\\Messaging\\ErpCloud.BuildingBlocks.Messaging.csproj": {}
+    "C:\\xampp\\htdocs\\projeler\\ERPCloud\\src\\BuildingBlocks\\Messaging\\ErpCloud.BuildingBlocks.Messaging.csproj": {}
   },
   "projects": {
-    "C:\\xampp\\htdocs\\projeler\\ErpCloud\\src\\BuildingBlocks\\Messaging\\ErpCloud.BuildingBlocks.Messaging.csproj": {
+    "C:\\xampp\\htdocs\\projeler\\ERPCloud\\src\\BuildingBlocks\\Messaging\\ErpCloud.BuildingBlocks.Messaging.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\xampp\\htdocs\\projeler\\ErpCloud\\src\\BuildingBlocks\\Messaging\\ErpCloud.BuildingBlocks.Messaging.csproj",
+        "projectUniqueName": "C:\\xampp\\htdocs\\projeler\\ERPCloud\\src\\BuildingBlocks\\Messaging\\ErpCloud.BuildingBlocks.Messaging.csproj",
         "projectName": "ErpCloud.BuildingBlocks.Messaging",
-        "projectPath": "C:\\xampp\\htdocs\\projeler\\ErpCloud\\src\\BuildingBlocks\\Messaging\\ErpCloud.BuildingBlocks.Messaging.csproj",
+        "projectPath": "C:\\xampp\\htdocs\\projeler\\ERPCloud\\src\\BuildingBlocks\\Messaging\\ErpCloud.BuildingBlocks.Messaging.csproj",
         "packagesPath": "C:\\Users\\Polat\\.nuget\\packages\\",
-        "outputPath": "C:\\xampp\\htdocs\\projeler\\ErpCloud\\src\\BuildingBlocks\\Messaging\\obj\\",
+        "outputPath": "C:\\xampp\\htdocs\\projeler\\ERPCloud\\src\\BuildingBlocks\\Messaging\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Polat\\AppData\\Roaming\\NuGet\\NuGet.Config"

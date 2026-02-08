@@ -2,10 +2,14 @@ export interface Payment {
   id: string;
   paymentNo: string;
   partyId: string;
+  partyName?: string;
   branchId: string;
   date: string;
+  paymentDate: string;
   direction: string;
+  paymentType: string;
   method: string;
+  paymentMethod: string;
   currency: string;
   amount: number;
   note?: string;

@@ -9,3 +9,4 @@ C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Common\obj\Debug\net8.0\Erp
 C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Common\obj\Debug\net8.0\refint\ErpCloud.BuildingBlocks.Common.dll
 C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Common\obj\Debug\net8.0\ErpCloud.BuildingBlocks.Common.pdb
 C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Common\obj\Debug\net8.0\ref\ErpCloud.BuildingBlocks.Common.dll
+C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Common\obj\Debug\net8.0\ErpCloud.BuildingBlocks.Common.sourcelink.json

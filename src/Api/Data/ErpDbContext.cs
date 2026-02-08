@@ -28,10 +28,15 @@ public class ErpDbContext : AppDbContext
     public DbSet<Party> Parties => Set<Party>();
     
     // Catalog module
+    public DbSet<Brand> Brands => Set<Brand>();
     public DbSet<Product> Products => Set<Product>();
     public DbSet<ProductVariant> ProductVariants => Set<ProductVariant>();
     public DbSet<PriceList> PriceLists => Set<PriceList>();
     public DbSet<PriceListItem> PriceListItems => Set<PriceListItem>();
+    
+    // Pricing module
+    public DbSet<PriceRule> PriceRules => Set<PriceRule>();
+    public DbSet<ProductCost> ProductCosts => Set<ProductCost>();
     
     // Stock module
     public DbSet<StockLedgerEntry> StockLedgerEntries => Set<StockLedgerEntry>();
@@ -52,6 +57,14 @@ public class ErpDbContext : AppDbContext
     public DbSet<PaymentAllocation> PaymentAllocations => Set<PaymentAllocation>();
     public DbSet<PartyLedgerEntry> PartyLedgerEntries => Set<PartyLedgerEntry>();
     
+    // Returns & Credit Notes module
+    public DbSet<SalesReturn> SalesReturns => Set<SalesReturn>();
+    public DbSet<SalesReturnLine> SalesReturnLines => Set<SalesReturnLine>();
+    public DbSet<PurchaseReturn> PurchaseReturns => Set<PurchaseReturn>();
+    public DbSet<PurchaseReturnLine> PurchaseReturnLines => Set<PurchaseReturnLine>();
+    public DbSet<CreditNote> CreditNotes => Set<CreditNote>();
+    public DbSet<CreditNoteLine> CreditNoteLines => Set<CreditNoteLine>();
+    
     // E-Document module
     public DbSet<EDocument> EDocuments => Set<EDocument>();
     public DbSet<EDocumentStatusHistory> EDocumentStatusHistory => Set<EDocumentStatusHistory>();
@@ -66,6 +79,16 @@ public class ErpDbContext : AppDbContext
     public DbSet<Cashbox> Cashboxes => Set<Cashbox>();
     public DbSet<BankAccount> BankAccounts => Set<BankAccount>();
     public DbSet<CashBankLedgerEntry> CashBankLedgerEntries => Set<CashBankLedgerEntry>();
+    
+    // Part References module (OEM/Equivalent search)
+    public DbSet<PartReference> PartReferences => Set<PartReference>();
+    
+    // Vehicle Fitment module
+    public DbSet<VehicleBrand> VehicleBrands => Set<VehicleBrand>();
+    public DbSet<VehicleModel> VehicleModels => Set<VehicleModel>();
+    public DbSet<VehicleYearRange> VehicleYearRanges => Set<VehicleYearRange>();
+    public DbSet<VehicleEngine> VehicleEngines => Set<VehicleEngine>();
+    public DbSet<StockCardFitment> StockCardFitments => Set<StockCardFitment>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -232,6 +255,33 @@ public class ErpDbContext : AppDbContext
                 .HasDatabaseName("ix_parties_tenant_name");
         });
 
+        // Configure Brand (Master Data)
+        modelBuilder.Entity<Brand>(entity =>
+        {
+            entity.ToTable("brands");
+            entity.HasKey(e => e.Id);
+
+            entity.Property(e => e.Code).IsRequired().HasMaxLength(50);
+            entity.Property(e => e.Name).IsRequired().HasMaxLength(200);
+            entity.Property(e => e.LogoUrl).HasMaxLength(500);
+            entity.Property(e => e.IsActive).IsRequired();
+            entity.Property(e => e.CreatedAt).IsRequired();
+            entity.Property(e => e.CreatedBy).IsRequired();
+
+            // Unique constraint: tenant + code (case-insensitive)
+            entity.HasIndex(e => new { e.TenantId, e.Code })
+                .IsUnique()
+                .HasDatabaseName("ix_brands_tenant_code");
+
+            // Index for name search
+            entity.HasIndex(e => new { e.TenantId, e.Name })
+                .HasDatabaseName("ix_brands_tenant_name");
+
+            // Index for active brands
+            entity.HasIndex(e => new { e.TenantId, e.IsActive })
+                .HasDatabaseName("ix_brands_tenant_active");
+        });
+
         // Configure Product
         modelBuilder.Entity<Product>(entity =>
         {
@@ -241,9 +291,19 @@ public class ErpDbContext : AppDbContext
             entity.Property(e => e.Code).IsRequired().HasMaxLength(32);
             entity.Property(e => e.Name).IsRequired().HasMaxLength(200);
             entity.Property(e => e.Description).HasMaxLength(1000);
+#pragma warning disable CS0618 // Suppress obsolete warning for migration compatibility
+            entity.Property(e => e.Brand).HasMaxLength(100); // DEPRECATED: kept for migration
+#pragma warning restore CS0618
+            entity.Property(e => e.BrandId); // FK to Brand
             entity.Property(e => e.IsActive).IsRequired();
             entity.Property(e => e.CreatedAt).IsRequired();
             entity.Property(e => e.CreatedBy).IsRequired();
+
+            // Foreign key to Brand (optional)
+            entity.HasOne(p => p.BrandNavigation)
+                .WithMany(b => b.Products)
+                .HasForeignKey(p => p.BrandId)
+                .OnDelete(DeleteBehavior.SetNull);
 
             // Unique constraint: tenant + code
             entity.HasIndex(e => new { e.TenantId, e.Code })
@@ -253,6 +313,10 @@ public class ErpDbContext : AppDbContext
             // Index for name search
             entity.HasIndex(e => new { e.TenantId, e.Name })
                 .HasDatabaseName("ix_products_tenant_name");
+            
+            // Index for brand FK filtering (replaces old string brand index)
+            entity.HasIndex(e => new { e.TenantId, e.BrandId })
+                .HasDatabaseName("ix_products_tenant_brandid");
         });
 
         // Configure ProductVariant
@@ -352,6 +416,82 @@ public class ErpDbContext : AppDbContext
             // Index for variant queries
             entity.HasIndex(e => new { e.TenantId, e.VariantId })
                 .HasDatabaseName("ix_price_list_items_tenant_variant");
+        });
+
+        // Configure PriceRule
+        modelBuilder.Entity<PriceRule>(entity =>
+        {
+            entity.ToTable("price_rules");
+            entity.HasKey(e => e.Id);
+
+            entity.Property(e => e.Scope).IsRequired().HasMaxLength(32);
+            entity.Property(e => e.RuleType).IsRequired().HasMaxLength(32);
+            entity.Property(e => e.TargetId).IsRequired();
+            entity.Property(e => e.VariantId);
+            entity.Property(e => e.BrandId); // Guid FK to Brand
+            entity.Property(e => e.Currency).IsRequired().HasMaxLength(3);
+            entity.Property(e => e.Value).IsRequired().HasColumnType("decimal(18,2)");
+            entity.Property(e => e.Priority).IsRequired();
+            entity.Property(e => e.ValidFrom).IsRequired();
+            entity.Property(e => e.ValidTo);
+            entity.Property(e => e.IsActive).IsRequired();
+            entity.Property(e => e.CreatedAt).IsRequired();
+            entity.Property(e => e.CreatedBy).IsRequired();
+
+            // Foreign key to variant (optional)
+            entity.HasOne(r => r.Variant)
+                .WithMany()
+                .HasForeignKey(r => r.VariantId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // Foreign key to brand (optional)
+            entity.HasOne(r => r.BrandNavigation)
+                .WithMany(b => b.PriceRules)
+                .HasForeignKey(r => r.BrandId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // Index for rule queries by scope and target
+            entity.HasIndex(e => new { e.TenantId, e.Scope, e.TargetId, e.IsActive })
+                .HasDatabaseName("ix_price_rules_tenant_scope_target");
+
+            // Index for variant-specific rules
+            entity.HasIndex(e => new { e.TenantId, e.VariantId, e.IsActive })
+                .HasDatabaseName("ix_price_rules_tenant_variant");
+
+            // Index for brand-based rules (optimized for brand discount lookup)
+            entity.HasIndex(e => new { e.TenantId, e.Scope, e.TargetId, e.BrandId, e.Currency, e.ValidFrom, e.ValidTo, e.Priority })
+                .HasDatabaseName("ix_price_rules_tenant_brand_lookup");
+
+            // Index for date range queries
+            entity.HasIndex(e => new { e.TenantId, e.ValidFrom, e.ValidTo })
+                .HasDatabaseName("ix_price_rules_tenant_validity");
+        });
+
+        // Configure ProductCost
+        modelBuilder.Entity<ProductCost>(entity =>
+        {
+            entity.ToTable("product_costs");
+            entity.HasKey(e => e.Id);
+
+            entity.Property(e => e.VariantId).IsRequired();
+            entity.Property(e => e.LastPurchaseCost).IsRequired().HasColumnType("decimal(18,4)");
+            entity.Property(e => e.AverageCost).HasColumnType("decimal(18,4)");
+            entity.Property(e => e.MinSalePrice).HasColumnType("decimal(18,2)");
+            entity.Property(e => e.Currency).IsRequired().HasMaxLength(3);
+            entity.Property(e => e.LastUpdated).IsRequired();
+            entity.Property(e => e.CreatedAt).IsRequired();
+            entity.Property(e => e.CreatedBy).IsRequired();
+
+            // Foreign key to variant
+            entity.HasOne(c => c.Variant)
+                .WithMany()
+                .HasForeignKey(c => c.VariantId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // Unique constraint: one cost record per variant
+            entity.HasIndex(e => new { e.TenantId, e.VariantId })
+                .IsUnique()
+                .HasDatabaseName("ix_product_costs_tenant_variant");
         });
 
         // Configure StockLedgerEntry
@@ -1127,5 +1267,180 @@ public class ErpDbContext : AppDbContext
             entity.HasIndex(e => new { e.TenantId, e.SourceType, e.SourceId })
                 .HasDatabaseName("ix_payments_tenant_source");
         });
-    }
+        
+        // Configure PartReference
+        modelBuilder.Entity<PartReference>(entity =>
+        {
+            entity.ToTable("part_references");
+            entity.HasKey(e => e.Id);
+
+            entity.Property(e => e.VariantId).IsRequired();
+            entity.Property(e => e.RefType).IsRequired().HasMaxLength(16);
+            entity.Property(e => e.RefCode).IsRequired().HasMaxLength(64);
+            entity.Property(e => e.CreatedAt).IsRequired();
+            entity.Property(e => e.CreatedBy).IsRequired();
+
+            // Foreign key to ProductVariant
+            entity.HasOne(e => e.Variant)
+                .WithMany(v => v.PartReferences)
+                .HasForeignKey(e => e.VariantId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // Unique constraint: prevent duplicate references
+            entity.HasIndex(e => new { e.TenantId, e.VariantId, e.RefType, e.RefCode })
+                .IsUnique()
+                .HasDatabaseName("ix_part_references_unique");
+
+            // Critical index for fast OEM search
+            entity.HasIndex(e => new { e.TenantId, e.RefType, e.RefCode })
+                .HasDatabaseName("ix_part_references_search");
+
+            // Index for variant lookups
+            entity.HasIndex(e => new { e.TenantId, e.VariantId })
+                .HasDatabaseName("ix_part_references_variant");
+        });
+
+        // ==================== Vehicle Fitment Module ====================
+
+        // Configure VehicleBrand
+        modelBuilder.Entity<VehicleBrand>(entity =>
+        {
+            entity.ToTable("vehicle_brands");
+            entity.HasKey(e => e.Id);
+
+            entity.Property(e => e.Code).IsRequired().HasMaxLength(32);
+            entity.Property(e => e.Name).IsRequired().HasMaxLength(100);
+            entity.Property(e => e.CreatedAt).IsRequired();
+            entity.Property(e => e.CreatedBy).IsRequired();
+
+            // Unique constraint: TenantId + Code
+            entity.HasIndex(e => new { e.TenantId, e.Code })
+                .IsUnique()
+                .HasDatabaseName("ix_vehicle_brands_tenant_code");
+
+            // Index for brand listing
+            entity.HasIndex(e => e.TenantId)
+                .HasDatabaseName("ix_vehicle_brands_tenant");
+        });
+
+        // Configure VehicleModel
+        modelBuilder.Entity<VehicleModel>(entity =>
+        {
+            entity.ToTable("vehicle_models");
+            entity.HasKey(e => e.Id);
+
+            entity.Property(e => e.BrandId).IsRequired();
+            entity.Property(e => e.Name).IsRequired().HasMaxLength(100);
+            entity.Property(e => e.CreatedAt).IsRequired();
+            entity.Property(e => e.CreatedBy).IsRequired();
+
+            // Foreign key to VehicleBrand
+            entity.HasOne(e => e.Brand)
+                .WithMany(b => b.Models)
+                .HasForeignKey(e => e.BrandId)
+                .OnDelete(DeleteBehavior.Restrict); // Prevent delete if has models
+
+            // Unique constraint: TenantId + BrandId + Name
+            entity.HasIndex(e => new { e.TenantId, e.BrandId, e.Name })
+                .IsUnique()
+                .HasDatabaseName("ix_vehicle_models_tenant_brand_name");
+
+            // Index for brand lookups
+            entity.HasIndex(e => new { e.TenantId, e.BrandId })
+                .HasDatabaseName("ix_vehicle_models_tenant_brand");
+        });
+
+        // Configure VehicleYearRange
+        modelBuilder.Entity<VehicleYearRange>(entity =>
+        {
+            entity.ToTable("vehicle_year_ranges");
+            entity.HasKey(e => e.Id);
+
+            entity.Property(e => e.ModelId).IsRequired();
+            entity.Property(e => e.YearFrom).IsRequired();
+            entity.Property(e => e.YearTo).IsRequired();
+            entity.Property(e => e.CreatedAt).IsRequired();
+            entity.Property(e => e.CreatedBy).IsRequired();
+
+            // Foreign key to VehicleModel
+            entity.HasOne(e => e.Model)
+                .WithMany(m => m.YearRanges)
+                .HasForeignKey(e => e.ModelId)
+                .OnDelete(DeleteBehavior.Restrict); // Prevent delete if has year ranges
+
+            // Unique constraint: TenantId + ModelId + YearFrom + YearTo
+            entity.HasIndex(e => new { e.TenantId, e.ModelId, e.YearFrom, e.YearTo })
+                .IsUnique()
+                .HasDatabaseName("ix_vehicle_year_ranges_tenant_model_years");
+
+            // Index for model lookups
+            entity.HasIndex(e => new { e.TenantId, e.ModelId })
+                .HasDatabaseName("ix_vehicle_year_ranges_tenant_model");
+        });
+
+        // Configure VehicleEngine
+        modelBuilder.Entity<VehicleEngine>(entity =>
+        {
+            entity.ToTable("vehicle_engines");
+            entity.HasKey(e => e.Id);
+
+            entity.Property(e => e.YearRangeId).IsRequired();
+            entity.Property(e => e.Code).IsRequired().HasMaxLength(64);
+            entity.Property(e => e.FuelType).IsRequired().HasMaxLength(32);
+            entity.Property(e => e.CreatedAt).IsRequired();
+            entity.Property(e => e.CreatedBy).IsRequired();
+
+            // Foreign key to VehicleYearRange
+            entity.HasOne(e => e.YearRange)
+                .WithMany(y => y.Engines)
+                .HasForeignKey(e => e.YearRangeId)
+                .OnDelete(DeleteBehavior.Restrict); // Prevent delete if has engines
+
+            // Unique constraint: TenantId + YearRangeId + Code + FuelType
+            entity.HasIndex(e => new { e.TenantId, e.YearRangeId, e.Code, e.FuelType })
+                .IsUnique()
+                .HasDatabaseName("ix_vehicle_engines_tenant_year_code_fuel");
+
+            // Index for year range lookups
+            entity.HasIndex(e => new { e.TenantId, e.YearRangeId })
+                .HasDatabaseName("ix_vehicle_engines_tenant_year");
+        });
+
+        // Configure StockCardFitment
+        modelBuilder.Entity<StockCardFitment>(entity =>
+        {
+            entity.ToTable("stock_card_fitments");
+            entity.HasKey(e => e.Id);
+
+            entity.Property(e => e.VariantId).IsRequired();
+            entity.Property(e => e.VehicleEngineId).IsRequired();
+            entity.Property(e => e.Notes).HasMaxLength(500);
+            entity.Property(e => e.CreatedAt).IsRequired();
+            entity.Property(e => e.CreatedBy).IsRequired();
+
+            // Foreign key to ProductVariant
+            entity.HasOne(e => e.Variant)
+                .WithMany() // No navigation property on ProductVariant yet
+                .HasForeignKey(e => e.VariantId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // Foreign key to VehicleEngine
+            entity.HasOne(e => e.VehicleEngine)
+                .WithMany(ve => ve.Fitments)
+                .HasForeignKey(e => e.VehicleEngineId)
+                .OnDelete(DeleteBehavior.Restrict); // Prevent delete engine if used
+
+            // Unique constraint: TenantId + VariantId + VehicleEngineId
+            entity.HasIndex(e => new { e.TenantId, e.VariantId, e.VehicleEngineId })
+                .IsUnique()
+                .HasDatabaseName("ix_stock_card_fitments_tenant_variant_engine");
+
+            // Index for variant lookups
+            entity.HasIndex(e => new { e.TenantId, e.VariantId })
+                .HasDatabaseName("ix_stock_card_fitments_tenant_variant");
+
+            // Index for engine lookups
+            entity.HasIndex(e => new { e.TenantId, e.VehicleEngineId })
+                .HasDatabaseName("ix_stock_card_fitments_tenant_engine");
+        });    }
 }

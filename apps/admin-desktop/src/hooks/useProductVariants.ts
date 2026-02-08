@@ -39,10 +39,9 @@ export function useProductVariants(query?: string, page: number = 1, pageSize: n
     queryKey: ['product-variants', query, page, pageSize],
     queryFn: async () => {
       try {
-        const response = await ApiClient.get<PagedVariantResult>(
+        return await ApiClient.get<PagedVariantResult>(
           `/api/product-variants?${queryString.toString()}`
         );
-        return response;
       } catch (error) {
         if (ErrorMapper.requiresLogin(error)) {
           navigate('/login');
@@ -70,8 +69,7 @@ export function useProductVariant(id: string | null) {
     queryFn: async () => {
       if (!id) throw new Error('No ID provided');
       try {
-        const response = await ApiClient.get<ProductVariant>(`/api/product-variants/${id}`);
-        return response;
+        return await ApiClient.get<ProductVariant>(`/api/product-variants/${id}`);
       } catch (error) {
         if (ErrorMapper.requiresLogin(error)) {
           navigate('/login');

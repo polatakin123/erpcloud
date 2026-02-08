@@ -56,6 +56,36 @@ public class PaymentAllocationController : ControllerBase
     }
 
     /// <summary>
+    /// Auto-allocate payment to invoice(s)
+    /// Optionally provide specific invoice IDs, otherwise allocates to oldest open invoices
+    /// </summary>
+    [HttpPost("{paymentId:guid}/auto-allocate")]
+    public async Task<IActionResult> AutoAllocatePayment(
+        Guid paymentId,
+        [FromBody] AutoAllocateRequest? request = null)
+    {
+        var result = await _allocationService.AutoAllocateAsync(
+            paymentId,
+            request?.InvoiceIds,
+            HttpContext.RequestAborted);
+
+        if (!result.IsSuccess)
+        {
+            var errorCode = result.Error.Code;
+            
+            if (errorCode.EndsWith("_not_found"))
+                return NotFound(new { error = result.Error.Code, message = result.Error.Message });
+            
+            if (errorCode.Contains("mismatch") || errorCode.Contains("over_allocate") || errorCode == "invalid_amount")
+                return Conflict(new { error = result.Error.Code, message = result.Error.Message });
+            
+            return StatusCode(500, new { error = result.Error.Code, message = result.Error.Message });
+        }
+
+        return Ok(result.Value);
+    }
+
+    /// <summary>
     /// Get allocations for a payment
     /// </summary>
     [HttpGet("{paymentId:guid}/allocations")]
@@ -152,4 +182,9 @@ public class PaymentAllocationController : ControllerBase
 public class AllocatePaymentRequest
 {
     public List<AllocationRequest> Allocations { get; set; } = new();
+}
+
+public class AutoAllocateRequest
+{
+    public List<Guid>? InvoiceIds { get; set; }
 }

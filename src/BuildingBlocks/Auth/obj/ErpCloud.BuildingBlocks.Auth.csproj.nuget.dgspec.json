@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\xampp\\htdocs\\projeler\\ErpCloud\\src\\BuildingBlocks\\Auth\\ErpCloud.BuildingBlocks.Auth.csproj": {}
+    "C:\\xampp\\htdocs\\projeler\\ERPCloud\\src\\BuildingBlocks\\Auth\\ErpCloud.BuildingBlocks.Auth.csproj": {}
   },
   "projects": {
-    "C:\\xampp\\htdocs\\projeler\\ErpCloud\\src\\BuildingBlocks\\Auth\\ErpCloud.BuildingBlocks.Auth.csproj": {
+    "C:\\xampp\\htdocs\\projeler\\ERPCloud\\src\\BuildingBlocks\\Auth\\ErpCloud.BuildingBlocks.Auth.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\xampp\\htdocs\\projeler\\ErpCloud\\src\\BuildingBlocks\\Auth\\ErpCloud.BuildingBlocks.Auth.csproj",
+        "projectUniqueName": "C:\\xampp\\htdocs\\projeler\\ERPCloud\\src\\BuildingBlocks\\Auth\\ErpCloud.BuildingBlocks.Auth.csproj",
         "projectName": "ErpCloud.BuildingBlocks.Auth",
-        "projectPath": "C:\\xampp\\htdocs\\projeler\\ErpCloud\\src\\BuildingBlocks\\Auth\\ErpCloud.BuildingBlocks.Auth.csproj",
+        "projectPath": "C:\\xampp\\htdocs\\projeler\\ERPCloud\\src\\BuildingBlocks\\Auth\\ErpCloud.BuildingBlocks.Auth.csproj",
         "packagesPath": "C:\\Users\\Polat\\.nuget\\packages\\",
-        "outputPath": "C:\\xampp\\htdocs\\projeler\\ErpCloud\\src\\BuildingBlocks\\Auth\\obj\\",
+        "outputPath": "C:\\xampp\\htdocs\\projeler\\ERPCloud\\src\\BuildingBlocks\\Auth\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Polat\\AppData\\Roaming\\NuGet\\NuGet.Config"

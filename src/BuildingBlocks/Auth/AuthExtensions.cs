@@ -20,14 +20,11 @@ public static class AuthExtensions
         services.AddHttpContextAccessor();
         services.AddScoped<ICurrentUser, CurrentUser>();
 
-        // JWT Authentication
-        var authSection = configuration.GetSection("Auth");
-        var authority = authSection["Authority"];
-        var audience = authSection["Audience"];
-        var requireHttpsMetadata = authSection.GetValue("RequireHttpsMetadata", false);
-        
-        // Development mode - use symmetric key
+        // JWT Authentication - use Jwt section for all settings
         var jwtSection = configuration.GetSection("Jwt");
+        var authority = jwtSection["Authority"];
+        var audience = jwtSection["Audience"];
+        var requireHttpsMetadata = jwtSection.GetValue("RequireHttpsMetadata", false);
         var secretKey = jwtSection["SecretKey"];
         var useDevToken = !string.IsNullOrEmpty(secretKey) && string.IsNullOrEmpty(authority);
 
@@ -80,6 +77,30 @@ public static class AuthExtensions
                 {
                     // Map Keycloak realm_access.roles to standard role claims
                     MapKeycloakRolesToClaims(context.Principal!);
+                    
+                    // CRITICAL: Copy tenant_id and user_id from SecurityToken to ClaimsIdentity
+                    // JWT payload contains these but they're not automatically added to HttpContext.User.Claims
+                    var identity = context.Principal?.Identity as System.Security.Claims.ClaimsIdentity;
+                    var jwtToken = context.SecurityToken as System.IdentityModel.Tokens.Jwt.JwtSecurityToken;
+                    
+                    if (identity != null && jwtToken != null)
+                    {
+                        // Extract tenant_id claim from token payload
+                        var tenantIdClaim = jwtToken.Claims.FirstOrDefault(c => c.Type == "tenant_id");
+                        if (tenantIdClaim != null && !identity.HasClaim(c => c.Type == "tenant_id"))
+                        {
+                            identity.AddClaim(new System.Security.Claims.Claim("tenant_id", tenantIdClaim.Value));
+                            Console.WriteLine($"[OnTokenValidated] Added tenant_id claim: {tenantIdClaim.Value}");
+                        }
+                        
+                        // Extract user_id claim from token payload
+                        var userIdClaim = jwtToken.Claims.FirstOrDefault(c => c.Type == "user_id");
+                        if (userIdClaim != null && !identity.HasClaim(c => c.Type == "user_id"))
+                        {
+                            identity.AddClaim(new System.Security.Claims.Claim("user_id", userIdClaim.Value));
+                        }
+                    }
+                    
                     return Task.CompletedTask;
                 }
             };

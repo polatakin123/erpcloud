@@ -16,6 +16,18 @@ public class WarehousesController : ControllerBase
         _service = service;
     }
 
+    [HttpGet("api/warehouses")]
+    [Authorize(Policy = "warehouse.read")]
+    public async Task<ActionResult<PaginatedResponse<WarehouseDto>>> GetAll(
+        [FromQuery] int page = 1,
+        [FromQuery] int size = 50,
+        [FromQuery] string? q = null)
+    {
+        size = Math.Min(size, 200);
+        var result = await _service.GetAllAsync(page, size, q);
+        return Ok(result);
+    }
+
     [HttpPost("api/branches/{branchId}/warehouses")]
     [Authorize(Policy = "warehouse.write")]
     public async Task<ActionResult<WarehouseDto>> Create(Guid branchId, [FromBody] CreateWarehouseDto dto)

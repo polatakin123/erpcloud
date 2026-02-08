@@ -3,7 +3,6 @@ import { StandardListPage, DateRange } from '@/components/shared/StandardListPag
 import { useQuery } from '@tanstack/react-query';
 import { ApiClient } from '@/lib/api-client';
 import { CSVExporter } from '@/lib/csv-exporter';
-import { Button } from '@/components/ui/button';
 import { Download } from 'lucide-react';
 
 interface StockMovement {
@@ -54,21 +53,22 @@ export function StockLedgerPage() {
   const handleExportCSV = () => {
     if (!data?.items.length) return;
     
-    const csvData = data.items.map((item) => ({
-      Date: new Date(item.movementDate).toLocaleDateString(),
-      Product: item.productName,
-      SKU: item.variantSku,
-      Warehouse: item.warehouseName,
-      'Movement Type': item.movementType,
-      Quantity: item.quantity,
-      Unit: item.unit,
-      'Reference Type': item.referenceType || '',
-      'Reference No': item.referenceNo || '',
-      Note: item.note || '',
-    }));
+    const csvData = data.items;
+    const columns = [
+      { key: 'movementDate', label: 'Date', format: (val: string) => new Date(val).toLocaleDateString() },
+      { key: 'productName', label: 'Product' },
+      { key: 'variantSku', label: 'SKU' },
+      { key: 'warehouseName', label: 'Warehouse' },
+      { key: 'movementType', label: 'Movement Type' },
+      { key: 'quantity', label: 'Quantity' },
+      { key: 'unit', label: 'Unit' },
+      { key: 'referenceType', label: 'Reference Type' },
+      { key: 'referenceNo', label: 'Reference No' },
+      { key: 'note', label: 'Note' },
+    ];
 
     const date = new Date().toISOString().split('T')[0];
-    CSVExporter.export(csvData, `stock-movements_${date}.csv`);
+    CSVExporter.export(csvData, columns, `stock-movements_${date}.csv`);
   };
 
   const movementTypeOptions = [

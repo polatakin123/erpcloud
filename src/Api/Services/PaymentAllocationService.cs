@@ -212,6 +212,166 @@ public class PaymentAllocationService
     }
 
     /// <summary>
+    /// Automatically allocate payment to invoice(s)
+    /// If invoiceIds provided: allocates to those specific invoices
+    /// If not provided: allocates to oldest open invoices for the same party
+    /// </summary>
+    public async Task<Result<AutoAllocateResult>> AutoAllocateAsync(
+        Guid paymentId,
+        List<Guid>? invoiceIds = null,
+        CancellationToken ct = default)
+    {
+        var tenantId = _tenantContext.TenantId;
+
+        using var transaction = await _context.Database.BeginTransactionAsync(ct);
+
+        try
+        {
+            // Load payment
+            var payment = await _context.Payments
+                .Include(p => p.Allocations)
+                .FirstOrDefaultAsync(p => p.Id == paymentId && p.TenantId == tenantId, ct);
+
+            if (payment == null)
+                return Result<AutoAllocateResult>.Failure(
+                    Error.NotFound("payment_not_found", $"Payment {paymentId} not found"));
+
+            // Check if payment has unallocated amount
+            if (payment.UnallocatedAmount <= 0)
+            {
+                return Result<AutoAllocateResult>.Success(new AutoAllocateResult
+                {
+                    PaymentId = paymentId,
+                    AllocatedTotal = 0,
+                    RemainingUnallocated = 0,
+                    Allocations = new List<AllocationInfo>()
+                });
+            }
+
+            // Determine invoices to allocate to
+            List<Invoice> targetInvoices;
+
+            if (invoiceIds != null && invoiceIds.Any())
+            {
+                // Specific invoices provided
+                targetInvoices = await _context.Invoices
+                    .Include(i => i.Allocations)
+                    .Where(i => invoiceIds.Contains(i.Id) && i.TenantId == tenantId)
+                    .OrderBy(i => i.IssueDate)  // Oldest first
+                    .ToListAsync(ct);
+
+                if (targetInvoices.Count != invoiceIds.Count)
+                    return Result<AutoAllocateResult>.Failure(
+                        Error.NotFound("invoice_not_found", "One or more invoices not found"));
+            }
+            else
+            {
+                // Auto-select oldest open invoices for same party
+                var requiredInvoiceType = payment.Direction == "IN" ? "SALES" : "PURCHASE";
+
+                targetInvoices = await _context.Invoices
+                    .Include(i => i.Allocations)
+                    .Where(i =>
+                        i.TenantId == tenantId &&
+                        i.PartyId == payment.PartyId &&
+                        i.Currency == payment.Currency &&
+                        i.Type == requiredInvoiceType &&
+                        i.Status == "ISSUED" &&
+                        i.OpenAmount > 0)
+                    .OrderBy(i => i.IssueDate)  // FIFO allocation
+                    .ThenBy(i => i.InvoiceNo)
+                    .ToListAsync(ct);
+            }
+
+            if (!targetInvoices.Any())
+            {
+                return Result<AutoAllocateResult>.Success(new AutoAllocateResult
+                {
+                    PaymentId = paymentId,
+                    AllocatedTotal = 0,
+                    RemainingUnallocated = payment.UnallocatedAmount,
+                    Allocations = new List<AllocationInfo>()
+                });
+            }
+
+            // Allocate payment to invoices until exhausted
+            var allocations = new List<AllocationInfo>();
+            var remainingPaymentAmount = payment.UnallocatedAmount;
+
+            foreach (var invoice in targetInvoices)
+            {
+                if (remainingPaymentAmount <= 0)
+                    break;
+
+                // Validate allocation
+                var validationResult = ValidateAllocation(payment, invoice, Math.Min(remainingPaymentAmount, invoice.OpenAmount));
+                if (!validationResult.IsSuccess)
+                    return Result<AutoAllocateResult>.Failure(validationResult.Error);
+
+                // Calculate amount to allocate (min of remaining payment and invoice open amount)
+                var allocationAmount = Math.Min(remainingPaymentAmount, invoice.OpenAmount);
+
+                // Check if allocation already exists (idempotent)
+                var existingAllocation = payment.Allocations
+                    .FirstOrDefault(a => a.InvoiceId == invoice.Id);
+
+                if (existingAllocation == null)
+                {
+                    // Create new allocation
+                    var allocation = new PaymentAllocation
+                    {
+                        Id = Guid.NewGuid(),
+                        TenantId = tenantId,
+                        PartyId = payment.PartyId,
+                        InvoiceId = invoice.Id,
+                        PaymentId = payment.Id,
+                        Currency = payment.Currency,
+                        Amount = allocationAmount,
+                        AllocatedAt = DateTime.UtcNow,
+                        Note = "Otomatik eşleştirme - Tezgâh satışı"
+                    };
+
+                    _context.PaymentAllocations.Add(allocation);
+
+                    // Update caches
+                    payment.AllocatedAmount += allocationAmount;
+                    payment.UnallocatedAmount -= allocationAmount;
+                    invoice.PaidAmount += allocationAmount;
+                    invoice.OpenAmount -= allocationAmount;
+
+                    UpdateInvoicePaymentStatus(invoice);
+
+                    allocations.Add(new AllocationInfo
+                    {
+                        InvoiceId = invoice.Id,
+                        InvoiceNo = invoice.InvoiceNo,
+                        Amount = allocationAmount
+                    });
+
+                    remainingPaymentAmount -= allocationAmount;
+                }
+            }
+
+            await _context.SaveChangesAsync(ct);
+            await transaction.CommitAsync(ct);
+
+            return Result<AutoAllocateResult>.Success(new AutoAllocateResult
+            {
+                PaymentId = paymentId,
+                AllocatedTotal = payment.AllocatedAmount,
+                RemainingUnallocated = payment.UnallocatedAmount,
+                Allocations = allocations
+            });
+        }
+        catch (Exception ex)
+        {
+            await transaction.RollbackAsync(ct);
+            return Result<AutoAllocateResult>.Failure(
+                Error.Unexpected("auto_allocate_failed", $"Auto-allocation failed: {ex.Message}"));
+        }
+    }
+
+    /// <summary>
     /// Get allocations for an invoice
     /// </summary>
     public async Task<List<PaymentAllocation>> GetInvoiceAllocationsAsync(
@@ -290,4 +450,25 @@ public class AllocationRequest
     public Guid InvoiceId { get; set; }
     public decimal Amount { get; set; }
     public string? Note { get; set; }
+}
+
+/// <summary>
+/// Result of auto-allocation
+/// </summary>
+public class AutoAllocateResult
+{
+    public Guid PaymentId { get; set; }
+    public decimal AllocatedTotal { get; set; }
+    public decimal RemainingUnallocated { get; set; }
+    public List<AllocationInfo> Allocations { get; set; } = new();
+}
+
+/// <summary>
+/// Information about a single allocation
+/// </summary>
+public class AllocationInfo
+{
+    public Guid InvoiceId { get; set; }
+    public string InvoiceNo { get; set; } = string.Empty;
+    public decimal Amount { get; set; }
 }

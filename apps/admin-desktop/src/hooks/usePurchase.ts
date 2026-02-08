@@ -21,10 +21,9 @@ export function usePurchaseOrders(page: number = 1, pageSize: number = 50) {
     queryKey: ['purchase-orders', page, pageSize],
     queryFn: async () => {
       try {
-        const response = await ApiClient.get<PagedResult<PurchaseOrder>>(
+        return await ApiClient.get<PagedResult<PurchaseOrder>>(
           `/api/purchase-orders?page=${page}&pageSize=${pageSize}`
         );
-        return response;
       } catch (error) {
         if (ErrorMapper.requiresLogin(error)) {
           navigate('/login');
@@ -52,8 +51,7 @@ export function usePurchaseOrder(id: string | null) {
     queryFn: async () => {
       if (!id) throw new Error('No ID provided');
       try {
-        const response = await ApiClient.get<PurchaseOrder>(`/api/purchase-orders/${id}`);
-        return response;
+        return await ApiClient.get<PurchaseOrder>(`/api/purchase-orders/${id}`);
       } catch (error) {
         if (ErrorMapper.requiresLogin(error)) {
           navigate('/login');
@@ -86,7 +84,7 @@ export function useCreatePurchaseOrder() {
       queryClient.invalidateQueries({ queryKey: ['purchase-orders'] });
       toast({
         title: "Purchase Order Created",
-        description: `PO ${data.orderNo} created successfully.`,
+        description: `PO ${data.poNo} created successfully.`,
       });
       return data;
     },
@@ -119,7 +117,7 @@ export function useConfirmPurchaseOrder() {
       queryClient.invalidateQueries({ queryKey: ['purchase-order', data.id] });
       toast({
         title: "Purchase Order Confirmed",
-        description: `PO ${data.orderNo} confirmed successfully.`,
+        description: `PO ${data.poNo} confirmed successfully.`,
       });
       return data;
     },
@@ -148,10 +146,9 @@ export function useGoodsReceipts(page: number = 1, pageSize: number = 50) {
     queryKey: ['goods-receipts', page, pageSize],
     queryFn: async () => {
       try {
-        const response = await ApiClient.get<PagedResult<GoodsReceipt>>(
+        return await ApiClient.get<PagedResult<GoodsReceipt>>(
           `/api/goods-receipts?page=${page}&pageSize=${pageSize}`
         );
-        return response;
       } catch (error) {
         if (ErrorMapper.requiresLogin(error)) {
           navigate('/login');
@@ -179,8 +176,7 @@ export function useGoodsReceipt(id: string | null) {
     queryFn: async () => {
       if (!id) throw new Error('No ID provided');
       try {
-        const response = await ApiClient.get<GoodsReceipt>(`/api/goods-receipts/${id}`);
-        return response;
+        return await ApiClient.get<GoodsReceipt>(`/api/goods-receipts/${id}`);
       } catch (error) {
         if (ErrorMapper.requiresLogin(error)) {
           navigate('/login');
@@ -214,7 +210,7 @@ export function useCreateGoodsReceipt() {
       queryClient.invalidateQueries({ queryKey: ['purchase-orders'] });
       toast({
         title: "Goods Receipt Created",
-        description: `GRN ${data.receiptNo} created successfully.`,
+        description: `GRN ${data.grnNo} created successfully.`,
       });
       return data;
     },
@@ -249,7 +245,7 @@ export function useReceiveGoodsReceipt() {
       queryClient.invalidateQueries({ queryKey: ['stock-balance'] });
       toast({
         title: "Goods Receipt Received",
-        description: `GRN ${data.receiptNo} received successfully. Stock updated.`,
+        description: `GRN ${data.grnNo} received successfully. Stock updated.`,
       });
       return data;
     },

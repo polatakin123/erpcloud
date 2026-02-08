@@ -64,4 +64,19 @@ public class InvoiceLine : TenantEntity
     /// VAT amount for this line
     /// </summary>
     public decimal VatAmount { get; set; }
+
+    /// <summary>
+    /// Quantity returned via sales/purchase returns
+    /// </summary>
+    public decimal ReturnedQty { get; set; } = 0;
+
+    /// <summary>
+    /// Remaining quantity available for return (Qty - ReturnedQty)
+    /// </summary>
+    public decimal RemainingQty => (Qty ?? 0) - ReturnedQty;
+
+    /// <summary>
+    /// Sales returns for this line
+    /// </summary>
+    public ICollection<SalesReturnLine> SalesReturnLines { get; set; } = new List<SalesReturnLine>();
 }

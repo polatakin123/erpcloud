@@ -37,3 +37,17 @@ export function useProduct(id: string) {
     enabled: !!id,
   });
 }
+
+export function useUpdateProduct(id: string) {
+  const queryClient = useQueryClient();
+  
+  return useMutation({
+    mutationFn: (data: Partial<CreateProductDto>) => {
+      return ApiClient.put<Product>(`/api/products/${id}`, data);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['products'] });
+      queryClient.invalidateQueries({ queryKey: ['product', id] });
+    },
+  });
+}

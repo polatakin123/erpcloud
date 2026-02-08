@@ -74,11 +74,11 @@ export function ShipmentsListPage() {
                       </Link>
                     </td>
                     <td className="p-3 text-sm">
-                      <Link to={`/sales-orders/${shipment.orderId}`} className="text-blue-600 hover:underline">
-                        {shipment.orderNo}
+                      <Link to={`/sales-orders/${shipment.salesOrderId}`} className="text-blue-600 hover:underline">
+                        {shipment.salesOrderId.substring(0, 8)}...
                       </Link>
                     </td>
-                    <td className="p-3 text-sm">{shipment.shipmentDate}</td>
+                    <td className="p-3 text-sm">{new Date(shipment.shipmentDate).toLocaleDateString('tr-TR')}</td>
                     <td className="p-3 text-sm">
                       <StatusBadge status={shipment.status} />
                     </td>

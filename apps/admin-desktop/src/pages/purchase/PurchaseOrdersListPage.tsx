@@ -74,16 +74,16 @@ export function PurchaseOrdersListPage() {
                   <tr key={order.id} className="border-b hover:bg-gray-50">
                     <td className="p-3 text-sm font-medium">
                       <Link to={`/purchase-orders/${order.id}`} className="text-blue-600 hover:underline">
-                        {order.orderNo}
+                        {order.poNo}
                       </Link>
                     </td>
                     <td className="p-3 text-sm">{order.partyName}</td>
-                    <td className="p-3 text-sm">{order.issueDate}</td>
+                    <td className="p-3 text-sm">{order.orderDate}</td>
                     <td className="p-3 text-sm">
                       <StatusBadge status={order.status} />
                     </td>
                     <td className="p-3 text-sm text-right">
-                      {order.totalAmount.toFixed(2)} {order.currency}
+                      {order.totalAmount.toFixed(2)}
                     </td>
                     <td className="p-3 text-sm text-right">
                       <Link to={`/purchase-orders/${order.id}`}>

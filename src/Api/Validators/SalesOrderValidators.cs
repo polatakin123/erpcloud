@@ -33,6 +33,9 @@ public class CreateSalesOrderDtoValidator : AbstractValidator<CreateSalesOrderDt
 
     private bool BeValidCode(string code)
     {
+        if (string.IsNullOrEmpty(code))
+            return false;
+            
         return Regex.IsMatch(code, @"^[A-Z0-9_-]+$");
     }
 }
@@ -92,6 +95,9 @@ public class UpdateSalesOrderDtoValidator : AbstractValidator<UpdateSalesOrderDt
 
     private bool BeValidCode(string code)
     {
+        if (string.IsNullOrEmpty(code))
+            return false;
+            
         return Regex.IsMatch(code, @"^[A-Z0-9_-]+$");
     }
 }

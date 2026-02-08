@@ -8,6 +8,6 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = ErpCloud.BuildingBlocks.Auditing
-build_property.ProjectDir = C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Auditing\
+build_property.ProjectDir = C:\xampp\htdocs\projeler\ERPCloud\src\BuildingBlocks\Auditing\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 

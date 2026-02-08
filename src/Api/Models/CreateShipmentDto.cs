@@ -28,9 +28,6 @@ public record CreateShipmentLineDto(
     [Required]
     Guid SalesOrderLineId,
     
-    [Required]
-    Guid VariantId,
-    
     [Required, Range(0.001, double.MaxValue)]
     decimal Qty,
     

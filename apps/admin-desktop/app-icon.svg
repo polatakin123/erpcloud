@@ -1,0 +1,21 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="512" height="512" rx="64" fill="url(#gradient)"/>
+  
+  <!-- Gradient Definition -->
+  <defs>
+    <linearGradient id="gradient" x1="0" y1="0" x2="512" y2="512" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#2563EB"/>
+      <stop offset="100%" stop-color="#1E40AF"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Cloud Icon (representing ERP "Cloud") -->
+  <path d="M384 288C410.667 288 432 266.667 432 240C432 213.333 410.667 192 384 192C380 192 376 192.667 372.667 194C368 152 332 120 288 120C261.333 120 237.333 132 220.667 150.667C213.333 148 205.333 146.667 197.333 146.667C162.667 146.667 134.667 174.667 134.667 209.333C134.667 212 134.667 214.667 135.333 217.333C109.333 224 90.667 247.333 90.667 274.667C90.667 308 117.333 334.667 150.667 334.667H384Z" fill="white" fill-opacity="0.9"/>
+  
+  <!-- ERP Text -->
+  <text x="256" y="420" font-family="Arial, sans-serif" font-size="110" font-weight="bold" fill="white" text-anchor="middle">ERP</text>
+  
+  <!-- Decorative Line -->
+  <rect x="156" y="380" width="200" height="4" rx="2" fill="white" fill-opacity="0.6"/>
+</svg>

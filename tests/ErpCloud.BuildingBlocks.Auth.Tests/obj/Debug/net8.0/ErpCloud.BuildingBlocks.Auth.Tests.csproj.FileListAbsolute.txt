@@ -123,3 +123,4 @@ C:\xampp\htdocs\projeler\ErpCloud\tests\ErpCloud.BuildingBlocks.Auth.Tests\obj\D
 C:\xampp\htdocs\projeler\ErpCloud\tests\ErpCloud.BuildingBlocks.Auth.Tests\obj\Debug\net8.0\ErpCloud.BuildingBlocks.Auth.Tests.pdb
 C:\xampp\htdocs\projeler\ErpCloud\tests\ErpCloud.BuildingBlocks.Auth.Tests\obj\Debug\net8.0\ErpCloud.BuildingBlocks.Auth.Tests.genruntimeconfig.cache
 C:\xampp\htdocs\projeler\ErpCloud\tests\ErpCloud.BuildingBlocks.Auth.Tests\obj\Debug\net8.0\ref\ErpCloud.BuildingBlocks.Auth.Tests.dll
+C:\xampp\htdocs\projeler\ErpCloud\tests\ErpCloud.BuildingBlocks.Auth.Tests\obj\Debug\net8.0\ErpCloud.BuildingBlocks.Auth.Tests.sourcelink.json

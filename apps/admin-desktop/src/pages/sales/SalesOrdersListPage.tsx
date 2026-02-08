@@ -90,7 +90,7 @@ export function SalesOrdersListPage() {
                   {order.partyName}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                  {order.issueDate}
+                  {new Date(order.orderDate).toLocaleDateString('tr-TR')}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <span

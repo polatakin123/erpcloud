@@ -17,3 +17,4 @@ C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Persistence\obj\Debug\net8.
 C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Persistence\obj\Debug\net8.0\refint\ErpCloud.BuildingBlocks.Persistence.dll
 C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Persistence\obj\Debug\net8.0\ErpCloud.BuildingBlocks.Persistence.pdb
 C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Persistence\obj\Debug\net8.0\ref\ErpCloud.BuildingBlocks.Persistence.dll
+C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Persistence\obj\Debug\net8.0\ErpCloud.BuildingBlocks.Persistence.sourcelink.json

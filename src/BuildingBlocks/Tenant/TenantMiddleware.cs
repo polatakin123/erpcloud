@@ -14,7 +14,7 @@ public class TenantMiddleware
     {
         "/health",
         "/swagger",
-        "/"
+        "/api/test"
     };
 
     public TenantMiddleware(RequestDelegate next)
@@ -25,6 +25,14 @@ public class TenantMiddleware
     public async Task InvokeAsync(HttpContext context, TenantContextAccessor tenantAccessor)
     {
         var path = context.Request.Path.Value ?? string.Empty;
+
+        // DEBUG: Log all claims
+        Console.WriteLine($"[TenantMiddleware] Path: {path}, IsAuthenticated: {context.User.Identity?.IsAuthenticated}");
+        Console.WriteLine($"[TenantMiddleware] Total Claims: {context.User.Claims.Count()}");
+        foreach (var claim in context.User.Claims)
+        {
+            Console.WriteLine($"[TenantMiddleware]   - {claim.Type}: {claim.Value}");
+        }
 
         // Skip tenant requirement for public paths and swagger
         if (IsPublicPath(path))
@@ -64,6 +72,8 @@ public class TenantMiddleware
 
         tenantAccessor.SetTenantId(tenantId);
 
+        Console.WriteLine($"[TenantMiddleware] Set TenantId: {tenantId}, Path: {path}");
+
         // Extract user_id if present (for audit)
         var userIdClaim = context.User.FindFirst("user_id")?.Value
                          ?? context.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
@@ -78,6 +88,9 @@ public class TenantMiddleware
 
     private bool IsPublicPath(string path)
     {
-        return _publicPaths.Any(p => path.StartsWith(p, StringComparison.OrdinalIgnoreCase));
+        // Exact match or starts with pattern (for swagger paths like /swagger/v1/...)
+        return _publicPaths.Any(p => 
+            path.Equals(p, StringComparison.OrdinalIgnoreCase) || 
+            path.StartsWith(p + "/", StringComparison.OrdinalIgnoreCase));
     }
 }

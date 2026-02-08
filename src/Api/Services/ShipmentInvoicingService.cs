@@ -96,8 +96,32 @@ public class ShipmentInvoicingService : IShipmentInvoicingService
         var tenantId = _tenantContext.TenantId;
         var userId = _tenantContext.UserId ?? Guid.Empty;
 
-        // Validate invoice number uniqueness
-        var invoiceNo = request.InvoiceNo.ToUpperInvariant();
+        // Generate or validate invoice number
+        string invoiceNo;
+        if (string.IsNullOrWhiteSpace(request.InvoiceNo))
+        {
+            // Auto-generate invoice number
+            var lastInvoice = await _context.Invoices
+                .Where(i => i.TenantId == tenantId && i.InvoiceNo.StartsWith("INV"))
+                .OrderByDescending(i => i.InvoiceNo)
+                .FirstOrDefaultAsync();
+            
+            int nextNumber = 1;
+            if (lastInvoice != null)
+            {
+                var lastNumber = lastInvoice.InvoiceNo.Replace("INV", "");
+                if (int.TryParse(lastNumber, out int parsed))
+                {
+                    nextNumber = parsed + 1;
+                }
+            }
+            invoiceNo = $"INV{nextNumber:D6}";
+        }
+        else
+        {
+            invoiceNo = request.InvoiceNo.ToUpperInvariant();
+        }
+        
         var invoiceExists = await _context.Invoices.AnyAsync(i => 
             i.InvoiceNo == invoiceNo && i.TenantId == tenantId);
         
@@ -135,8 +159,12 @@ public class ShipmentInvoicingService : IShipmentInvoicingService
             Type = "SALES",
             PartyId = shipment.SalesOrder!.PartyId,
             BranchId = shipment.BranchId,
-            IssueDate = request.IssueDate == default ? DateTime.Today : request.IssueDate.Date,
-            DueDate = request.DueDate,
+            IssueDate = request.IssueDate.HasValue 
+                ? DateTime.SpecifyKind(request.IssueDate.Value.Date, DateTimeKind.Utc)
+                : DateTime.SpecifyKind(DateTime.Today, DateTimeKind.Utc),
+            DueDate = request.DueDate.HasValue
+                ? DateTime.SpecifyKind(request.DueDate.Value.Date, DateTimeKind.Utc)
+                : (DateTime?)null,
             Currency = "TRY",
             Status = "DRAFT",
             SourceType = "SHIPMENT",

@@ -70,12 +70,12 @@ export function GoodsReceiptsListPage() {
                   <tr key={receipt.id} className="border-b hover:bg-gray-50">
                     <td className="p-3 text-sm font-medium">
                       <Link to={`/goods-receipts/${receipt.id}`} className="text-blue-600 hover:underline">
-                        {receipt.receiptNo}
+                        {receipt.grnNo}
                       </Link>
                     </td>
                     <td className="p-3 text-sm">
                       <Link to={`/purchase-orders/${receipt.purchaseOrderId}`} className="text-blue-600 hover:underline">
-                        {receipt.purchaseOrderNo}
+                        {receipt.poNo}
                       </Link>
                     </td>
                     <td className="p-3 text-sm">{receipt.receiptDate}</td>

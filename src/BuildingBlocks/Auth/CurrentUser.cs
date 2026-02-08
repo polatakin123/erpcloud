@@ -123,6 +123,13 @@ public class CurrentUser : ICurrentUser
 
         permissions.AddRange(permClaims);
 
+        // Support "policy" claims as well (for backwards compatibility)
+        var policyClaims = user.FindAll("policy")
+            .Select(c => c.Value)
+            .Where(p => !string.IsNullOrEmpty(p));
+
+        permissions.AddRange(policyClaims);
+
         return permissions.Distinct(StringComparer.OrdinalIgnoreCase).ToList();
     }
 }

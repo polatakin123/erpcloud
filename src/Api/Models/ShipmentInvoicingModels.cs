@@ -14,8 +14,8 @@ public record ShipmentInvoiceLineRequestDto(
 /// Request to create invoice from shipment
 /// </summary>
 public record CreateInvoiceFromShipmentDto(
-    [Required, RegularExpression(@"^[A-Z0-9_-]+$")] string InvoiceNo,
-    DateTime IssueDate,
+    string? InvoiceNo, // Optional - will be auto-generated if null
+    DateTime? IssueDate,
     DateTime? DueDate,
     string? Note,
     List<ShipmentInvoiceLineRequestDto>? Lines // null = invoice all remaining qty

@@ -9,3 +9,4 @@ C:\xampp\htdocs\projeler\ErpCloud\src\Modules\Identity\obj\Debug\net8.0\ErpCloud
 C:\xampp\htdocs\projeler\ErpCloud\src\Modules\Identity\obj\Debug\net8.0\refint\ErpCloud.Modules.Identity.dll
 C:\xampp\htdocs\projeler\ErpCloud\src\Modules\Identity\obj\Debug\net8.0\ErpCloud.Modules.Identity.pdb
 C:\xampp\htdocs\projeler\ErpCloud\src\Modules\Identity\obj\Debug\net8.0\ref\ErpCloud.Modules.Identity.dll
+C:\xampp\htdocs\projeler\ErpCloud\src\Modules\Identity\obj\Debug\net8.0\ErpCloud.Modules.Identity.sourcelink.json

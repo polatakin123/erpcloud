@@ -6,6 +6,7 @@ import { DashboardPage } from './pages/DashboardPage';
 import { SettingsPage } from './pages/SettingsPage';
 import { PartiesPage } from './pages/PartiesPage';
 import { ProductsPage } from './pages/ProductsPage';
+import ProductDetailPage from './pages/ProductDetailPage';
 import { StockReportsPage } from './pages/reports/StockReportsPage';
 import { SalesReportsPage } from './pages/reports/SalesReportsPage';
 import { PartiesReportsPage } from './pages/reports/PartiesReportsPage';
@@ -26,7 +27,16 @@ import { PaymentsListPage } from './pages/finance/PaymentsListPage';
 import { StockLedgerPage } from './pages/reports/StockLedgerPage';
 import { PartyLedgerPage } from './pages/reports/PartyLedgerPage';
 import { CashBankLedgerPage } from './pages/reports/CashBankLedgerPage';
+import FastSearchPage from './pages/FastSearchPage';
+import StockCardDetailPage from './pages/StockCardDetailPage';
+import StockCardsListPage from './pages/StockCardsListPage';
 import { QAVerificationPage } from './pages/QAVerificationPage';
+import OrganizationSetupPage from './pages/OrganizationSetupPage';
+import TezgahDashboardPage from './pages/TezgahDashboardPage';
+import FastSalesPage from './pages/FastSalesPage';
+import TahsilatPage from './pages/TahsilatPage';
+import StokSorguPage from './pages/StokSorguPage';
+import { BrandListPage } from './pages/admin/BrandListPage';
 import { useEffect, useState } from 'react';
 import { ApiClient } from './lib/api-client';
 import { SettingsService } from './lib/settings';
@@ -69,14 +79,19 @@ function App() {
   if (!isInitialized) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div>Loading...</div>
+        <div>Yükleniyor...</div>
       </div>
     );
   }
 
   return (
     <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
+      <BrowserRouter
+        future={{
+          v7_startTransition: true,
+          v7_relativeSplatPath: true,
+        }}
+      >
         <Routes>
           <Route path="/login" element={<LoginPage onLoginSuccess={handleLoginSuccess} />} />
           
@@ -84,12 +99,30 @@ function App() {
             path="/"
             element={hasToken ? <MainLayout /> : <Navigate to="/login" replace />}
           >
-            <Route index element={<DashboardPage />} />
+            <Route index element={<Navigate to="/tezgah" replace />} />
+            <Route path="dashboard" element={<DashboardPage />} />
+            
+            {/* Tezgah Mode - Operation UI */}
+            <Route path="tezgah" element={<TezgahDashboardPage />} />
+            <Route path="tezgah/satis" element={<FastSalesPage />} />
+            <Route path="tezgah/tahsilat" element={<TahsilatPage />} />
+            <Route path="tezgah/stok-sorgu" element={<StokSorguPage />} />
+            <Route path="tezgah/raporlar" element={<PlaceholderPage title="Raporlar" />} />
+            
             <Route path="settings" element={<SettingsPage />} />
+            <Route path="setup/organization" element={<OrganizationSetupPage />} />
+            
+            {/* Admin */}
+            <Route path="admin/brands" element={<BrandListPage />} />
             
             {/* Catalog */}
             <Route path="products" element={<ProductsPage />} />
+            <Route path="products/:id" element={<ProductDetailPage />} />
             <Route path="price-lists" element={<PlaceholderPage title="Price Lists" />} />
+            <Route path="parts/search" element={<FastSearchPage />} />
+            <Route path="fast-search" element={<FastSearchPage />} />
+            <Route path="stock-cards" element={<StockCardsListPage />} />
+            <Route path="stock-cards/:id" element={<StockCardDetailPage />} />
             
             {/* Sales & Purchase */}
             <Route path="parties" element={<PartiesPage />} />

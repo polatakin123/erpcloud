@@ -841,11 +841,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\xampp\\htdocs\\projeler\\ErpCloud\\src\\BuildingBlocks\\Auditing\\ErpCloud.BuildingBlocks.Auditing.csproj",
+      "projectUniqueName": "C:\\xampp\\htdocs\\projeler\\ERPCloud\\src\\BuildingBlocks\\Auditing\\ErpCloud.BuildingBlocks.Auditing.csproj",
       "projectName": "ErpCloud.BuildingBlocks.Auditing",
-      "projectPath": "C:\\xampp\\htdocs\\projeler\\ErpCloud\\src\\BuildingBlocks\\Auditing\\ErpCloud.BuildingBlocks.Auditing.csproj",
+      "projectPath": "C:\\xampp\\htdocs\\projeler\\ERPCloud\\src\\BuildingBlocks\\Auditing\\ErpCloud.BuildingBlocks.Auditing.csproj",
       "packagesPath": "C:\\Users\\Polat\\.nuget\\packages\\",
-      "outputPath": "C:\\xampp\\htdocs\\projeler\\ErpCloud\\src\\BuildingBlocks\\Auditing\\obj\\",
+      "outputPath": "C:\\xampp\\htdocs\\projeler\\ERPCloud\\src\\BuildingBlocks\\Auditing\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Polat\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -860,8 +860,8 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "C:\\xampp\\htdocs\\projeler\\ErpCloud\\src\\BuildingBlocks\\Tenant\\ErpCloud.BuildingBlocks.Tenant.csproj": {
-              "projectPath": "C:\\xampp\\htdocs\\projeler\\ErpCloud\\src\\BuildingBlocks\\Tenant\\ErpCloud.BuildingBlocks.Tenant.csproj"
+            "C:\\xampp\\htdocs\\projeler\\ERPCloud\\src\\BuildingBlocks\\Tenant\\ErpCloud.BuildingBlocks.Tenant.csproj": {
+              "projectPath": "C:\\xampp\\htdocs\\projeler\\ERPCloud\\src\\BuildingBlocks\\Tenant\\ErpCloud.BuildingBlocks.Tenant.csproj"
             }
           }
         }

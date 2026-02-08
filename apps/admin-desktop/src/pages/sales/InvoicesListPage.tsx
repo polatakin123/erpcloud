@@ -75,12 +75,12 @@ export function InvoicesListPage() {
                       </Link>
                     </td>
                     <td className="p-3 text-sm">{invoice.partyName}</td>
-                    <td className="p-3 text-sm">{invoice.invoiceDate}</td>
+                    <td className="p-3 text-sm">{new Date(invoice.issueDate).toLocaleDateString('tr-TR')}</td>
                     <td className="p-3 text-sm">
                       <StatusBadge status={invoice.status} />
                     </td>
                     <td className="p-3 text-sm text-right">
-                      {invoice.totalAmount.toFixed(2)} {invoice.currency}
+                      {invoice.grandTotal.toFixed(2)}
                     </td>
                     <td className="p-3 text-sm text-right">
                       <Link to={`/invoices/${invoice.id}`}>

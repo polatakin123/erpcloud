@@ -40,4 +40,64 @@ public class PricingController : ControllerBase
 
         return Ok(price);
     }
+
+    /// <summary>
+    /// Calculate pricing for a single line item with all applicable discount rules
+    /// </summary>
+    /// <param name="request">Pricing calculation request</param>
+    /// <returns>Full pricing breakdown including profit analysis and warnings</returns>
+    [HttpPost("calculate")]
+    public async Task<ActionResult<PricingCalculationResult>> Calculate(
+        [FromBody] PricingCalculationRequest request,
+        CancellationToken ct = default)
+    {
+        try
+        {
+            var result = await _pricingService.CalculateAsync(request, ct);
+            return Ok(result);
+        }
+        catch (ArgumentException ex)
+        {
+            return BadRequest(new { error = ex.Message });
+        }
+        catch (InvalidOperationException ex)
+        {
+            return NotFound(new { error = ex.Message });
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { error = "Fiyat hesaplama hatası", details = ex.Message });
+        }
+    }
+
+    /// <summary>
+    /// Calculate pricing for multiple line items in a single batch request
+    /// </summary>
+    /// <param name="requests">List of pricing calculation requests</param>
+    /// <returns>List of pricing results with breakdowns</returns>
+    [HttpPost("calculate/batch")]
+    public async Task<ActionResult<List<PricingCalculationResult>>> CalculateBatch(
+        [FromBody] List<PricingCalculationRequest> requests,
+        CancellationToken ct = default)
+    {
+        try
+        {
+            if (requests == null || requests.Count == 0)
+            {
+                return BadRequest(new { error = "En az bir ürün gereklidir" });
+            }
+
+            if (requests.Count > 100)
+            {
+                return BadRequest(new { error = "Maksimum 100 ürün için fiyat hesaplanabilir" });
+            }
+
+            var results = await _pricingService.CalculateBatchAsync(requests, ct);
+            return Ok(results);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { error = "Toplu fiyat hesaplama hatası", details = ex.Message });
+        }
+    }
 }

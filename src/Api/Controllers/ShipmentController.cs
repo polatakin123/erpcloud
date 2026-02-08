@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace ErpCloud.Api.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/shipments")]
 [Authorize]
 public class ShipmentController : ControllerBase
 {
@@ -150,11 +150,12 @@ public class ShipmentController : ControllerBase
     [HttpPost("{shipmentId}/invoice")]
     public async Task<ActionResult<InvoiceWithSourceDto>> CreateInvoice(
         Guid shipmentId,
-        [FromBody] CreateInvoiceFromShipmentDto request)
+        [FromBody] CreateInvoiceFromShipmentDto? request = null)
     {
         try
         {
-            var result = await _shipmentInvoicingService.CreateDraftInvoiceFromShipmentAsync(shipmentId, request);
+            var result = await _shipmentInvoicingService.CreateDraftInvoiceFromShipmentAsync(
+                shipmentId, request ?? new CreateInvoiceFromShipmentDto(null, null, null, null, null));
             return CreatedAtRoute("GetInvoice", new { id = result.Id }, result);
         }
         catch (InvalidOperationException ex)

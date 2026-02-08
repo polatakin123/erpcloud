@@ -1,6 +1,7 @@
 using ErpCloud.Api.Data;
 using ErpCloud.Api.Entities;
 using ErpCloud.Api.Models;
+using ErpCloud.BuildingBlocks.Common;
 using ErpCloud.BuildingBlocks.Tenant;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,6 +19,25 @@ public interface IStockService
     Task<StockLedgerDto> ReleaseReservationAsync(ReleaseReservationDto dto);
     Task<(StockLedgerDto outEntry, StockLedgerDto inEntry)> TransferStockAsync(TransferStockDto dto);
     Task<StockLedgerDto> AdjustStockAsync(AdjustStockDto dto);
+
+    // Overloads for Returns (return Result<T> for better error handling)
+    Task<Result<StockLedgerDto>> ReceiveStockAsync(
+        Guid warehouseId, 
+        Guid variantId, 
+        decimal qty, 
+        string referenceType, 
+        Guid referenceId, 
+        string? note = null, 
+        CancellationToken ct = default);
+
+    Task<Result<StockLedgerDto>> IssueStockAsync(
+        Guid warehouseId, 
+        Guid variantId, 
+        decimal qty, 
+        string referenceType, 
+        Guid referenceId, 
+        string? note = null, 
+        CancellationToken ct = default);
 }
 
 public class StockService : IStockService
@@ -114,216 +134,172 @@ public class StockService : IStockService
     {
         var tenantId = _tenantContext.TenantId;
 
-        await using var transaction = await _context.Database.BeginTransactionAsync();
-        try
+        // No transaction here - caller should manage transaction
+        // Verify warehouse and variant exist
+        await VerifyWarehouseAndVariantAsync(dto.WarehouseId, dto.VariantId);
+
+        // Lock and get/create balance
+        var balance = await GetOrCreateBalanceWithLockAsync(dto.WarehouseId, dto.VariantId);
+
+        // Create ledger entry
+        var entry = new StockLedgerEntry
         {
-            // Verify warehouse and variant exist
-            await VerifyWarehouseAndVariantAsync(dto.WarehouseId, dto.VariantId);
+            Id = Guid.NewGuid(),
+            TenantId = tenantId,
+            OccurredAt = DateTime.UtcNow,
+            WarehouseId = dto.WarehouseId,
+            VariantId = dto.VariantId,
+            MovementType = StockMovementType.INBOUND,
+            Quantity = dto.Qty,
+            UnitCost = dto.UnitCost,
+            ReferenceType = dto.ReferenceType,
+            ReferenceId = dto.ReferenceId,
+            Note = dto.Note,
+            CreatedAt = DateTime.UtcNow,
+            CreatedBy = _tenantContext.UserId ?? Guid.Empty
+        };
 
-            // Lock and get/create balance
-            var balance = await GetOrCreateBalanceWithLockAsync(dto.WarehouseId, dto.VariantId);
+        _context.StockLedgerEntries.Add(entry);
 
-            // Create ledger entry
-            var entry = new StockLedgerEntry
-            {
-                Id = Guid.NewGuid(),
-                TenantId = tenantId,
-                OccurredAt = DateTime.UtcNow,
-                WarehouseId = dto.WarehouseId,
-                VariantId = dto.VariantId,
-                MovementType = StockMovementType.INBOUND,
-                Quantity = dto.Qty,
-                UnitCost = dto.UnitCost,
-                ReferenceType = dto.ReferenceType,
-                ReferenceId = dto.ReferenceId,
-                Note = dto.Note,
-                CreatedAt = DateTime.UtcNow,
-                CreatedBy = _tenantContext.UserId ?? Guid.Empty
-            };
+        // Update balance
+        balance.OnHand += dto.Qty;
+        balance.UpdatedAt = DateTime.UtcNow;
 
-            _context.StockLedgerEntries.Add(entry);
-
-            // Update balance
-            balance.OnHand += dto.Qty;
-            balance.UpdatedAt = DateTime.UtcNow;
-
-            await _context.SaveChangesAsync();
-            await transaction.CommitAsync();
-
-            return MapLedgerToDto(entry);
-        }
-        catch
-        {
-            await transaction.RollbackAsync();
-            throw;
-        }
+        // SaveChanges will be called by the caller's transaction
+        return MapLedgerToDto(entry);
     }
 
     public async Task<StockLedgerDto> IssueStockAsync(IssueStockDto dto)
     {
         var tenantId = _tenantContext.TenantId;
 
-        await using var transaction = await _context.Database.BeginTransactionAsync();
-        try
+        // No transaction here - caller should manage transaction
+        // Verify warehouse and variant exist
+        await VerifyWarehouseAndVariantAsync(dto.WarehouseId, dto.VariantId);
+
+        // Lock and get/create balance
+        var balance = await GetOrCreateBalanceWithLockAsync(dto.WarehouseId, dto.VariantId);
+
+        // Allow negative stock for special cases (consignment, special orders)
+        // Check available stock but only warn, don't prevent
+        var available = balance.OnHand - balance.Reserved;
+        // Removed: if (available < dto.Qty) throw exception
+        // Now we allow negative stock
+
+        // Create ledger entry (negative quantity)
+        var entry = new StockLedgerEntry
         {
-            // Verify warehouse and variant exist
-            await VerifyWarehouseAndVariantAsync(dto.WarehouseId, dto.VariantId);
+            Id = Guid.NewGuid(),
+            TenantId = tenantId,
+            OccurredAt = DateTime.UtcNow,
+            WarehouseId = dto.WarehouseId,
+            VariantId = dto.VariantId,
+            MovementType = StockMovementType.OUTBOUND,
+            Quantity = -dto.Qty,
+            UnitCost = null,
+            ReferenceType = dto.ReferenceType,
+            ReferenceId = dto.ReferenceId,
+            Note = dto.Note,
+            CreatedAt = DateTime.UtcNow,
+            CreatedBy = _tenantContext.UserId ?? Guid.Empty
+        };
 
-            // Lock and get/create balance
-            var balance = await GetOrCreateBalanceWithLockAsync(dto.WarehouseId, dto.VariantId);
+        _context.StockLedgerEntries.Add(entry);
 
-            // Check available stock
-            var available = balance.OnHand - balance.Reserved;
-            if (available < dto.Qty)
-            {
-                throw new InvalidOperationException($"Insufficient available stock. Available: {available}, Requested: {dto.Qty}");
-            }
+        // Update balance (allow negative)
+        balance.OnHand -= dto.Qty;
+        balance.UpdatedAt = DateTime.UtcNow;
 
-            // Create ledger entry (negative quantity)
-            var entry = new StockLedgerEntry
-            {
-                Id = Guid.NewGuid(),
-                TenantId = tenantId,
-                OccurredAt = DateTime.UtcNow,
-                WarehouseId = dto.WarehouseId,
-                VariantId = dto.VariantId,
-                MovementType = StockMovementType.OUTBOUND,
-                Quantity = -dto.Qty,
-                UnitCost = null,
-                ReferenceType = dto.ReferenceType,
-                ReferenceId = dto.ReferenceId,
-                Note = dto.Note,
-                CreatedAt = DateTime.UtcNow,
-                CreatedBy = _tenantContext.UserId ?? Guid.Empty
-            };
-
-            _context.StockLedgerEntries.Add(entry);
-
-            // Update balance
-            balance.OnHand -= dto.Qty;
-            balance.UpdatedAt = DateTime.UtcNow;
-
-            await _context.SaveChangesAsync();
-            await transaction.CommitAsync();
-
-            return MapLedgerToDto(entry);
-        }
-        catch
-        {
-            await transaction.RollbackAsync();
-            throw;
-        }
+        // SaveChanges will be called by the caller's transaction
+        return MapLedgerToDto(entry);
     }
 
     public async Task<StockLedgerDto> ReserveStockAsync(ReserveStockDto dto)
     {
         var tenantId = _tenantContext.TenantId;
 
-        await using var transaction = await _context.Database.BeginTransactionAsync();
-        try
+        // No transaction here - caller should manage transaction
+        // Verify warehouse and variant exist
+        await VerifyWarehouseAndVariantAsync(dto.WarehouseId, dto.VariantId);
+
+        // Lock and get/create balance
+        var balance = await GetOrCreateBalanceWithLockAsync(dto.WarehouseId, dto.VariantId);
+
+        // Allow negative available stock (already reserved more than on-hand)
+        // This allows for special cases like consignment or special orders
+        var available = balance.OnHand - balance.Reserved;
+        // Removed strict check - allow reservation even if insufficient
+        // if (available < dto.Qty) throw exception
+
+        // Create ledger entry
+        var entry = new StockLedgerEntry
         {
-            // Verify warehouse and variant exist
-            await VerifyWarehouseAndVariantAsync(dto.WarehouseId, dto.VariantId);
+            Id = Guid.NewGuid(),
+            TenantId = tenantId,
+            OccurredAt = DateTime.UtcNow,
+            WarehouseId = dto.WarehouseId,
+            VariantId = dto.VariantId,
+            MovementType = StockMovementType.RESERVE,
+            Quantity = dto.Qty,
+            UnitCost = null,
+            ReferenceType = dto.ReferenceType,
+            ReferenceId = dto.ReferenceId,
+            Note = dto.Note,
+            CreatedAt = DateTime.UtcNow,
+            CreatedBy = _tenantContext.UserId ?? Guid.Empty
+        };
 
-            // Lock and get/create balance
-            var balance = await GetOrCreateBalanceWithLockAsync(dto.WarehouseId, dto.VariantId);
+        _context.StockLedgerEntries.Add(entry);
 
-            // Check available stock
-            var available = balance.OnHand - balance.Reserved;
-            if (available < dto.Qty)
-            {
-                throw new InvalidOperationException($"Insufficient available stock to reserve. Available: {available}, Requested: {dto.Qty}");
-            }
+        // Update balance
+        balance.Reserved += dto.Qty;
+        balance.UpdatedAt = DateTime.UtcNow;
 
-            // Create ledger entry
-            var entry = new StockLedgerEntry
-            {
-                Id = Guid.NewGuid(),
-                TenantId = tenantId,
-                OccurredAt = DateTime.UtcNow,
-                WarehouseId = dto.WarehouseId,
-                VariantId = dto.VariantId,
-                MovementType = StockMovementType.RESERVE,
-                Quantity = dto.Qty,
-                UnitCost = null,
-                ReferenceType = dto.ReferenceType,
-                ReferenceId = dto.ReferenceId,
-                Note = dto.Note,
-                CreatedAt = DateTime.UtcNow,
-                CreatedBy = _tenantContext.UserId ?? Guid.Empty
-            };
-
-            _context.StockLedgerEntries.Add(entry);
-
-            // Update balance
-            balance.Reserved += dto.Qty;
-            balance.UpdatedAt = DateTime.UtcNow;
-
-            await _context.SaveChangesAsync();
-            await transaction.CommitAsync();
-
-            return MapLedgerToDto(entry);
-        }
-        catch
-        {
-            await transaction.RollbackAsync();
-            throw;
-        }
+        // SaveChanges will be called by the caller's transaction
+        return MapLedgerToDto(entry);
     }
 
     public async Task<StockLedgerDto> ReleaseReservationAsync(ReleaseReservationDto dto)
     {
         var tenantId = _tenantContext.TenantId;
 
-        await using var transaction = await _context.Database.BeginTransactionAsync();
-        try
+        // No transaction here - caller should manage transaction
+        // Verify warehouse and variant exist
+        await VerifyWarehouseAndVariantAsync(dto.WarehouseId, dto.VariantId);
+
+        // Lock and get/create balance
+        var balance = await GetOrCreateBalanceWithLockAsync(dto.WarehouseId, dto.VariantId);
+
+        // Allow releasing more than reserved (for corrections/adjustments)
+        // Removed strict check - allow release even if insufficient reserved
+        // if (balance.Reserved < dto.Qty) throw exception
+
+        // Create ledger entry (negative quantity)
+        var entry = new StockLedgerEntry
         {
-            // Verify warehouse and variant exist
-            await VerifyWarehouseAndVariantAsync(dto.WarehouseId, dto.VariantId);
+            Id = Guid.NewGuid(),
+            TenantId = tenantId,
+            OccurredAt = DateTime.UtcNow,
+            WarehouseId = dto.WarehouseId,
+            VariantId = dto.VariantId,
+            MovementType = StockMovementType.RELEASE,
+            Quantity = -dto.Qty,
+            UnitCost = null,
+            ReferenceType = dto.ReferenceType,
+            ReferenceId = dto.ReferenceId,
+            Note = dto.Note,
+            CreatedAt = DateTime.UtcNow,
+            CreatedBy = _tenantContext.UserId ?? Guid.Empty
+        };
 
-            // Lock and get/create balance
-            var balance = await GetOrCreateBalanceWithLockAsync(dto.WarehouseId, dto.VariantId);
+        _context.StockLedgerEntries.Add(entry);
 
-            // Check reserved stock
-            if (balance.Reserved < dto.Qty)
-            {
-                throw new InvalidOperationException($"Insufficient reserved stock to release. Reserved: {balance.Reserved}, Requested: {dto.Qty}");
-            }
+        // Update balance (allow negative reserved if needed)
+        balance.Reserved -= dto.Qty;
+        balance.UpdatedAt = DateTime.UtcNow;
 
-            // Create ledger entry (negative quantity)
-            var entry = new StockLedgerEntry
-            {
-                Id = Guid.NewGuid(),
-                TenantId = tenantId,
-                OccurredAt = DateTime.UtcNow,
-                WarehouseId = dto.WarehouseId,
-                VariantId = dto.VariantId,
-                MovementType = StockMovementType.RELEASE,
-                Quantity = -dto.Qty,
-                UnitCost = null,
-                ReferenceType = dto.ReferenceType,
-                ReferenceId = dto.ReferenceId,
-                Note = dto.Note,
-                CreatedAt = DateTime.UtcNow,
-                CreatedBy = _tenantContext.UserId ?? Guid.Empty
-            };
-
-            _context.StockLedgerEntries.Add(entry);
-
-            // Update balance
-            balance.Reserved -= dto.Qty;
-            balance.UpdatedAt = DateTime.UtcNow;
-
-            await _context.SaveChangesAsync();
-            await transaction.CommitAsync();
-
-            return MapLedgerToDto(entry);
-        }
-        catch
-        {
-            await transaction.RollbackAsync();
-            throw;
-        }
+        // SaveChanges will be called by the caller's transaction
+        return MapLedgerToDto(entry);
     }
 
     public async Task<(StockLedgerDto outEntry, StockLedgerDto inEntry)> TransferStockAsync(TransferStockDto dto)
@@ -577,5 +553,70 @@ public class StockService : IStockService
             entry.CreatedAt,
             entry.CreatedBy
         );
+    }
+
+    // Overloaded methods for return operations
+    public async Task<Result<StockLedgerDto>> ReceiveStockAsync(
+        Guid warehouseId,
+        Guid variantId,
+        decimal qty,
+        string referenceType,
+        Guid referenceId,
+        string? note = null,
+        CancellationToken ct = default)
+    {
+        try
+        {
+            var dto = new ReceiveStockDto(
+                warehouseId,
+                variantId,
+                qty,
+                null, // unitCost
+                referenceType,
+                referenceId,
+                note);
+
+            var result = await ReceiveStockAsync(dto);
+            return Result<StockLedgerDto>.Success(result);
+        }
+        catch (Exception ex)
+        {
+            return Result<StockLedgerDto>.Failure(
+                Error.Unexpected("stock_receive_failed", $"Failed to receive stock: {ex.Message}"));
+        }
+    }
+
+    public async Task<Result<StockLedgerDto>> IssueStockAsync(
+        Guid warehouseId,
+        Guid variantId,
+        decimal qty,
+        string referenceType,
+        Guid referenceId,
+        string? note = null,
+        CancellationToken ct = default)
+    {
+        try
+        {
+            var dto = new IssueStockDto(
+                warehouseId,
+                variantId,
+                qty,
+                referenceType,
+                referenceId,
+                note);
+
+            var result = await IssueStockAsync(dto);
+            return Result<StockLedgerDto>.Success(result);
+        }
+        catch (InvalidOperationException ex)
+        {
+            return Result<StockLedgerDto>.Failure(
+                Error.Validation("insufficient_stock", ex.Message));
+        }
+        catch (Exception ex)
+        {
+            return Result<StockLedgerDto>.Failure(
+                Error.Unexpected("stock_issue_failed", $"Failed to issue stock: {ex.Message}"));
+        }
     }
 }

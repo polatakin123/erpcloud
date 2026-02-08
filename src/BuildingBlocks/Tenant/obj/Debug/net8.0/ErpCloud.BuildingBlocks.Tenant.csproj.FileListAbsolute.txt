@@ -10,3 +10,4 @@ C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Tenant\obj\Debug\net8.0\Erp
 C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Tenant\obj\Debug\net8.0\refint\ErpCloud.BuildingBlocks.Tenant.dll
 C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Tenant\obj\Debug\net8.0\ErpCloud.BuildingBlocks.Tenant.pdb
 C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Tenant\obj\Debug\net8.0\ref\ErpCloud.BuildingBlocks.Tenant.dll
+C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Tenant\obj\Debug\net8.0\ErpCloud.BuildingBlocks.Tenant.sourcelink.json

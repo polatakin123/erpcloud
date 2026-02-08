@@ -1,4 +1,4 @@
-import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { useInvoice, useIssueInvoice } from '../../hooks/useSales';
 import { Card } from '../../components/ui/card';
 import { Button } from '../../components/ui/button';
@@ -6,7 +6,6 @@ import { AlertCircle, CheckCircle2 } from 'lucide-react';
 
 export function InvoiceDetailPage() {
   const { id } = useParams<{ id: string }>();
-  const navigate = useNavigate();
   const { data: invoice, isLoading } = useInvoice(id || null);
   const issueMutation = useIssueInvoice();
 
@@ -37,7 +36,7 @@ export function InvoiceDetailPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold">Invoice {invoice.invoiceNo}</h1>
-          <p className="text-sm text-gray-600">{invoice.partyName} | {invoice.invoiceDate}</p>
+          <p className="text-sm text-gray-600">{invoice.partyName} | {new Date(invoice.issueDate).toLocaleDateString('tr-TR')}</p>
         </div>
         <StatusBadge status={invoice.status} />
       </div>
@@ -63,11 +62,11 @@ export function InvoiceDetailPage() {
           </div>
           <div>
             <label className="text-sm text-gray-600">Invoice Date</label>
-            <p className="font-medium">{invoice.invoiceDate}</p>
+            <p className="font-medium">{new Date(invoice.issueDate).toLocaleDateString('tr-TR')}</p>
           </div>
           <div>
-            <label className="text-sm text-gray-600">Source</label>
-            <p className="font-medium">{invoice.sourceType}</p>
+            <label className="text-sm text-gray-600">Type</label>
+            <p className="font-medium">{invoice.type}</p>
           </div>
           <div>
             <label className="text-sm text-gray-600">Currency</label>
@@ -76,7 +75,7 @@ export function InvoiceDetailPage() {
           <div className="col-span-2">
             <label className="text-sm text-gray-600">Total Amount</label>
             <p className="font-medium text-2xl">
-              {invoice.totalAmount.toFixed(2)} {invoice.currency}
+              {invoice.grandTotal.toFixed(2)} {invoice.currency}
             </p>
           </div>
         </div>
@@ -87,20 +86,20 @@ export function InvoiceDetailPage() {
         <table className="w-full">
           <thead className="bg-gray-50">
             <tr>
-              <th className="text-left p-2 text-sm">Product</th>
+              <th className="text-left p-2 text-sm">Description</th>
               <th className="text-right p-2 text-sm">Qty</th>
               <th className="text-right p-2 text-sm">Price</th>
               <th className="text-right p-2 text-sm">Total</th>
             </tr>
           </thead>
           <tbody>
-            {invoice.lines.map((line, idx) => (
-              <tr key={idx} className="border-t">
-                <td className="p-2 text-sm">{line.productName}</td>
-                <td className="p-2 text-sm text-right">{line.quantity}</td>
-                <td className="p-2 text-sm text-right">{line.price.toFixed(2)}</td>
+            {invoice.lines.map((line) => (
+              <tr key={line.id} className="border-t">
+                <td className="p-2 text-sm">{line.description}</td>
+                <td className="p-2 text-sm text-right">{line.qty || '-'}</td>
+                <td className="p-2 text-sm text-right">{line.unitPrice ? line.unitPrice.toFixed(2) : '-'}</td>
                 <td className="p-2 text-sm text-right font-medium">
-                  {(line.quantity * line.price).toFixed(2)}
+                  {line.lineTotal.toFixed(2)}
                 </td>
               </tr>
             ))}
@@ -111,7 +110,7 @@ export function InvoiceDetailPage() {
       <Card className="p-6">
         <h2 className="text-lg font-semibold mb-4">Party Ledger Impact</h2>
         <p className="text-sm text-gray-600 mb-2">
-          When issued, this invoice will create a receivable of {invoice.totalAmount.toFixed(2)} {invoice.currency}.
+          When issued, this invoice will create a receivable of {invoice.grandTotal.toFixed(2)} {invoice.currency}.
         </p>
         <Link to={`/party-ledger?partyId=${invoice.partyId}`} className="text-blue-600 hover:underline text-sm">
           View Party Ledger →

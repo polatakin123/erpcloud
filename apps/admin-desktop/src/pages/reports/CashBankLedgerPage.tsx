@@ -54,22 +54,23 @@ export function CashBankLedgerPage() {
   const handleExportCSV = () => {
     if (!data?.items.length) return;
     
-    const csvData = data.items.map((item) => ({
-      Date: new Date(item.entryDate).toLocaleDateString(),
-      Account: item.accountName,
-      'Account Type': item.accountType,
-      'Transaction Type': item.transactionType,
-      Debit: item.debit,
-      Credit: item.credit,
-      Balance: item.balance,
-      Currency: item.currency,
-      'Reference Type': item.referenceType || '',
-      'Reference No': item.referenceNo || '',
-      Note: item.note || '',
-    }));
+    const csvData = data.items;
+    const columns = [
+      { key: 'entryDate', label: 'Date', format: (val: string) => new Date(val).toLocaleDateString() },
+      { key: 'accountName', label: 'Account' },
+      { key: 'accountType', label: 'Account Type' },
+      { key: 'transactionType', label: 'Transaction Type' },
+      { key: 'debit', label: 'Debit' },
+      { key: 'credit', label: 'Credit' },
+      { key: 'balance', label: 'Balance' },
+      { key: 'currency', label: 'Currency' },
+      { key: 'referenceType', label: 'Reference Type' },
+      { key: 'referenceNo', label: 'Reference No' },
+      { key: 'note', label: 'Note' },
+    ];
 
     const date = new Date().toISOString().split('T')[0];
-    CSVExporter.export(csvData, `cash-bank-ledger_${date}.csv`);
+    CSVExporter.export(csvData, columns, `cash-bank-ledger_${date}.csv`);
   };
 
   const accountTypeOptions = [

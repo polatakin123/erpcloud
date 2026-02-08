@@ -1,5 +1,5 @@
 import { ReactNode, useState, useEffect } from 'react';
-import { Search, Filter, ChevronLeft, ChevronRight, Calendar, Settings2 } from 'lucide-react';
+import { Search, Filter, ChevronLeft, ChevronRight, Settings2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card } from '@/components/ui/card';

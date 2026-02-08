@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\xampp\\htdocs\\projeler\\ErpCloud\\src\\BuildingBlocks\\Persistence\\ErpCloud.BuildingBlocks.Persistence.csproj": {}
+    "C:\\xampp\\htdocs\\projeler\\ERPCloud\\src\\BuildingBlocks\\Persistence\\ErpCloud.BuildingBlocks.Persistence.csproj": {}
   },
   "projects": {
-    "C:\\xampp\\htdocs\\projeler\\ErpCloud\\src\\BuildingBlocks\\Auditing\\ErpCloud.BuildingBlocks.Auditing.csproj": {
+    "C:\\xampp\\htdocs\\projeler\\ERPCloud\\src\\BuildingBlocks\\Auditing\\ErpCloud.BuildingBlocks.Auditing.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\xampp\\htdocs\\projeler\\ErpCloud\\src\\BuildingBlocks\\Auditing\\ErpCloud.BuildingBlocks.Auditing.csproj",
+        "projectUniqueName": "C:\\xampp\\htdocs\\projeler\\ERPCloud\\src\\BuildingBlocks\\Auditing\\ErpCloud.BuildingBlocks.Auditing.csproj",
         "projectName": "ErpCloud.BuildingBlocks.Auditing",
-        "projectPath": "C:\\xampp\\htdocs\\projeler\\ErpCloud\\src\\BuildingBlocks\\Auditing\\ErpCloud.BuildingBlocks.Auditing.csproj",
+        "projectPath": "C:\\xampp\\htdocs\\projeler\\ERPCloud\\src\\BuildingBlocks\\Auditing\\ErpCloud.BuildingBlocks.Auditing.csproj",
         "packagesPath": "C:\\Users\\Polat\\.nuget\\packages\\",
-        "outputPath": "C:\\xampp\\htdocs\\projeler\\ErpCloud\\src\\BuildingBlocks\\Auditing\\obj\\",
+        "outputPath": "C:\\xampp\\htdocs\\projeler\\ERPCloud\\src\\BuildingBlocks\\Auditing\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Polat\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -26,8 +26,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\xampp\\htdocs\\projeler\\ErpCloud\\src\\BuildingBlocks\\Tenant\\ErpCloud.BuildingBlocks.Tenant.csproj": {
-                "projectPath": "C:\\xampp\\htdocs\\projeler\\ErpCloud\\src\\BuildingBlocks\\Tenant\\ErpCloud.BuildingBlocks.Tenant.csproj"
+              "C:\\xampp\\htdocs\\projeler\\ERPCloud\\src\\BuildingBlocks\\Tenant\\ErpCloud.BuildingBlocks.Tenant.csproj": {
+                "projectPath": "C:\\xampp\\htdocs\\projeler\\ERPCloud\\src\\BuildingBlocks\\Tenant\\ErpCloud.BuildingBlocks.Tenant.csproj"
               }
             }
           }
@@ -73,14 +73,14 @@
         }
       }
     },
-    "C:\\xampp\\htdocs\\projeler\\ErpCloud\\src\\BuildingBlocks\\Outbox\\ErpCloud.BuildingBlocks.Outbox.csproj": {
+    "C:\\xampp\\htdocs\\projeler\\ERPCloud\\src\\BuildingBlocks\\Outbox\\ErpCloud.BuildingBlocks.Outbox.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\xampp\\htdocs\\projeler\\ErpCloud\\src\\BuildingBlocks\\Outbox\\ErpCloud.BuildingBlocks.Outbox.csproj",
+        "projectUniqueName": "C:\\xampp\\htdocs\\projeler\\ERPCloud\\src\\BuildingBlocks\\Outbox\\ErpCloud.BuildingBlocks.Outbox.csproj",
         "projectName": "ErpCloud.BuildingBlocks.Outbox",
-        "projectPath": "C:\\xampp\\htdocs\\projeler\\ErpCloud\\src\\BuildingBlocks\\Outbox\\ErpCloud.BuildingBlocks.Outbox.csproj",
+        "projectPath": "C:\\xampp\\htdocs\\projeler\\ERPCloud\\src\\BuildingBlocks\\Outbox\\ErpCloud.BuildingBlocks.Outbox.csproj",
         "packagesPath": "C:\\Users\\Polat\\.nuget\\packages\\",
-        "outputPath": "C:\\xampp\\htdocs\\projeler\\ErpCloud\\src\\BuildingBlocks\\Outbox\\obj\\",
+        "outputPath": "C:\\xampp\\htdocs\\projeler\\ERPCloud\\src\\BuildingBlocks\\Outbox\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Polat\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -142,14 +142,14 @@
         }
       }
     },
-    "C:\\xampp\\htdocs\\projeler\\ErpCloud\\src\\BuildingBlocks\\Persistence\\ErpCloud.BuildingBlocks.Persistence.csproj": {
+    "C:\\xampp\\htdocs\\projeler\\ERPCloud\\src\\BuildingBlocks\\Persistence\\ErpCloud.BuildingBlocks.Persistence.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\xampp\\htdocs\\projeler\\ErpCloud\\src\\BuildingBlocks\\Persistence\\ErpCloud.BuildingBlocks.Persistence.csproj",
+        "projectUniqueName": "C:\\xampp\\htdocs\\projeler\\ERPCloud\\src\\BuildingBlocks\\Persistence\\ErpCloud.BuildingBlocks.Persistence.csproj",
         "projectName": "ErpCloud.BuildingBlocks.Persistence",
-        "projectPath": "C:\\xampp\\htdocs\\projeler\\ErpCloud\\src\\BuildingBlocks\\Persistence\\ErpCloud.BuildingBlocks.Persistence.csproj",
+        "projectPath": "C:\\xampp\\htdocs\\projeler\\ERPCloud\\src\\BuildingBlocks\\Persistence\\ErpCloud.BuildingBlocks.Persistence.csproj",
         "packagesPath": "C:\\Users\\Polat\\.nuget\\packages\\",
-        "outputPath": "C:\\xampp\\htdocs\\projeler\\ErpCloud\\src\\BuildingBlocks\\Persistence\\obj\\",
+        "outputPath": "C:\\xampp\\htdocs\\projeler\\ERPCloud\\src\\BuildingBlocks\\Persistence\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Polat\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -164,14 +164,14 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\xampp\\htdocs\\projeler\\ErpCloud\\src\\BuildingBlocks\\Auditing\\ErpCloud.BuildingBlocks.Auditing.csproj": {
-                "projectPath": "C:\\xampp\\htdocs\\projeler\\ErpCloud\\src\\BuildingBlocks\\Auditing\\ErpCloud.BuildingBlocks.Auditing.csproj"
+              "C:\\xampp\\htdocs\\projeler\\ERPCloud\\src\\BuildingBlocks\\Auditing\\ErpCloud.BuildingBlocks.Auditing.csproj": {
+                "projectPath": "C:\\xampp\\htdocs\\projeler\\ERPCloud\\src\\BuildingBlocks\\Auditing\\ErpCloud.BuildingBlocks.Auditing.csproj"
               },
-              "C:\\xampp\\htdocs\\projeler\\ErpCloud\\src\\BuildingBlocks\\Outbox\\ErpCloud.BuildingBlocks.Outbox.csproj": {
-                "projectPath": "C:\\xampp\\htdocs\\projeler\\ErpCloud\\src\\BuildingBlocks\\Outbox\\ErpCloud.BuildingBlocks.Outbox.csproj"
+              "C:\\xampp\\htdocs\\projeler\\ERPCloud\\src\\BuildingBlocks\\Outbox\\ErpCloud.BuildingBlocks.Outbox.csproj": {
+                "projectPath": "C:\\xampp\\htdocs\\projeler\\ERPCloud\\src\\BuildingBlocks\\Outbox\\ErpCloud.BuildingBlocks.Outbox.csproj"
               },
-              "C:\\xampp\\htdocs\\projeler\\ErpCloud\\src\\BuildingBlocks\\Tenant\\ErpCloud.BuildingBlocks.Tenant.csproj": {
-                "projectPath": "C:\\xampp\\htdocs\\projeler\\ErpCloud\\src\\BuildingBlocks\\Tenant\\ErpCloud.BuildingBlocks.Tenant.csproj"
+              "C:\\xampp\\htdocs\\projeler\\ERPCloud\\src\\BuildingBlocks\\Tenant\\ErpCloud.BuildingBlocks.Tenant.csproj": {
+                "projectPath": "C:\\xampp\\htdocs\\projeler\\ERPCloud\\src\\BuildingBlocks\\Tenant\\ErpCloud.BuildingBlocks.Tenant.csproj"
               }
             }
           }
@@ -221,14 +221,14 @@
         }
       }
     },
-    "C:\\xampp\\htdocs\\projeler\\ErpCloud\\src\\BuildingBlocks\\Tenant\\ErpCloud.BuildingBlocks.Tenant.csproj": {
+    "C:\\xampp\\htdocs\\projeler\\ERPCloud\\src\\BuildingBlocks\\Tenant\\ErpCloud.BuildingBlocks.Tenant.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\xampp\\htdocs\\projeler\\ErpCloud\\src\\BuildingBlocks\\Tenant\\ErpCloud.BuildingBlocks.Tenant.csproj",
+        "projectUniqueName": "C:\\xampp\\htdocs\\projeler\\ERPCloud\\src\\BuildingBlocks\\Tenant\\ErpCloud.BuildingBlocks.Tenant.csproj",
         "projectName": "ErpCloud.BuildingBlocks.Tenant",
-        "projectPath": "C:\\xampp\\htdocs\\projeler\\ErpCloud\\src\\BuildingBlocks\\Tenant\\ErpCloud.BuildingBlocks.Tenant.csproj",
+        "projectPath": "C:\\xampp\\htdocs\\projeler\\ERPCloud\\src\\BuildingBlocks\\Tenant\\ErpCloud.BuildingBlocks.Tenant.csproj",
         "packagesPath": "C:\\Users\\Polat\\.nuget\\packages\\",
-        "outputPath": "C:\\xampp\\htdocs\\projeler\\ErpCloud\\src\\BuildingBlocks\\Tenant\\obj\\",
+        "outputPath": "C:\\xampp\\htdocs\\projeler\\ERPCloud\\src\\BuildingBlocks\\Tenant\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Polat\\AppData\\Roaming\\NuGet\\NuGet.Config"

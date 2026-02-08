@@ -1,5 +1,6 @@
 import { useAppContext } from '../hooks/useAppContext';
-import { useBranches, useWarehouses } from '../hooks/useBranches';
+import { useWarehouses } from '../hooks/useWarehouses';
+import { useOrganizations } from '../hooks/useOrganizations';
 import {
   Select,
   SelectContent,
@@ -11,7 +12,7 @@ import { AlertCircle, Settings } from 'lucide-react';
 
 export function ContextBar() {
   const { activeBranchId, activeWarehouseId, setActiveBranch, setActiveWarehouse } = useAppContext();
-  const { data: branches, isLoading: branchesLoading } = useBranches();
+  const { data: organizations, isLoading: orgsLoading } = useOrganizations();
   const { data: warehouses, isLoading: warehousesLoading } = useWarehouses();
 
   const showWarning = !activeBranchId || !activeWarehouseId;
@@ -31,15 +32,15 @@ export function ContextBar() {
         <Select
           value={activeBranchId || undefined}
           onValueChange={(value: string) => setActiveBranch(value)}
-          disabled={branchesLoading}
+          disabled={orgsLoading}
         >
           <SelectTrigger className="w-[200px]">
             <SelectValue placeholder="Select Branch" />
           </SelectTrigger>
           <SelectContent>
-            {branches?.map((branch) => (
-              <SelectItem key={branch.id} value={branch.id}>
-                {branch.name} ({branch.code})
+            {organizations?.map((org) => (
+              <SelectItem key={org.id} value={org.id}>
+                {org.name} ({org.code})
               </SelectItem>
             ))}
           </SelectContent>

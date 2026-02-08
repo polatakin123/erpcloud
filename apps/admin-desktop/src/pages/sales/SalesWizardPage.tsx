@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { useAppContext } from '../../hooks/useAppContext';
 import { AlertCircle, CheckCircle2, ChevronRight } from 'lucide-react';
 import { Button } from '../../components/ui/button';
@@ -35,6 +35,7 @@ interface WizardState {
 export function SalesWizardPage() {
   const { activeBranchId, activeWarehouseId } = useAppContext();
   const navigate = useNavigate();
+  const location = useLocation();
   const [currentStep, setCurrentStep] = useState(1);
   const [wizardData, setWizardData] = useState<WizardState>({
     partyId: null,
@@ -49,6 +50,16 @@ export function SalesWizardPage() {
     totalAmount: 0,
     currency: 'TRY',
   });
+
+  // Check for pre-selected variant from Fast Search
+  const preselectedVariantId = location.state?.selectedVariantId;
+
+  // If variant pre-selected, skip to step 2 with that variant
+  useEffect(() => {
+    if (preselectedVariantId && wizardData.lines.length === 0) {
+      setCurrentStep(2);
+    }
+  }, [preselectedVariantId]);
 
   // Check if context is set
   if (!activeBranchId || !activeWarehouseId) {
@@ -121,7 +132,7 @@ export function SalesWizardPage() {
       {/* Step Content */}
       <Card className="p-6">
         {currentStep === 1 && <Step1SelectCustomer wizardData={wizardData} setWizardData={setWizardData} setCurrentStep={setCurrentStep} />}
-        {currentStep === 2 && <Step2SelectProducts wizardData={wizardData} setWizardData={setWizardData} setCurrentStep={setCurrentStep} />}
+        {currentStep === 2 && <Step2SelectProducts wizardData={wizardData} setWizardData={setWizardData} setCurrentStep={setCurrentStep} preselectedVariantId={preselectedVariantId} />}
         {currentStep === 3 && <Step3CreateOrder wizardData={wizardData} setWizardData={setWizardData} setCurrentStep={setCurrentStep} />}
         {currentStep === 4 && <Step4ConfirmOrder wizardData={wizardData} setWizardData={setWizardData} setCurrentStep={setCurrentStep} />}
         {currentStep === 5 && <Step5CreateShipment wizardData={wizardData} setWizardData={setWizardData} setCurrentStep={setCurrentStep} />}
@@ -197,11 +208,21 @@ function Step1SelectCustomer({ wizardData, setWizardData, setCurrentStep }: any)
   );
 }
 
-function Step2SelectProducts({ wizardData, setWizardData, setCurrentStep }: any) {
+function Step2SelectProducts({ wizardData, setWizardData, setCurrentStep, preselectedVariantId }: any) {
   const { data: variantsResult, isLoading } = useProductVariants(undefined, 1, 100);
   const [selectedLines, setSelectedLines] = useState<any[]>(wizardData.lines);
 
   const variants = variantsResult?.items || [];
+
+  // Auto-select pre-selected variant from Fast Search
+  useEffect(() => {
+    if (preselectedVariantId && !isLoading && variants.length > 0) {
+      const variant = variants.find((v: any) => v.id === preselectedVariantId);
+      if (variant && !selectedLines.find(l => l.variantId === variant.id)) {
+        setSelectedLines([{ variantId: variant.id, quantity: 1, price: variant.price }]);
+      }
+    }
+  }, [preselectedVariantId, isLoading, variants]);
 
   const handleToggleVariant = (variant: any) => {
     const exists = selectedLines.find(l => l.variantId === variant.id);
@@ -227,21 +248,32 @@ function Step2SelectProducts({ wizardData, setWizardData, setCurrentStep }: any)
 
   return (
     <div>
-      <h2 className="text-lg font-semibold mb-4">Select Products</h2>
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-lg font-semibold">Select Products</h2>
+        {preselectedVariantId && (
+          <div className="text-sm text-green-600 font-medium">
+            ⚡ Product pre-selected from Fast Search
+          </div>
+        )}
+      </div>
       {isLoading ? (
         <p>Loading products...</p>
       ) : (
         <div className="space-y-2 max-h-96 overflow-y-auto">
           {variants.map((variant: any) => {
             const selected = selectedLines.find(l => l.variantId === variant.id);
+            const isPreselected = variant.id === preselectedVariantId;
             return (
               <div
                 key={variant.id}
-                className={`p-3 border rounded ${selected ? 'border-blue-600 bg-blue-50' : ''}`}
+                className={`p-3 border rounded ${selected ? 'border-blue-600 bg-blue-50' : ''} ${isPreselected ? 'ring-2 ring-green-500' : ''}`}
               >
                 <div className="flex items-center justify-between">
                   <div className="flex-1">
-                    <div className="font-medium">{variant.productName} - {variant.variantName}</div>
+                    <div className="font-medium">
+                      {variant.productName} - {variant.variantName}
+                      {isPreselected && <span className="ml-2 text-xs text-green-600 font-semibold">⚡ FROM FAST SEARCH</span>}
+                    </div>
                     <div className="text-sm text-gray-600">SKU: {variant.sku} | Price: {variant.price} {variant.currency}</div>
                   </div>
                   {selected ? (

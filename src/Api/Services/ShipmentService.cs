@@ -65,11 +65,6 @@ public class ShipmentService : IShipmentService
             {
                 throw new InvalidOperationException($"Sales order line {lineDto.SalesOrderLineId} not found");
             }
-
-            if (lineDto.VariantId != orderLine.VariantId)
-            {
-                throw new InvalidOperationException($"Variant mismatch for line {lineDto.SalesOrderLineId}");
-            }
         }
 
         // Validate references
@@ -92,13 +87,14 @@ public class ShipmentService : IShipmentService
 
         foreach (var lineDto in dto.Lines)
         {
+            var orderLine = salesOrder.Lines.First(l => l.Id == lineDto.SalesOrderLineId);
             var line = new ShipmentLine
             {
                 Id = Guid.NewGuid(),
                 TenantId = _tenantContext.TenantId,
                 ShipmentId = shipment.Id,
                 SalesOrderLineId = lineDto.SalesOrderLineId,
-                VariantId = lineDto.VariantId,
+                VariantId = orderLine.VariantId,
                 Qty = lineDto.Qty,
                 Note = lineDto.Note,
                 CreatedAt = DateTime.UtcNow,
@@ -157,11 +153,6 @@ public class ShipmentService : IShipmentService
             {
                 throw new InvalidOperationException($"Sales order line {lineDto.SalesOrderLineId} not found");
             }
-
-            if (lineDto.VariantId != orderLine.VariantId)
-            {
-                throw new InvalidOperationException($"Variant mismatch for line {lineDto.SalesOrderLineId}");
-            }
         }
 
         await ValidateReferencesAsync(dto.BranchId, dto.WarehouseId);
@@ -179,13 +170,14 @@ public class ShipmentService : IShipmentService
         shipment.Lines.Clear();
         foreach (var lineDto in dto.Lines)
         {
+            var orderLine = salesOrder.Lines.First(l => l.Id == lineDto.SalesOrderLineId);
             var line = new ShipmentLine
             {
                 Id = Guid.NewGuid(),
                 TenantId = _tenantContext.TenantId,
                 ShipmentId = shipment.Id,
                 SalesOrderLineId = lineDto.SalesOrderLineId,
-                VariantId = lineDto.VariantId,
+                VariantId = orderLine.VariantId,
                 Qty = lineDto.Qty,
                 Note = lineDto.Note,
                 CreatedAt = DateTime.UtcNow,

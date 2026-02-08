@@ -13,3 +13,4 @@ C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Auditing\obj\Debug\net8.0\E
 C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Auditing\obj\Debug\net8.0\refint\ErpCloud.BuildingBlocks.Auditing.dll
 C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Auditing\obj\Debug\net8.0\ErpCloud.BuildingBlocks.Auditing.pdb
 C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Auditing\obj\Debug\net8.0\ref\ErpCloud.BuildingBlocks.Auditing.dll
+C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Auditing\obj\Debug\net8.0\ErpCloud.BuildingBlocks.Auditing.sourcelink.json

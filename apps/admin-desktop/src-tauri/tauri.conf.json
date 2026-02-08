@@ -1,8 +1,8 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "ERP Cloud Admin",
-  "version": "0.1.0",
-  "identifier": "com.polat1.erpcloud",
+  "productName": "ERP Cloud Yönetim",
+  "version": "1.0.0",
+  "identifier": "com.erpcloud.admin",
   "build": {
     "beforeDevCommand": "npm run dev",
     "beforeBuildCommand": "npm run build",
@@ -12,26 +12,69 @@
   "app": {
     "windows": [
       {
-        "title": "ERP Cloud Admin",
-        "width": 1400,
-        "height": 900,
-        "minWidth": 1200,
-        "minHeight": 800,
+        "title": "ERP Cloud - Yedek Parça Yönetim Sistemi",
+        "width": 1600,
+        "height": 1000,
+        "minWidth": 1280,
+        "minHeight": 720,
         "resizable": true,
-        "fullscreen": false
+        "fullscreen": false,
+        "center": true,
+        "decorations": true,
+        "alwaysOnTop": false,
+        "skipTaskbar": false
       }
     ],
     "security": {
-      "csp": null
-    }
+      "csp": "default-src 'self'; connect-src 'self' http://localhost:* https://*; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:;"
+    },
+    "withGlobalTauri": false
   },
   "bundle": {
-    "active": false,
-    "targets": "all"
+    "active": true,
+    "targets": ["msi", "nsis"],
+    "publisher": "ERP Cloud",
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ],
+    "windows": {
+      "certificateThumbprint": null,
+      "digestAlgorithm": "sha256",
+      "timestampUrl": "",
+      "wix": {
+        "language": ["tr-TR", "en-US"]
+      },
+      "nsis": {
+        "languages": ["Turkish", "English"],
+        "installerIcon": "icons/icon.ico",
+        "installMode": "perUser",
+        "allowDowngrades": false,
+        "createDesktopShortcut": true,
+        "createStartMenuShortcut": true,
+        "displayLanguageSelector": false,
+        "license": null
+      }
+    },
+    "macOS": {
+      "frameworks": [],
+      "minimumSystemVersion": "10.13",
+      "exceptionDomain": ""
+    },
+    "externalBin": [],
+    "copyright": "Copyright © 2026 ERP Cloud. Tüm hakları saklıdır.",
+    "category": "Business",
+    "shortDescription": "Yedek Parça Yönetim Sistemi",
+    "longDescription": "ERP Cloud - Profesyonel yedek parça satış, stok ve müşteri yönetim sistemi. Tezgâh satış, fiyatlandırma, araç uyumluluk kontrolü ve raporlama özellikleri.",
+    "licenseFile": null
   },
   "plugins": {
     "shell": {
-      "open": true
+      "open": true,
+      "scope": []
     },
     "store": {
       "enabled": true

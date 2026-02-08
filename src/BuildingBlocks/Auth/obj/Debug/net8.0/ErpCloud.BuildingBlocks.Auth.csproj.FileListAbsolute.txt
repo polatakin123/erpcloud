@@ -10,3 +10,4 @@ C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Auth\obj\Debug\net8.0\ErpCl
 C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Auth\obj\Debug\net8.0\refint\ErpCloud.BuildingBlocks.Auth.dll
 C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Auth\obj\Debug\net8.0\ErpCloud.BuildingBlocks.Auth.pdb
 C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Auth\obj\Debug\net8.0\ref\ErpCloud.BuildingBlocks.Auth.dll
+C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Auth\obj\Debug\net8.0\ErpCloud.BuildingBlocks.Auth.sourcelink.json

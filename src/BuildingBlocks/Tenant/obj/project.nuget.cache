@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "bBM2xclnPFI=",
+  "dgSpecHash": "7HruNEVyiDs=",
   "success": true,
-  "projectFilePath": "C:\\xampp\\htdocs\\projeler\\ErpCloud\\src\\BuildingBlocks\\Tenant\\ErpCloud.BuildingBlocks.Tenant.csproj",
+  "projectFilePath": "C:\\xampp\\htdocs\\projeler\\ERPCloud\\src\\BuildingBlocks\\Tenant\\ErpCloud.BuildingBlocks.Tenant.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Polat\\.nuget\\packages\\microsoft.aspnetcore.http.abstractions\\2.3.9\\microsoft.aspnetcore.http.abstractions.2.3.9.nupkg.sha512",
     "C:\\Users\\Polat\\.nuget\\packages\\microsoft.aspnetcore.http.extensions\\2.3.9\\microsoft.aspnetcore.http.extensions.2.3.9.nupkg.sha512",

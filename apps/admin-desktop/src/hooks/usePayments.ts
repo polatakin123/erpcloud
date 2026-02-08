@@ -9,6 +9,25 @@ export function useCashboxes() {
   });
 }
 
+export function useCreateCashbox() {
+  const queryClient = useQueryClient();
+  
+  return useMutation({
+    mutationFn: (data: { code: string; name: string; currency?: string; isDefault?: boolean }) => {
+      return ApiClient.post<Cashbox>('/api/cashboxes', {
+        code: data.code,
+        name: data.name,
+        currency: data.currency || 'TRY',
+        isActive: true,
+        isDefault: data.isDefault || false,
+      });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['cashboxes'] });
+    },
+  });
+}
+
 export function useBankAccounts() {
   return useQuery<{ items: BankAccount[] }>({
     queryKey: ['bankAccounts'],
@@ -28,3 +47,4 @@ export function useCreatePayment() {
     },
   });
 }
+

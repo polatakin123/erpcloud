@@ -9,6 +9,7 @@ namespace ErpCloud.Api.Services;
 public interface IWarehouseService
 {
     Task<WarehouseDto> CreateAsync(Guid branchId, CreateWarehouseDto dto);
+    Task<PaginatedResponse<WarehouseDto>> GetAllAsync(int page, int size, string? q);
     Task<PaginatedResponse<WarehouseDto>> GetAllByBranchAsync(Guid branchId, int page, int size, string? q);
     Task<WarehouseDto?> GetByIdAsync(Guid id);
     Task<WarehouseDto?> UpdateAsync(Guid id, UpdateWarehouseDto dto);
@@ -73,6 +74,28 @@ public class WarehouseService : IWarehouseService
         await _context.SaveChangesAsync();
 
         return MapToDto(warehouse);
+    }
+
+    public async Task<PaginatedResponse<WarehouseDto>> GetAllAsync(int page, int size, string? q)
+    {
+        var tenantId = _tenantContext.TenantId;
+        var query = _context.Warehouses.Where(w => w.TenantId == tenantId);
+
+        if (!string.IsNullOrWhiteSpace(q))
+        {
+            var searchTerm = $"%{q.Trim()}%";
+            query = query.Where(w => EF.Functions.ILike(w.Code, searchTerm) || EF.Functions.ILike(w.Name, searchTerm));
+        }
+
+        var total = await query.CountAsync();
+        var items = await query
+            .OrderBy(w => w.Code)
+            .Skip((page - 1) * size)
+            .Take(size)
+            .Select(w => MapToDto(w))
+            .ToListAsync();
+
+        return new PaginatedResponse<WarehouseDto>(page, size, total, items);
     }
 
     public async Task<PaginatedResponse<WarehouseDto>> GetAllByBranchAsync(Guid branchId, int page, int size, string? q)

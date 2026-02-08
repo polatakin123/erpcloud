@@ -16,4 +16,5 @@ public class ProductVariant : TenantEntity
     // Navigation
     public Product Product { get; set; } = null!;
     public ICollection<PriceListItem> PriceListItems { get; set; } = new List<PriceListItem>();
+    public ICollection<PartReference> PartReferences { get; set; } = new List<PartReference>();
 }

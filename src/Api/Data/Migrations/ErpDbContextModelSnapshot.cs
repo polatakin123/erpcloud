@@ -146,6 +146,57 @@ namespace ErpCloud.Api.Data.Migrations
                     b.ToTable("branches", (string)null);
                 });
 
+            modelBuilder.Entity("ErpCloud.Api.Entities.Brand", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("LogoUrl")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TenantId");
+
+                    b.HasIndex("TenantId", "Code")
+                        .IsUnique()
+                        .HasDatabaseName("ix_brands_tenant_code");
+
+                    b.HasIndex("TenantId", "CreatedAt");
+
+                    b.HasIndex("TenantId", "IsActive")
+                        .HasDatabaseName("ix_brands_tenant_active");
+
+                    b.HasIndex("TenantId", "Name")
+                        .HasDatabaseName("ix_brands_tenant_name");
+
+                    b.ToTable("brands", (string)null);
+                });
+
             modelBuilder.Entity("ErpCloud.Api.Entities.CashBankLedgerEntry", b =>
                 {
                     b.Property<Guid>("Id")
@@ -263,6 +314,98 @@ namespace ErpCloud.Api.Data.Migrations
                         .HasDatabaseName("ix_cashboxes_tenant_active");
 
                     b.ToTable("cashboxes", (string)null);
+                });
+
+            modelBuilder.Entity("ErpCloud.Api.Entities.CreditNote", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<decimal>("AppliedAmount")
+                        .HasColumnType("numeric");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("CreditNoteNo")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("IssueDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Note")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("PartyId")
+                        .HasColumnType("uuid");
+
+                    b.Property<decimal>("RemainingAmount")
+                        .HasColumnType("numeric");
+
+                    b.Property<Guid>("SourceInvoiceId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<decimal>("Total")
+                        .HasColumnType("numeric");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PartyId");
+
+                    b.HasIndex("SourceInvoiceId");
+
+                    b.HasIndex("TenantId");
+
+                    b.HasIndex("TenantId", "CreatedAt");
+
+                    b.ToTable("CreditNotes");
+                });
+
+            modelBuilder.Entity("ErpCloud.Api.Entities.CreditNoteLine", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("numeric");
+
+                    b.Property<Guid>("CreditNoteId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<decimal?>("Qty")
+                        .HasColumnType("numeric");
+
+                    b.Property<Guid?>("VariantId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreditNoteId");
+
+                    b.HasIndex("VariantId");
+
+                    b.ToTable("CreditNoteLines");
                 });
 
             modelBuilder.Entity("ErpCloud.Api.Entities.DemoEventLog", b =>
@@ -562,6 +705,9 @@ namespace ErpCloud.Api.Data.Migrations
                     b.Property<decimal>("Qty")
                         .HasColumnType("decimal(18,3)");
 
+                    b.Property<decimal>("ReturnedQty")
+                        .HasColumnType("numeric");
+
                     b.Property<Guid>("TenantId")
                         .HasColumnType("uuid");
 
@@ -729,6 +875,9 @@ namespace ErpCloud.Api.Data.Migrations
                     b.Property<decimal?>("Qty")
                         .HasColumnType("decimal(18,3)");
 
+                    b.Property<decimal>("ReturnedQty")
+                        .HasColumnType("numeric");
+
                     b.Property<Guid?>("SalesOrderLineId")
                         .HasColumnType("uuid");
 
@@ -815,6 +964,55 @@ namespace ErpCloud.Api.Data.Migrations
                     b.HasIndex("TenantId", "CreatedAt");
 
                     b.ToTable("organizations", (string)null);
+                });
+
+            modelBuilder.Entity("ErpCloud.Api.Entities.PartReference", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("RefCode")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("character varying(64)");
+
+                    b.Property<string>("RefType")
+                        .IsRequired()
+                        .HasMaxLength(16)
+                        .HasColumnType("character varying(16)");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("VariantId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TenantId");
+
+                    b.HasIndex("VariantId");
+
+                    b.HasIndex("TenantId", "CreatedAt");
+
+                    b.HasIndex("TenantId", "VariantId")
+                        .HasDatabaseName("ix_part_references_variant");
+
+                    b.HasIndex("TenantId", "RefType", "RefCode")
+                        .HasDatabaseName("ix_part_references_search");
+
+                    b.HasIndex("TenantId", "VariantId", "RefType", "RefCode")
+                        .IsUnique()
+                        .HasDatabaseName("ix_part_references_unique");
+
+                    b.ToTable("part_references", (string)null);
                 });
 
             modelBuilder.Entity("ErpCloud.Api.Entities.Party", b =>
@@ -1210,10 +1408,96 @@ namespace ErpCloud.Api.Data.Migrations
                     b.ToTable("price_list_items", (string)null);
                 });
 
+            modelBuilder.Entity("ErpCloud.Api.Entities.PriceRule", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("BrandId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Currency")
+                        .IsRequired()
+                        .HasMaxLength(3)
+                        .HasColumnType("character varying(3)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("Priority")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("RuleType")
+                        .IsRequired()
+                        .HasMaxLength(32)
+                        .HasColumnType("character varying(32)");
+
+                    b.Property<string>("Scope")
+                        .IsRequired()
+                        .HasMaxLength(32)
+                        .HasColumnType("character varying(32)");
+
+                    b.Property<Guid>("TargetId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("ValidFrom")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime?>("ValidTo")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<decimal>("Value")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<Guid?>("VariantId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BrandId");
+
+                    b.HasIndex("TenantId");
+
+                    b.HasIndex("VariantId");
+
+                    b.HasIndex("TenantId", "CreatedAt");
+
+                    b.HasIndex("TenantId", "ValidFrom", "ValidTo")
+                        .HasDatabaseName("ix_price_rules_tenant_validity");
+
+                    b.HasIndex("TenantId", "VariantId", "IsActive")
+                        .HasDatabaseName("ix_price_rules_tenant_variant");
+
+                    b.HasIndex("TenantId", "Scope", "TargetId", "IsActive")
+                        .HasDatabaseName("ix_price_rules_tenant_scope_target");
+
+                    b.HasIndex("TenantId", "Scope", "TargetId", "BrandId", "Currency", "ValidFrom", "ValidTo", "Priority")
+                        .HasDatabaseName("ix_price_rules_tenant_brand_lookup");
+
+                    b.ToTable("price_rules", (string)null);
+                });
+
             modelBuilder.Entity("ErpCloud.Api.Entities.Product", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Brand")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<Guid?>("BrandId")
                         .HasColumnType("uuid");
 
                     b.Property<string>("Code")
@@ -1244,7 +1528,12 @@ namespace ErpCloud.Api.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("BrandId");
+
                     b.HasIndex("TenantId");
+
+                    b.HasIndex("TenantId", "BrandId")
+                        .HasDatabaseName("ix_products_tenant_brandid");
 
                     b.HasIndex("TenantId", "Code")
                         .IsUnique()
@@ -1256,6 +1545,56 @@ namespace ErpCloud.Api.Data.Migrations
                         .HasDatabaseName("ix_products_tenant_name");
 
                     b.ToTable("products", (string)null);
+                });
+
+            modelBuilder.Entity("ErpCloud.Api.Entities.ProductCost", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<decimal?>("AverageCost")
+                        .HasColumnType("decimal(18,4)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Currency")
+                        .IsRequired()
+                        .HasMaxLength(3)
+                        .HasColumnType("character varying(3)");
+
+                    b.Property<decimal>("LastPurchaseCost")
+                        .HasColumnType("decimal(18,4)");
+
+                    b.Property<DateTime>("LastUpdated")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<decimal?>("MinSalePrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("VariantId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TenantId");
+
+                    b.HasIndex("VariantId");
+
+                    b.HasIndex("TenantId", "CreatedAt");
+
+                    b.HasIndex("TenantId", "VariantId")
+                        .IsUnique()
+                        .HasDatabaseName("ix_product_costs_tenant_variant");
+
+                    b.ToTable("product_costs", (string)null);
                 });
 
             modelBuilder.Entity("ErpCloud.Api.Entities.ProductVariant", b =>
@@ -1457,6 +1796,91 @@ namespace ErpCloud.Api.Data.Migrations
                     b.ToTable("purchase_order_lines", (string)null);
                 });
 
+            modelBuilder.Entity("ErpCloud.Api.Entities.PurchaseReturn", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("GoodsReceiptId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Note")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("PartyId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("PurchaseReturnNo")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("ReturnDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("WarehouseId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GoodsReceiptId");
+
+                    b.HasIndex("PartyId");
+
+                    b.HasIndex("TenantId");
+
+                    b.HasIndex("WarehouseId");
+
+                    b.HasIndex("TenantId", "CreatedAt");
+
+                    b.ToTable("PurchaseReturns");
+                });
+
+            modelBuilder.Entity("ErpCloud.Api.Entities.PurchaseReturnLine", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("GoodsReceiptLineId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("PurchaseReturnId")
+                        .HasColumnType("uuid");
+
+                    b.Property<decimal>("Qty")
+                        .HasColumnType("numeric");
+
+                    b.Property<string>("ReasonCode")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("VariantId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GoodsReceiptLineId");
+
+                    b.HasIndex("PurchaseReturnId");
+
+                    b.HasIndex("VariantId");
+
+                    b.ToTable("PurchaseReturnLines");
+                });
+
             modelBuilder.Entity("ErpCloud.Api.Entities.SalesOrder", b =>
                 {
                     b.Property<Guid>("Id")
@@ -1596,6 +2020,94 @@ namespace ErpCloud.Api.Data.Migrations
                         .HasDatabaseName("ix_sales_order_lines_unique_variant");
 
                     b.ToTable("sales_order_lines", (string)null);
+                });
+
+            modelBuilder.Entity("ErpCloud.Api.Entities.SalesReturn", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("InvoiceId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Note")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("PartyId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("ReturnDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("ReturnNo")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("SalesInvoiceId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("WarehouseId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InvoiceId");
+
+                    b.HasIndex("PartyId");
+
+                    b.HasIndex("TenantId");
+
+                    b.HasIndex("WarehouseId");
+
+                    b.HasIndex("TenantId", "CreatedAt");
+
+                    b.ToTable("SalesReturns");
+                });
+
+            modelBuilder.Entity("ErpCloud.Api.Entities.SalesReturnLine", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("InvoiceLineId")
+                        .HasColumnType("uuid");
+
+                    b.Property<decimal>("Qty")
+                        .HasColumnType("numeric");
+
+                    b.Property<string>("ReasonCode")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("SalesReturnId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("VariantId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InvoiceLineId");
+
+                    b.HasIndex("SalesReturnId");
+
+                    b.HasIndex("VariantId");
+
+                    b.ToTable("SalesReturnLines");
                 });
 
             modelBuilder.Entity("ErpCloud.Api.Entities.SampleItem", b =>
@@ -1820,6 +2332,54 @@ namespace ErpCloud.Api.Data.Migrations
                     b.ToTable("stock_balances", (string)null);
                 });
 
+            modelBuilder.Entity("ErpCloud.Api.Entities.StockCardFitment", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Notes")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("VariantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("VehicleEngineId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TenantId");
+
+                    b.HasIndex("VariantId");
+
+                    b.HasIndex("VehicleEngineId");
+
+                    b.HasIndex("TenantId", "CreatedAt");
+
+                    b.HasIndex("TenantId", "VariantId")
+                        .HasDatabaseName("ix_stock_card_fitments_tenant_variant");
+
+                    b.HasIndex("TenantId", "VehicleEngineId")
+                        .HasDatabaseName("ix_stock_card_fitments_tenant_engine");
+
+                    b.HasIndex("TenantId", "VariantId", "VehicleEngineId")
+                        .IsUnique()
+                        .HasDatabaseName("ix_stock_card_fitments_tenant_variant_engine");
+
+                    b.ToTable("stock_card_fitments", (string)null);
+                });
+
             modelBuilder.Entity("ErpCloud.Api.Entities.StockLedgerEntry", b =>
                 {
                     b.Property<Guid>("Id")
@@ -1889,6 +2449,174 @@ namespace ErpCloud.Api.Data.Migrations
                         .HasDatabaseName("ix_stock_ledger_tenant_warehouse_variant_occurred");
 
                     b.ToTable("stock_ledger_entries", (string)null);
+                });
+
+            modelBuilder.Entity("ErpCloud.Api.Entities.VehicleBrand", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(32)
+                        .HasColumnType("character varying(32)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TenantId")
+                        .HasDatabaseName("ix_vehicle_brands_tenant");
+
+                    b.HasIndex("TenantId", "Code")
+                        .IsUnique()
+                        .HasDatabaseName("ix_vehicle_brands_tenant_code");
+
+                    b.HasIndex("TenantId", "CreatedAt");
+
+                    b.ToTable("vehicle_brands", (string)null);
+                });
+
+            modelBuilder.Entity("ErpCloud.Api.Entities.VehicleEngine", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("character varying(64)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("FuelType")
+                        .IsRequired()
+                        .HasMaxLength(32)
+                        .HasColumnType("character varying(32)");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("YearRangeId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TenantId");
+
+                    b.HasIndex("YearRangeId");
+
+                    b.HasIndex("TenantId", "CreatedAt");
+
+                    b.HasIndex("TenantId", "YearRangeId")
+                        .HasDatabaseName("ix_vehicle_engines_tenant_year");
+
+                    b.HasIndex("TenantId", "YearRangeId", "Code", "FuelType")
+                        .IsUnique()
+                        .HasDatabaseName("ix_vehicle_engines_tenant_year_code_fuel");
+
+                    b.ToTable("vehicle_engines", (string)null);
+                });
+
+            modelBuilder.Entity("ErpCloud.Api.Entities.VehicleModel", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("BrandId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BrandId");
+
+                    b.HasIndex("TenantId");
+
+                    b.HasIndex("TenantId", "BrandId")
+                        .HasDatabaseName("ix_vehicle_models_tenant_brand");
+
+                    b.HasIndex("TenantId", "CreatedAt");
+
+                    b.HasIndex("TenantId", "BrandId", "Name")
+                        .IsUnique()
+                        .HasDatabaseName("ix_vehicle_models_tenant_brand_name");
+
+                    b.ToTable("vehicle_models", (string)null);
+                });
+
+            modelBuilder.Entity("ErpCloud.Api.Entities.VehicleYearRange", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("ModelId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("YearFrom")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("YearTo")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ModelId");
+
+                    b.HasIndex("TenantId");
+
+                    b.HasIndex("TenantId", "CreatedAt");
+
+                    b.HasIndex("TenantId", "ModelId")
+                        .HasDatabaseName("ix_vehicle_year_ranges_tenant_model");
+
+                    b.HasIndex("TenantId", "ModelId", "YearFrom", "YearTo")
+                        .IsUnique()
+                        .HasDatabaseName("ix_vehicle_year_ranges_tenant_model_years");
+
+                    b.ToTable("vehicle_year_ranges", (string)null);
                 });
 
             modelBuilder.Entity("ErpCloud.Api.Entities.Warehouse", b =>
@@ -2108,6 +2836,42 @@ namespace ErpCloud.Api.Data.Migrations
                     b.Navigation("Payment");
                 });
 
+            modelBuilder.Entity("ErpCloud.Api.Entities.CreditNote", b =>
+                {
+                    b.HasOne("ErpCloud.Api.Entities.Party", "Party")
+                        .WithMany()
+                        .HasForeignKey("PartyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ErpCloud.Api.Entities.Invoice", "SourceInvoice")
+                        .WithMany("CreditNotes")
+                        .HasForeignKey("SourceInvoiceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Party");
+
+                    b.Navigation("SourceInvoice");
+                });
+
+            modelBuilder.Entity("ErpCloud.Api.Entities.CreditNoteLine", b =>
+                {
+                    b.HasOne("ErpCloud.Api.Entities.CreditNote", "CreditNote")
+                        .WithMany("Lines")
+                        .HasForeignKey("CreditNoteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ErpCloud.Api.Entities.ProductVariant", "Variant")
+                        .WithMany()
+                        .HasForeignKey("VariantId");
+
+                    b.Navigation("CreditNote");
+
+                    b.Navigation("Variant");
+                });
+
             modelBuilder.Entity("ErpCloud.Api.Entities.EDocument", b =>
                 {
                     b.HasOne("ErpCloud.Api.Entities.Invoice", "Invoice")
@@ -2235,6 +2999,17 @@ namespace ErpCloud.Api.Data.Migrations
                     b.Navigation("Variant");
                 });
 
+            modelBuilder.Entity("ErpCloud.Api.Entities.PartReference", b =>
+                {
+                    b.HasOne("ErpCloud.Api.Entities.ProductVariant", "Variant")
+                        .WithMany("PartReferences")
+                        .HasForeignKey("VariantId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Variant");
+                });
+
             modelBuilder.Entity("ErpCloud.Api.Entities.PartyLedgerEntry", b =>
                 {
                     b.HasOne("ErpCloud.Api.Entities.Branch", "Branch")
@@ -2319,6 +3094,44 @@ namespace ErpCloud.Api.Data.Migrations
                     b.Navigation("Variant");
                 });
 
+            modelBuilder.Entity("ErpCloud.Api.Entities.PriceRule", b =>
+                {
+                    b.HasOne("ErpCloud.Api.Entities.Brand", "BrandNavigation")
+                        .WithMany("PriceRules")
+                        .HasForeignKey("BrandId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("ErpCloud.Api.Entities.ProductVariant", "Variant")
+                        .WithMany()
+                        .HasForeignKey("VariantId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.Navigation("BrandNavigation");
+
+                    b.Navigation("Variant");
+                });
+
+            modelBuilder.Entity("ErpCloud.Api.Entities.Product", b =>
+                {
+                    b.HasOne("ErpCloud.Api.Entities.Brand", "BrandNavigation")
+                        .WithMany("Products")
+                        .HasForeignKey("BrandId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.Navigation("BrandNavigation");
+                });
+
+            modelBuilder.Entity("ErpCloud.Api.Entities.ProductCost", b =>
+                {
+                    b.HasOne("ErpCloud.Api.Entities.ProductVariant", "Variant")
+                        .WithMany()
+                        .HasForeignKey("VariantId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Variant");
+                });
+
             modelBuilder.Entity("ErpCloud.Api.Entities.ProductVariant", b =>
                 {
                     b.HasOne("ErpCloud.Api.Entities.Product", "Product")
@@ -2376,6 +3189,60 @@ namespace ErpCloud.Api.Data.Migrations
                     b.Navigation("Variant");
                 });
 
+            modelBuilder.Entity("ErpCloud.Api.Entities.PurchaseReturn", b =>
+                {
+                    b.HasOne("ErpCloud.Api.Entities.GoodsReceipt", "GoodsReceipt")
+                        .WithMany("PurchaseReturns")
+                        .HasForeignKey("GoodsReceiptId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ErpCloud.Api.Entities.Party", "Party")
+                        .WithMany()
+                        .HasForeignKey("PartyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ErpCloud.Api.Entities.Warehouse", "Warehouse")
+                        .WithMany()
+                        .HasForeignKey("WarehouseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("GoodsReceipt");
+
+                    b.Navigation("Party");
+
+                    b.Navigation("Warehouse");
+                });
+
+            modelBuilder.Entity("ErpCloud.Api.Entities.PurchaseReturnLine", b =>
+                {
+                    b.HasOne("ErpCloud.Api.Entities.GoodsReceiptLine", "GoodsReceiptLine")
+                        .WithMany("PurchaseReturnLines")
+                        .HasForeignKey("GoodsReceiptLineId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ErpCloud.Api.Entities.PurchaseReturn", "PurchaseReturn")
+                        .WithMany("Lines")
+                        .HasForeignKey("PurchaseReturnId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ErpCloud.Api.Entities.ProductVariant", "Variant")
+                        .WithMany()
+                        .HasForeignKey("VariantId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("GoodsReceiptLine");
+
+                    b.Navigation("PurchaseReturn");
+
+                    b.Navigation("Variant");
+                });
+
             modelBuilder.Entity("ErpCloud.Api.Entities.SalesOrder", b =>
                 {
                     b.HasOne("ErpCloud.Api.Entities.Branch", "Branch")
@@ -2425,6 +3292,58 @@ namespace ErpCloud.Api.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("SalesOrder");
+
+                    b.Navigation("Variant");
+                });
+
+            modelBuilder.Entity("ErpCloud.Api.Entities.SalesReturn", b =>
+                {
+                    b.HasOne("ErpCloud.Api.Entities.Invoice", "Invoice")
+                        .WithMany("SalesReturns")
+                        .HasForeignKey("InvoiceId");
+
+                    b.HasOne("ErpCloud.Api.Entities.Party", "Party")
+                        .WithMany()
+                        .HasForeignKey("PartyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ErpCloud.Api.Entities.Warehouse", "Warehouse")
+                        .WithMany()
+                        .HasForeignKey("WarehouseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Invoice");
+
+                    b.Navigation("Party");
+
+                    b.Navigation("Warehouse");
+                });
+
+            modelBuilder.Entity("ErpCloud.Api.Entities.SalesReturnLine", b =>
+                {
+                    b.HasOne("ErpCloud.Api.Entities.InvoiceLine", "InvoiceLine")
+                        .WithMany("SalesReturnLines")
+                        .HasForeignKey("InvoiceLineId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ErpCloud.Api.Entities.SalesReturn", "SalesReturn")
+                        .WithMany("Lines")
+                        .HasForeignKey("SalesReturnId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ErpCloud.Api.Entities.ProductVariant", "Variant")
+                        .WithMany()
+                        .HasForeignKey("VariantId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("InvoiceLine");
+
+                    b.Navigation("SalesReturn");
 
                     b.Navigation("Variant");
                 });
@@ -2502,6 +3421,25 @@ namespace ErpCloud.Api.Data.Migrations
                     b.Navigation("Warehouse");
                 });
 
+            modelBuilder.Entity("ErpCloud.Api.Entities.StockCardFitment", b =>
+                {
+                    b.HasOne("ErpCloud.Api.Entities.ProductVariant", "Variant")
+                        .WithMany()
+                        .HasForeignKey("VariantId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ErpCloud.Api.Entities.VehicleEngine", "VehicleEngine")
+                        .WithMany("Fitments")
+                        .HasForeignKey("VehicleEngineId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Variant");
+
+                    b.Navigation("VehicleEngine");
+                });
+
             modelBuilder.Entity("ErpCloud.Api.Entities.StockLedgerEntry", b =>
                 {
                     b.HasOne("ErpCloud.Api.Entities.ProductVariant", "Variant")
@@ -2521,6 +3459,39 @@ namespace ErpCloud.Api.Data.Migrations
                     b.Navigation("Warehouse");
                 });
 
+            modelBuilder.Entity("ErpCloud.Api.Entities.VehicleEngine", b =>
+                {
+                    b.HasOne("ErpCloud.Api.Entities.VehicleYearRange", "YearRange")
+                        .WithMany("Engines")
+                        .HasForeignKey("YearRangeId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("YearRange");
+                });
+
+            modelBuilder.Entity("ErpCloud.Api.Entities.VehicleModel", b =>
+                {
+                    b.HasOne("ErpCloud.Api.Entities.VehicleBrand", "Brand")
+                        .WithMany("Models")
+                        .HasForeignKey("BrandId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Brand");
+                });
+
+            modelBuilder.Entity("ErpCloud.Api.Entities.VehicleYearRange", b =>
+                {
+                    b.HasOne("ErpCloud.Api.Entities.VehicleModel", "Model")
+                        .WithMany("YearRanges")
+                        .HasForeignKey("ModelId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Model");
+                });
+
             modelBuilder.Entity("ErpCloud.Api.Entities.Warehouse", b =>
                 {
                     b.HasOne("ErpCloud.Api.Entities.Branch", "Branch")
@@ -2537,6 +3508,18 @@ namespace ErpCloud.Api.Data.Migrations
                     b.Navigation("Warehouses");
                 });
 
+            modelBuilder.Entity("ErpCloud.Api.Entities.Brand", b =>
+                {
+                    b.Navigation("PriceRules");
+
+                    b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("ErpCloud.Api.Entities.CreditNote", b =>
+                {
+                    b.Navigation("Lines");
+                });
+
             modelBuilder.Entity("ErpCloud.Api.Entities.EDocument", b =>
                 {
                     b.Navigation("StatusHistory");
@@ -2545,13 +3528,29 @@ namespace ErpCloud.Api.Data.Migrations
             modelBuilder.Entity("ErpCloud.Api.Entities.GoodsReceipt", b =>
                 {
                     b.Navigation("Lines");
+
+                    b.Navigation("PurchaseReturns");
+                });
+
+            modelBuilder.Entity("ErpCloud.Api.Entities.GoodsReceiptLine", b =>
+                {
+                    b.Navigation("PurchaseReturnLines");
                 });
 
             modelBuilder.Entity("ErpCloud.Api.Entities.Invoice", b =>
                 {
                     b.Navigation("Allocations");
 
+                    b.Navigation("CreditNotes");
+
                     b.Navigation("Lines");
+
+                    b.Navigation("SalesReturns");
+                });
+
+            modelBuilder.Entity("ErpCloud.Api.Entities.InvoiceLine", b =>
+                {
+                    b.Navigation("SalesReturnLines");
                 });
 
             modelBuilder.Entity("ErpCloud.Api.Entities.Organization", b =>
@@ -2576,10 +3575,17 @@ namespace ErpCloud.Api.Data.Migrations
 
             modelBuilder.Entity("ErpCloud.Api.Entities.ProductVariant", b =>
                 {
+                    b.Navigation("PartReferences");
+
                     b.Navigation("PriceListItems");
                 });
 
             modelBuilder.Entity("ErpCloud.Api.Entities.PurchaseOrder", b =>
+                {
+                    b.Navigation("Lines");
+                });
+
+            modelBuilder.Entity("ErpCloud.Api.Entities.PurchaseReturn", b =>
                 {
                     b.Navigation("Lines");
                 });
@@ -2589,9 +3595,34 @@ namespace ErpCloud.Api.Data.Migrations
                     b.Navigation("Lines");
                 });
 
+            modelBuilder.Entity("ErpCloud.Api.Entities.SalesReturn", b =>
+                {
+                    b.Navigation("Lines");
+                });
+
             modelBuilder.Entity("ErpCloud.Api.Entities.Shipment", b =>
                 {
                     b.Navigation("Lines");
+                });
+
+            modelBuilder.Entity("ErpCloud.Api.Entities.VehicleBrand", b =>
+                {
+                    b.Navigation("Models");
+                });
+
+            modelBuilder.Entity("ErpCloud.Api.Entities.VehicleEngine", b =>
+                {
+                    b.Navigation("Fitments");
+                });
+
+            modelBuilder.Entity("ErpCloud.Api.Entities.VehicleModel", b =>
+                {
+                    b.Navigation("YearRanges");
+                });
+
+            modelBuilder.Entity("ErpCloud.Api.Entities.VehicleYearRange", b =>
+                {
+                    b.Navigation("Engines");
                 });
 #pragma warning restore 612, 618
         }

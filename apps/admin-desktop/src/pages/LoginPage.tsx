@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { SettingsService } from '@/lib/settings';
 import { ApiClient } from '@/lib/api-client';
@@ -12,12 +12,22 @@ export function LoginPage({ onLoginSuccess }: { onLoginSuccess?: () => void }) {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
+  // Auto-load demo token in development
+  useEffect(() => {
+    if (import.meta.env.DEV) {
+      const demoToken = import.meta.env.VITE_DEMO_TOKEN;
+      if (demoToken) {
+        setToken(demoToken);
+      }
+    }
+  }, []);
+
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
     
     if (!token.trim()) {
-      setError('Please enter a token');
+      setError('Lütfen bir token girin');
       return;
     }
 
@@ -33,8 +43,8 @@ export function LoginPage({ onLoginSuccess }: { onLoginSuccess?: () => void }) {
       // Navigate to dashboard
       navigate('/');
     } catch (err) {
-      setError('Failed to save token');
-      console.error('Login error:', err);
+      setError('Token kaydedilemedi');
+      console.error('Giriş hatası:', err);
     } finally {
       setLoading(false);
     }
@@ -44,9 +54,9 @@ export function LoginPage({ onLoginSuccess }: { onLoginSuccess?: () => void }) {
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <Card className="w-full max-w-md">
         <CardHeader>
-          <CardTitle>ERP Cloud Admin</CardTitle>
+          <CardTitle>ERP Cloud Yönetim</CardTitle>
           <p className="text-sm text-muted-foreground">
-            Paste your JWT token to continue
+            Devam etmek için JWT token'ınızı yapıştırın
           </p>
         </CardHeader>
         <CardContent>
@@ -70,8 +80,14 @@ export function LoginPage({ onLoginSuccess }: { onLoginSuccess?: () => void }) {
             )}
             
             <Button type="submit" className="w-full" disabled={loading}>
-              {loading ? 'Saving...' : 'Login'}
+              {loading ? 'Kaydediliyor...' : 'Giriş Yap'}
             </Button>
+            
+            {import.meta.env.DEV && (
+              <div className="text-xs text-muted-foreground text-center">
+                Development mode: Token otomatik yüklendi
+              </div>
+            )}
           </form>
         </CardContent>
       </Card>

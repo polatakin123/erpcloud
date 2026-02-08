@@ -61,7 +61,7 @@ export function SalesOrderDetailPage() {
         <div>
           <h1 className="text-2xl font-bold">Sales Order {order.orderNo}</h1>
           <p className="text-sm text-gray-600">
-            {order.partyName} | {order.issueDate}
+            {order.partyName} | {new Date(order.orderDate).toLocaleDateString('tr-TR')}
           </p>
         </div>
         <div className="flex items-center gap-2">
@@ -91,7 +91,7 @@ export function SalesOrderDetailPage() {
           </div>
           <div>
             <label className="text-sm text-gray-600">Issue Date</label>
-            <p className="font-medium">{order.issueDate}</p>
+            <p className="font-medium">{new Date(order.orderDate).toLocaleDateString('tr-TR')}</p>
           </div>
           <div>
             <label className="text-sm text-gray-600">Branch</label>
@@ -102,14 +102,8 @@ export function SalesOrderDetailPage() {
             <p className="font-medium">{order.warehouseName}</p>
           </div>
           <div>
-            <label className="text-sm text-gray-600">Currency</label>
-            <p className="font-medium">{order.currency}</p>
-          </div>
-          <div>
-            <label className="text-sm text-gray-600">Total Amount</label>
-            <p className="font-medium text-lg">
-              {order.totalAmount.toFixed(2)} {order.currency}
-            </p>
+            <label className="text-sm text-gray-600">Price List</label>
+            <p className="font-medium">{order.priceListCode || '-'}</p>
           </div>
         </div>
         {order.note && (
@@ -138,16 +132,14 @@ export function SalesOrderDetailPage() {
               </tr>
             </thead>
             <tbody>
-              {order.lines.map((line, idx) => (
-                <tr key={idx} className="border-t">
+              {order.lines.map((line) => (
+                <tr key={line.id} className="border-t">
                   <td className="p-2 text-sm">{line.sku}</td>
-                  <td className="p-2 text-sm">{line.productName}</td>
-                  <td className="p-2 text-sm text-right">{line.quantity}</td>
-                  <td className="p-2 text-sm text-right">{line.reservedQty || 0}</td>
-                  <td className="p-2 text-sm text-right">{line.shippedQty || 0}</td>
-                  <td className="p-2 text-sm text-right font-medium">
-                    {line.remainingQty || line.quantity}
-                  </td>
+                  <td className="p-2 text-sm">{line.variantName}</td>
+                  <td className="p-2 text-sm text-right">{line.qty}</td>
+                  <td className="p-2 text-sm text-right">{line.reservedQty}</td>
+                  <td className="p-2 text-sm text-right">-</td>
+                  <td className="p-2 text-sm text-right font-medium">-</td>
                   <td className="p-2 text-sm text-right">{line.price.toFixed(2)}</td>
                   <td className="p-2 text-sm text-right font-medium">
                     {(line.quantity * line.price).toFixed(2)}

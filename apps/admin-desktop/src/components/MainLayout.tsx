@@ -1,14 +1,19 @@
-import { Link, Outlet, useNavigate } from 'react-router-dom';
+import { Link, Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { SettingsService } from '@/lib/settings';
 import { ApiClient } from '@/lib/api-client';
 import { useState, useEffect } from 'react';
 import { ContextBar } from './ContextBar';
 import { Toaster } from './ui/toaster';
+import { Store, Settings as SettingsIcon } from 'lucide-react';
 
 export function MainLayout() {
   const navigate = useNavigate();
+  const location = useLocation();
   const [apiBaseUrl, setApiBaseUrl] = useState('');
+  
+  // Detect if we're in Tezgâh mode
+  const isTezgahMode = location.pathname.startsWith('/tezgah');
 
   useEffect(() => {
     SettingsService.getSettings().then((settings) => {
@@ -28,59 +33,141 @@ export function MainLayout() {
       <div className="w-64 bg-white border-r flex flex-col">
         <div className="p-4 border-b">
           <h1 className="text-xl font-bold text-primary">ERP Cloud</h1>
-          <p className="text-xs text-muted-foreground">Admin Console</p>
+          <p className="text-xs text-muted-foreground">
+            {isTezgahMode ? '🏪 Tezgâh Modu' : '⚙️ Yönetim Modu'}
+          </p>
+        </div>
+
+        {/* Mode Toggle */}
+        <div className="p-4 border-b bg-slate-50">
+          <div className="grid grid-cols-2 gap-2">
+            <button
+              onClick={() => navigate('/tezgah')}
+              className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors flex items-center justify-center gap-1 ${
+                isTezgahMode
+                  ? 'bg-green-600 text-white shadow-md'
+                  : 'bg-white border border-slate-300 text-slate-600 hover:bg-slate-100'
+              }`}
+            >
+              <Store className="w-4 h-4" />
+              Tezgâh
+            </button>
+            <button
+              onClick={() => navigate('/dashboard')}
+              className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors flex items-center justify-center gap-1 ${
+                !isTezgahMode
+                  ? 'bg-blue-600 text-white shadow-md'
+                  : 'bg-white border border-slate-300 text-slate-600 hover:bg-slate-100'
+              }`}
+            >
+              <SettingsIcon className="w-4 h-4" />
+              Yönetim
+            </button>
+          </div>
         </div>
 
         <nav className="flex-1 overflow-y-auto p-4">
-          <div className="space-y-1">
-            <NavLink to="/">Dashboard</NavLink>
-            
-            <div className="pt-4 pb-2 text-xs font-semibold text-muted-foreground">
-              CATALOG
+          {isTezgahMode ? (
+            // TEZGAH MODE MENU
+            <div className="space-y-1">
+              <NavLink to="/tezgah">🏠 Tezgâh Ana Sayfa</NavLink>
+              
+              <div className="pt-4 pb-2 text-xs font-semibold text-muted-foreground">
+                HIZLI İŞLEMLER
+              </div>
+              <NavLink to="/tezgah/satis" className="!bg-gradient-to-r !from-green-600 !to-green-700 !text-white font-semibold">
+                ⚡ Hızlı Satış
+              </NavLink>
+              <NavLink to="/fast-search" className="!bg-gradient-to-r !from-blue-600 !to-blue-700 !text-white font-semibold">
+                🔍 OEM / Muadil Arama
+              </NavLink>
+              <NavLink to="/tezgah/tahsilat">💳 Tahsilat</NavLink>
+              <NavLink to="/tezgah/stok-sorgu">📦 Stok Sorgu</NavLink>
+              
+              <div className="pt-4 pb-2 text-xs font-semibold text-muted-foreground">
+                TEMEL
+              </div>
+              <NavLink to="/parties">Cariler</NavLink>
+              <NavLink to="/invoices">Faturalar</NavLink>
+              <NavLink to="/payments">Tahsilat & Ödemeler</NavLink>
+              
+              <div className="pt-4 pb-2 text-xs font-semibold text-muted-foreground">
+                RAPORLAR
+              </div>
+              <NavLink to="/tezgah/raporlar">Günlük Raporlar</NavLink>
+              <NavLink to="/party-ledger">Cari Hesap</NavLink>
+              <NavLink to="/stock-ledger">Stok Hareketleri</NavLink>
             </div>
-            <NavLink to="/products">Products</NavLink>
-            <NavLink to="/price-lists">Price Lists</NavLink>
-            
-            <div className="pt-4 pb-2 text-xs font-semibold text-muted-foreground">
-              SALES & PURCHASES
+          ) : (
+            // ADMIN MODE MENU
+            <div className="space-y-1">
+              <NavLink to="/dashboard">Kontrol Paneli</NavLink>
+              
+              <div className="pt-4 pb-2 text-xs font-semibold text-muted-foreground">
+                HIZLI ERİŞİM
+              </div>
+              <NavLink to="/fast-search" className="!bg-gradient-to-r !from-blue-600 !to-blue-700 !text-white font-semibold">
+                ⚡ Stok Kartı Ara
+              </NavLink>
+              
+              <div className="pt-4 pb-2 text-xs font-semibold text-muted-foreground">
+                KURULUM
+              </div>
+              <NavLink to="/setup/organization">🏢 Organizasyon & Şubeler</NavLink>
+              
+              <div className="pt-4 pb-2 text-xs font-semibold text-muted-foreground">
+                YÖNETİM
+              </div>
+              <NavLink to="/admin/brands">Markalar</NavLink>
+              
+              <div className="pt-4 pb-2 text-xs font-semibold text-muted-foreground">
+                KATALOG
+              </div>
+              <NavLink to="/stock-cards">Stok Kartları</NavLink>
+              <NavLink to="/products">Ürünler (Yönetici)</NavLink>
+              <NavLink to="/price-lists">Fiyat Listeleri</NavLink>
+              
+              <div className="pt-4 pb-2 text-xs font-semibold text-muted-foreground">
+                SATIŞ & SATIN ALMA
+              </div>
+              <NavLink to="/parties">Cariler</NavLink>
+              <NavLink to="/sales/wizard">🎯 Hızlı Satış</NavLink>
+              <NavLink to="/purchase/wizard">🧾 Hızlı Satın Alma</NavLink>
+              <NavLink to="/sales-orders">Satış Siparişleri</NavLink>
+              <NavLink to="/shipments">Sevkiyatlar</NavLink>
+              <NavLink to="/invoices">Faturalar</NavLink>
+              <NavLink to="/purchase-orders">Satın Alma Siparişleri</NavLink>
+              <NavLink to="/goods-receipts">Mal Kabul</NavLink>
+              
+              <div className="pt-4 pb-2 text-xs font-semibold text-muted-foreground">
+                STOK
+              </div>
+              <NavLink to="/stock-balance">Stok Bakiyeleri</NavLink>
+              <NavLink to="/stock-ledger">Stok Hareketleri</NavLink>
+              
+              <div className="pt-4 pb-2 text-xs font-semibold text-muted-foreground">
+                MUHASEBE
+              </div>
+              <NavLink to="/party-ledger">Cari Hareketler</NavLink>
+              <NavLink to="/payments">Tahsilat & Ödemeler</NavLink>
+              <NavLink to="/cashboxes">Kasalar</NavLink>
+              <NavLink to="/bank-accounts">Banka Hesapları</NavLink>
+              <NavLink to="/cash-bank-ledger">Kasa/Banka Hareketleri</NavLink>
+              
+              <div className="pt-4 pb-2 text-xs font-semibold text-muted-foreground">
+                RAPORLAR
+              </div>
+              <NavLink to="/reports/stock">Stok Raporları</NavLink>
+              <NavLink to="/reports/sales">Satış & Satın Alma Raporları</NavLink>
+              <NavLink to="/reports/parties">Cari Raporları</NavLink>
+              <NavLink to="/reports/cashbank">Kasa & Banka Raporları</NavLink>
+              
+              <div className="pt-4 pb-2 text-xs font-semibold text-muted-foreground">
+                ARAÇLAR
+              </div>
+              <NavLink to="/qa/verification">🔍 Kalite Kontrol</NavLink>
             </div>
-            <NavLink to="/parties">Parties</NavLink>
-            <NavLink to="/sales/wizard">🎯 Sales Wizard</NavLink>
-            <NavLink to="/purchase/wizard">🧾 Purchase Wizard</NavLink>
-            <NavLink to="/sales-orders">Sales Orders</NavLink>
-            <NavLink to="/shipments">Shipments</NavLink>
-            <NavLink to="/invoices">Invoices</NavLink>
-            <NavLink to="/purchase-orders">Purchase Orders</NavLink>
-            <NavLink to="/goods-receipts">Goods Receipts</NavLink>
-            
-            <div className="pt-4 pb-2 text-xs font-semibold text-muted-foreground">
-              STOCK
-            </div>
-            <NavLink to="/stock-balance">Stock Balance</NavLink>
-            <NavLink to="/stock-ledger">Stock Ledger</NavLink>
-            
-            <div className="pt-4 pb-2 text-xs font-semibold text-muted-foreground">
-              ACCOUNTING
-            </div>
-            <NavLink to="/party-ledger">Party Ledger</NavLink>
-            <NavLink to="/payments">Payments</NavLink>
-            <NavLink to="/cashboxes">Cashboxes</NavLink>
-            <NavLink to="/bank-accounts">Bank Accounts</NavLink>
-            <NavLink to="/cash-bank-ledger">Cash/Bank Ledger</NavLink>
-            
-            <div className="pt-4 pb-2 text-xs font-semibold text-muted-foreground">
-              REPORTS
-            </div>
-            <NavLink to="/reports/stock">Stock Reports</NavLink>
-            <NavLink to="/reports/sales">Sales & Purchase Reports</NavLink>
-            <NavLink to="/reports/parties">Party Reports</NavLink>
-            <NavLink to="/reports/cashbank">Cash & Bank Reports</NavLink>
-            
-            <div className="pt-4 pb-2 text-xs font-semibold text-muted-foreground">
-              QA & TOOLS
-            </div>
-            <NavLink to="/qa/verification">🔍 QA Verification</NavLink>
-          </div>
+          )}
         </nav>
 
         <div className="p-4 border-t space-y-2">
@@ -96,7 +183,7 @@ export function MainLayout() {
               className="flex-1"
               onClick={() => navigate('/settings')}
             >
-              Settings
+              Ayarlar
             </Button>
             <Button
               variant="ghost"
@@ -104,7 +191,7 @@ export function MainLayout() {
               className="flex-1"
               onClick={handleLogout}
             >
-              Logout
+              Çıkış
             </Button>
           </div>
         </div>
@@ -123,11 +210,11 @@ export function MainLayout() {
   );
 }
 
-function NavLink({ to, children }: { to: string; children: React.ReactNode }) {
+function NavLink({ to, children, className }: { to: string; children: React.ReactNode; className?: string }) {
   return (
     <Link
       to={to}
-      className="block px-3 py-2 rounded-md text-sm hover:bg-gray-100 transition-colors"
+      className={`block px-3 py-2 rounded-md text-sm hover:bg-gray-100 transition-colors ${className || ''}`}
     >
       {children}
     </Link>

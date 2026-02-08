@@ -36,8 +36,7 @@ export function useCashboxes() {
     queryKey: ['cashboxes'],
     queryFn: async () => {
       try {
-        const response = await ApiClient.get<Cashbox[]>('/api/cashboxes');
-        return response;
+        return await ApiClient.get<Cashbox[]>('/api/cashboxes');
       } catch (error) {
         if (ErrorMapper.requiresLogin(error)) {
           toast({
@@ -69,8 +68,7 @@ export function useBankAccounts() {
     queryKey: ['bank-accounts'],
     queryFn: async () => {
       try {
-        const response = await ApiClient.get<BankAccount[]>('/api/bank-accounts');
-        return response;
+        return await ApiClient.get<BankAccount[]>('/api/bank-accounts');
       } catch (error) {
         if (ErrorMapper.requiresLogin(error)) {
           toast({

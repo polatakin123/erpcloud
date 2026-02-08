@@ -38,16 +38,16 @@ export function PurchaseOrderDetailPage() {
   const canCreateGRN = order.status === 'CONFIRMED' || order.status === 'RECEIVED';
 
   // Calculate completion percentage
-  const totalQty = order.lines.reduce((sum, l) => sum + l.quantity, 0);
-  const receivedQty = order.lines.reduce((sum, l) => sum + (l.receivedQty || 0), 0);
+  const totalQty = order.lines.reduce((sum, l) => sum + l.qty, 0);
+  const receivedQty = order.lines.reduce((sum, l) => sum + l.receivedQty, 0);
   const completionPct = totalQty > 0 ? (receivedQty / totalQty) * 100 : 0;
 
   return (
     <div className="p-6 max-w-6xl mx-auto space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold">Purchase Order {order.orderNo}</h1>
-          <p className="text-sm text-gray-600">{order.partyName} | {order.issueDate}</p>
+          <h1 className="text-2xl font-bold">Purchase Order {order.poNo}</h1>
+          <p className="text-sm text-gray-600">{order.partyName} | {order.orderDate}</p>
         </div>
         <StatusBadge status={order.status} />
       </div>
@@ -71,7 +71,7 @@ export function PurchaseOrderDetailPage() {
         <div className="grid grid-cols-2 gap-4">
           <div>
             <label className="text-sm text-gray-600">PO No</label>
-            <p className="font-medium">{order.orderNo}</p>
+            <p className="font-medium">{order.poNo}</p>
           </div>
           <div>
             <label className="text-sm text-gray-600">Status</label>
@@ -86,8 +86,8 @@ export function PurchaseOrderDetailPage() {
             </p>
           </div>
           <div>
-            <label className="text-sm text-gray-600">Issue Date</label>
-            <p className="font-medium">{order.issueDate}</p>
+            <label className="text-sm text-gray-600">Order Date</label>
+            <p className="font-medium">{order.orderDate}</p>
           </div>
           <div>
             <label className="text-sm text-gray-600">Branch</label>
@@ -98,13 +98,9 @@ export function PurchaseOrderDetailPage() {
             <p className="font-medium">{order.warehouseName}</p>
           </div>
           <div>
-            <label className="text-sm text-gray-600">Currency</label>
-            <p className="font-medium">{order.currency}</p>
-          </div>
-          <div>
             <label className="text-sm text-gray-600">Total Amount</label>
             <p className="font-medium text-lg">
-              {order.totalAmount.toFixed(2)} {order.currency}
+              {order.totalAmount.toFixed(2)}
             </p>
           </div>
         </div>
@@ -125,20 +121,20 @@ export function PurchaseOrderDetailPage() {
             </tr>
           </thead>
           <tbody>
-            {order.lines.map((line, idx) => {
-              const remaining = line.quantity - (line.receivedQty || 0);
+            {order.lines.map((line) => {
+              const remaining = line.qty - line.receivedQty;
               return (
-                <tr key={idx} className="border-t">
-                  <td className="p-2 text-sm">{line.sku}</td>
-                  <td className="p-2 text-sm">{line.productName}</td>
-                  <td className="p-2 text-sm text-right">{line.quantity}</td>
-                  <td className="p-2 text-sm text-right">{line.receivedQty || 0}</td>
+                <tr key={line.id} className="border-t">
+                  <td className="p-2 text-sm">{line.variantSku}</td>
+                  <td className="p-2 text-sm">{line.variantName}</td>
+                  <td className="p-2 text-sm text-right">{line.qty}</td>
+                  <td className="p-2 text-sm text-right">{line.receivedQty}</td>
                   <td className="p-2 text-sm text-right font-medium">
                     {remaining}
                   </td>
-                  <td className="p-2 text-sm text-right">{line.unitCost.toFixed(2)}</td>
+                  <td className="p-2 text-sm text-right">{line.unitCost ? line.unitCost.toFixed(2) : '-'}</td>
                   <td className="p-2 text-sm text-right font-medium">
-                    {(line.quantity * line.unitCost).toFixed(2)}
+                    {line.lineTotal.toFixed(2)}
                   </td>
                 </tr>
               );

@@ -5,6 +5,8 @@ export interface Product {
   name: string;
   description?: string;
   isActive: boolean;
+  brandId?: string;
+  brand?: string; // Deprecated - for backward compatibility
 }
 
 export interface CreateProductDto {
@@ -12,6 +14,7 @@ export interface CreateProductDto {
   name: string;
   description?: string;
   isActive?: boolean;
+  brandId?: string;
 }
 
 export interface ProductSearchResult {

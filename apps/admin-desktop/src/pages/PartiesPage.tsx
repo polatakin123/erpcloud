@@ -13,9 +13,9 @@ export function PartiesPage() {
   return (
     <div className="p-6">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold">Parties</h1>
+        <h1 className="text-3xl font-bold">Cariler</h1>
         <Button onClick={() => setShowCreateForm(!showCreateForm)}>
-          {showCreateForm ? 'Cancel' : 'New Party'}
+          {showCreateForm ? 'Vazgeç' : 'Yeni Cari'}
         </Button>
       </div>
 
@@ -25,25 +25,25 @@ export function PartiesPage() {
 
       <div className="mb-4">
         <Input
-          placeholder="Search parties..."
+          placeholder="Cari ara..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           className="max-w-md"
         />
       </div>
 
-      {isLoading && <div>Loading...</div>}
+      {isLoading && <div>Yükleniy or...</div>}
       
       {error && (
         <div className="text-destructive">
-          Error loading parties: {error instanceof Error ? error.message : 'Unknown error'}
+          Cariler yüklenirken hata: {error instanceof Error ? error.message : 'Bilinmeyen hata'}
         </div>
       )}
 
       {data && (
         <div className="space-y-4">
           <div className="text-sm text-muted-foreground">
-            Found {data.totalCount} parties
+            {data.totalCount} cari bulundu
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -56,26 +56,26 @@ export function PartiesPage() {
                 <CardContent>
                   <div className="space-y-1 text-sm">
                     <div>
-                      <span className="font-medium">Type:</span> {party.type}
+                      <span className="font-medium">Tip:</span> {party.type === 'CUSTOMER' ? 'Müşteri' : party.type === 'SUPPLIER' ? 'Tedarikçi' : party.type}
                     </div>
                     {party.email && (
                       <div>
-                        <span className="font-medium">Email:</span> {party.email}
+                        <span className="font-medium">E-posta:</span> {party.email}
                       </div>
                     )}
                     {party.phone && (
                       <div>
-                        <span className="font-medium">Phone:</span> {party.phone}
+                        <span className="font-medium">Telefon:</span> {party.phone}
                       </div>
                     )}
                     <div>
-                      <span className="font-medium">Status:</span>{' '}
+                      <span className="font-medium">Durum:</span>{' '}
                       <span
                         className={
                           party.isActive ? 'text-green-600' : 'text-red-600'
                         }
                       >
-                        {party.isActive ? 'Active' : 'Inactive'}
+                        {party.isActive ? 'Aktif' : 'Pasif'}
                       </span>
                     </div>
                   </div>
@@ -113,14 +113,14 @@ function CreatePartyForm({ onSuccess }: { onSuccess: () => void }) {
   return (
     <Card className="mb-6">
       <CardHeader>
-        <CardTitle>Create New Party</CardTitle>
+        <CardTitle>Yeni Cari Oluştur</CardTitle>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium mb-2">
-                Code *
+                Kod *
               </label>
               <Input
                 required
@@ -128,13 +128,13 @@ function CreatePartyForm({ onSuccess }: { onSuccess: () => void }) {
                 onChange={(e) =>
                   setFormData({ ...formData, code: e.target.value })
                 }
-                placeholder="CUST001"
+                placeholder="MÜŞ001"
               />
             </div>
 
             <div>
               <label className="block text-sm font-medium mb-2">
-                Name *
+                İsim *
               </label>
               <Input
                 required
@@ -142,13 +142,13 @@ function CreatePartyForm({ onSuccess }: { onSuccess: () => void }) {
                 onChange={(e) =>
                   setFormData({ ...formData, name: e.target.value })
                 }
-                placeholder="Customer Name"
+                placeholder="Cari İsmi"
               />
             </div>
 
             <div>
               <label className="block text-sm font-medium mb-2">
-                Type *
+                Tip *
               </label>
               <select
                 className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
@@ -157,15 +157,15 @@ function CreatePartyForm({ onSuccess }: { onSuccess: () => void }) {
                   setFormData({ ...formData, type: e.target.value })
                 }
               >
-                <option value="CUSTOMER">Customer</option>
-                <option value="SUPPLIER">Supplier</option>
-                <option value="BOTH">Both</option>
+                <option value="CUSTOMER">Müşteri</option>
+                <option value="SUPPLIER">Tedarikçi</option>
+                <option value="BOTH">Her İkisi</option>
               </select>
             </div>
 
             <div>
               <label className="block text-sm font-medium mb-2">
-                Email
+                E-posta
               </label>
               <Input
                 type="email"
@@ -173,13 +173,13 @@ function CreatePartyForm({ onSuccess }: { onSuccess: () => void }) {
                 onChange={(e) =>
                   setFormData({ ...formData, email: e.target.value })
                 }
-                placeholder="email@example.com"
+                placeholder="ornek@sirket.com"
               />
             </div>
 
             <div>
               <label className="block text-sm font-medium mb-2">
-                Phone
+                Telefon
               </label>
               <Input
                 value={formData.phone || ''}
@@ -192,7 +192,7 @@ function CreatePartyForm({ onSuccess }: { onSuccess: () => void }) {
 
             <div>
               <label className="block text-sm font-medium mb-2">
-                Tax Number
+                Vergi Numarası
               </label>
               <Input
                 value={formData.taxNumber || ''}
@@ -208,12 +208,12 @@ function CreatePartyForm({ onSuccess }: { onSuccess: () => void }) {
             <div className="text-destructive text-sm">
               {createMutation.error instanceof Error
                 ? createMutation.error.message
-                : 'Failed to create party'}
+                : 'Cari oluşturulamadı'}
             </div>
           )}
 
           <Button type="submit" disabled={createMutation.isPending}>
-            {createMutation.isPending ? 'Creating...' : 'Create Party'}
+            {createMutation.isPending ? 'Oluşturuluyor...' : 'Cari Oluştur'}
           </Button>
         </form>
       </CardContent>

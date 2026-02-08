@@ -307,7 +307,7 @@ function Step3CreatePO({ wizardData, setWizardData, setCurrentStep }: any) {
     setWizardData({ 
       ...wizardData, 
       orderId: result.id, 
-      orderNo: result.orderNo 
+      orderNo: result.poNo 
     });
     setCurrentStep(4);
   };
@@ -372,7 +372,7 @@ function Step5CreateGRN({ wizardData, setWizardData, setCurrentStep }: any) {
     setWizardData({ 
       ...wizardData, 
       receiptId: result.id, 
-      receiptNo: result.receiptNo 
+      receiptNo: result.grnNo 
     });
     setCurrentStep(6);
   };

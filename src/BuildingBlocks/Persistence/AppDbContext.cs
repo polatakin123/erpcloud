@@ -2,6 +2,7 @@ using ErpCloud.BuildingBlocks.Auditing;
 using ErpCloud.BuildingBlocks.Outbox;
 using ErpCloud.BuildingBlocks.Tenant;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using System.Reflection;
 
 namespace ErpCloud.BuildingBlocks.Persistence;
@@ -17,6 +18,15 @@ public class AppDbContext : DbContext
         : base(options)
     {
         _tenantContext = tenantContext;
+    }
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        base.OnConfiguring(optionsBuilder);
+        
+        // Replace the model cache key to include the TenantContext instance hash
+        // This ensures each DbContext with a different TenantContext gets its own compiled model
+        optionsBuilder.ReplaceService<IModelCacheKeyFactory, TenantAwareModelCacheKeyFactory>();
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -214,5 +224,20 @@ public class AppDbContext : DbContext
                 .HasDatabaseName("ix_audit_logs_tenant_user_occurred")
                 .IsDescending(false, false, true);
         });
+    }
+}
+
+/// <summary>
+/// Custom model cache key factory that includes the DbContext instance hash.
+/// This prevents EF Core from reusing cached models across different DbContext instances,
+/// which would cause query filter tenant context capture issues.
+/// </summary>
+internal class TenantAwareModelCacheKeyFactory : IModelCacheKeyFactory
+{
+    public object Create(DbContext context, bool designTime)
+    {
+        // Include the context instance hash code in the cache key
+        // This ensures each DbContext instance gets its own compiled model
+        return (context.GetType(), designTime, context.GetHashCode());
     }
 }

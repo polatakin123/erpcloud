@@ -39,9 +39,9 @@ export class ApiClient {
   ): Promise<T> {
     const { skipAuth = false, ...fetchOptions } = options;
 
-    const headers: HeadersInit = {
+    const headers: Record<string, string> = {
       'Content-Type': 'application/json',
-      ...fetchOptions.headers,
+      ...(fetchOptions.headers as Record<string, string> || {}),
     };
 
     if (!skipAuth && this.token) {
@@ -124,3 +124,6 @@ export class ApiClient {
     return this.request<T>(path, { ...options, method: 'DELETE' });
   }
 }
+
+// Export a default instance for convenience
+export const apiClient = ApiClient;

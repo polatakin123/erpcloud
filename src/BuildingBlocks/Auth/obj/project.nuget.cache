@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Dnwr6aOdOp8=",
+  "dgSpecHash": "TgL+dTYq2z8=",
   "success": true,
-  "projectFilePath": "C:\\xampp\\htdocs\\projeler\\ErpCloud\\src\\BuildingBlocks\\Auth\\ErpCloud.BuildingBlocks.Auth.csproj",
+  "projectFilePath": "C:\\xampp\\htdocs\\projeler\\ERPCloud\\src\\BuildingBlocks\\Auth\\ErpCloud.BuildingBlocks.Auth.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Polat\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\8.0.11\\microsoft.aspnetcore.authentication.jwtbearer.8.0.11.nupkg.sha512",
     "C:\\Users\\Polat\\.nuget\\packages\\microsoft.aspnetcore.authorization\\8.0.11\\microsoft.aspnetcore.authorization.8.0.11.nupkg.sha512",

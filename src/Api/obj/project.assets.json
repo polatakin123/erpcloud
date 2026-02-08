@@ -4262,11 +4262,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\xampp\\htdocs\\projeler\\ErpCloud\\src\\Api\\ErpCloud.Api.csproj",
+      "projectUniqueName": "C:\\xampp\\htdocs\\projeler\\ERPCloud\\src\\Api\\ErpCloud.Api.csproj",
       "projectName": "ErpCloud.Api",
-      "projectPath": "C:\\xampp\\htdocs\\projeler\\ErpCloud\\src\\Api\\ErpCloud.Api.csproj",
+      "projectPath": "C:\\xampp\\htdocs\\projeler\\ERPCloud\\src\\Api\\ErpCloud.Api.csproj",
       "packagesPath": "C:\\Users\\Polat\\.nuget\\packages\\",
-      "outputPath": "C:\\xampp\\htdocs\\projeler\\ErpCloud\\src\\Api\\obj\\",
+      "outputPath": "C:\\xampp\\htdocs\\projeler\\ERPCloud\\src\\Api\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Polat\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -4281,23 +4281,23 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "C:\\xampp\\htdocs\\projeler\\ErpCloud\\src\\BuildingBlocks\\Auth\\ErpCloud.BuildingBlocks.Auth.csproj": {
-              "projectPath": "C:\\xampp\\htdocs\\projeler\\ErpCloud\\src\\BuildingBlocks\\Auth\\ErpCloud.BuildingBlocks.Auth.csproj"
+            "C:\\xampp\\htdocs\\projeler\\ERPCloud\\src\\BuildingBlocks\\Auth\\ErpCloud.BuildingBlocks.Auth.csproj": {
+              "projectPath": "C:\\xampp\\htdocs\\projeler\\ERPCloud\\src\\BuildingBlocks\\Auth\\ErpCloud.BuildingBlocks.Auth.csproj"
             },
-            "C:\\xampp\\htdocs\\projeler\\ErpCloud\\src\\BuildingBlocks\\Common\\ErpCloud.BuildingBlocks.Common.csproj": {
-              "projectPath": "C:\\xampp\\htdocs\\projeler\\ErpCloud\\src\\BuildingBlocks\\Common\\ErpCloud.BuildingBlocks.Common.csproj"
+            "C:\\xampp\\htdocs\\projeler\\ERPCloud\\src\\BuildingBlocks\\Common\\ErpCloud.BuildingBlocks.Common.csproj": {
+              "projectPath": "C:\\xampp\\htdocs\\projeler\\ERPCloud\\src\\BuildingBlocks\\Common\\ErpCloud.BuildingBlocks.Common.csproj"
             },
-            "C:\\xampp\\htdocs\\projeler\\ErpCloud\\src\\BuildingBlocks\\Messaging\\ErpCloud.BuildingBlocks.Messaging.csproj": {
-              "projectPath": "C:\\xampp\\htdocs\\projeler\\ErpCloud\\src\\BuildingBlocks\\Messaging\\ErpCloud.BuildingBlocks.Messaging.csproj"
+            "C:\\xampp\\htdocs\\projeler\\ERPCloud\\src\\BuildingBlocks\\Messaging\\ErpCloud.BuildingBlocks.Messaging.csproj": {
+              "projectPath": "C:\\xampp\\htdocs\\projeler\\ERPCloud\\src\\BuildingBlocks\\Messaging\\ErpCloud.BuildingBlocks.Messaging.csproj"
             },
-            "C:\\xampp\\htdocs\\projeler\\ErpCloud\\src\\BuildingBlocks\\Outbox\\ErpCloud.BuildingBlocks.Outbox.csproj": {
-              "projectPath": "C:\\xampp\\htdocs\\projeler\\ErpCloud\\src\\BuildingBlocks\\Outbox\\ErpCloud.BuildingBlocks.Outbox.csproj"
+            "C:\\xampp\\htdocs\\projeler\\ERPCloud\\src\\BuildingBlocks\\Outbox\\ErpCloud.BuildingBlocks.Outbox.csproj": {
+              "projectPath": "C:\\xampp\\htdocs\\projeler\\ERPCloud\\src\\BuildingBlocks\\Outbox\\ErpCloud.BuildingBlocks.Outbox.csproj"
             },
-            "C:\\xampp\\htdocs\\projeler\\ErpCloud\\src\\BuildingBlocks\\Persistence\\ErpCloud.BuildingBlocks.Persistence.csproj": {
-              "projectPath": "C:\\xampp\\htdocs\\projeler\\ErpCloud\\src\\BuildingBlocks\\Persistence\\ErpCloud.BuildingBlocks.Persistence.csproj"
+            "C:\\xampp\\htdocs\\projeler\\ERPCloud\\src\\BuildingBlocks\\Persistence\\ErpCloud.BuildingBlocks.Persistence.csproj": {
+              "projectPath": "C:\\xampp\\htdocs\\projeler\\ERPCloud\\src\\BuildingBlocks\\Persistence\\ErpCloud.BuildingBlocks.Persistence.csproj"
             },
-            "C:\\xampp\\htdocs\\projeler\\ErpCloud\\src\\BuildingBlocks\\Tenant\\ErpCloud.BuildingBlocks.Tenant.csproj": {
-              "projectPath": "C:\\xampp\\htdocs\\projeler\\ErpCloud\\src\\BuildingBlocks\\Tenant\\ErpCloud.BuildingBlocks.Tenant.csproj"
+            "C:\\xampp\\htdocs\\projeler\\ERPCloud\\src\\BuildingBlocks\\Tenant\\ErpCloud.BuildingBlocks.Tenant.csproj": {
+              "projectPath": "C:\\xampp\\htdocs\\projeler\\ERPCloud\\src\\BuildingBlocks\\Tenant\\ErpCloud.BuildingBlocks.Tenant.csproj"
             }
           }
         }

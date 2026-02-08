@@ -2,6 +2,19 @@
 
 Desktop administration console for ERP Cloud - built with Tauri v2, React, and TypeScript.
 
+**🇹🇷 Kullanıcı Arayüzü:** Uygulama arayüzü **tamamen Türkçedir**. Yedek parça bayileri, muhasebe ve depo personeli için optimize edilmiştir.
+
+**Terminoloji:**
+- Product → Ürün
+- Stock Card → Stok Kartı (daily workflow)
+- Warehouse → Depo
+- Customer → Müşteri
+- Supplier → Tedarikçi
+- Party → Cari
+- Sales Order → Satış Siparişi
+- Invoice → Fatura
+- Shipment → Sevkiyat
+
 ## Prerequisites
 
 - **Node.js** (v18 or higher)

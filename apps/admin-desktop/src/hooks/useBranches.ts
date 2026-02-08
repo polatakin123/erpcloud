@@ -5,16 +5,22 @@ import { useToast } from './useToast';
 import { ErrorMapper } from '../lib/error-mapper';
 import { useNavigate } from 'react-router-dom';
 
-// Branches
-export function useBranches() {
+interface BranchesResponse {
+  items: Branch[];
+  total: number;
+}
+
+// Branches - for specific organization
+export function useBranches(organizationId?: string) {
   const { toast } = useToast();
   const navigate = useNavigate();
 
   return useQuery({
-    queryKey: ['branches'],
+    queryKey: ['branches', organizationId],
     queryFn: async () => {
       try {
-        const response = await ApiClient.get<Branch[]>('/api/branches');
+        if (!organizationId) return { items: [], total: 0 };
+        const response = await ApiClient.get<BranchesResponse>(`/api/orgs/${organizationId}/branches`);
         return response;
       } catch (error) {
         if (ErrorMapper.requiresLogin(error)) {
@@ -35,6 +41,7 @@ export function useBranches() {
         throw error;
       }
     },
+    enabled: !!organizationId,
   });
 }
 

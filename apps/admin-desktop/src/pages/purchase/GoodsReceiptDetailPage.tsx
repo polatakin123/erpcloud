@@ -1,4 +1,4 @@
-import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { useGoodsReceipt, useReceiveGoodsReceipt } from '../../hooks/usePurchase';
 import { Card } from '../../components/ui/card';
 import { Button } from '../../components/ui/button';
@@ -6,7 +6,6 @@ import { AlertCircle, CheckCircle2 } from 'lucide-react';
 
 export function GoodsReceiptDetailPage() {
   const { id } = useParams<{ id: string }>();
-  const navigate = useNavigate();
   const { data: receipt, isLoading } = useGoodsReceipt(id || null);
   const receiveMutation = useReceiveGoodsReceipt();
 
@@ -36,7 +35,7 @@ export function GoodsReceiptDetailPage() {
     <div className="p-6 max-w-6xl mx-auto space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold">Goods Receipt {receipt.receiptNo}</h1>
+          <h1 className="text-2xl font-bold">Goods Receipt {receipt.grnNo}</h1>
           <p className="text-sm text-gray-600">{receipt.receiptDate}</p>
         </div>
         <StatusBadge status={receipt.status} />
@@ -47,13 +46,13 @@ export function GoodsReceiptDetailPage() {
         <div className="grid grid-cols-2 gap-4">
           <div>
             <label className="text-sm text-gray-600">GRN No</label>
-            <p className="font-medium">{receipt.receiptNo}</p>
+            <p className="font-medium">{receipt.grnNo}</p>
           </div>
           <div>
             <label className="text-sm text-gray-600">Related PO</label>
             <p className="font-medium">
               <Link to={`/purchase-orders/${receipt.purchaseOrderId}`} className="text-blue-600 hover:underline">
-                {receipt.purchaseOrderNo}
+                {receipt.poNo}
               </Link>
             </p>
           </div>
@@ -81,14 +80,14 @@ export function GoodsReceiptDetailPage() {
             </tr>
           </thead>
           <tbody>
-            {receipt.lines.map((line, idx) => (
-              <tr key={idx} className="border-t">
-                <td className="p-2 text-sm">{line.sku}</td>
-                <td className="p-2 text-sm">{line.productName}</td>
-                <td className="p-2 text-sm text-right">{line.quantity}</td>
-                <td className="p-2 text-sm text-right">{line.unitCost.toFixed(2)}</td>
+            {receipt.lines.map((line) => (
+              <tr key={line.id} className="border-t">
+                <td className="p-2 text-sm">{line.variantSku}</td>
+                <td className="p-2 text-sm">{line.variantName}</td>
+                <td className="p-2 text-sm text-right">{line.qty}</td>
+                <td className="p-2 text-sm text-right">{line.unitCost ? line.unitCost.toFixed(2) : '-'}</td>
                 <td className="p-2 text-sm text-right font-medium">
-                  {(line.quantity * line.unitCost).toFixed(2)}
+                  {line.lineTotal.toFixed(2)}
                 </td>
               </tr>
             ))}

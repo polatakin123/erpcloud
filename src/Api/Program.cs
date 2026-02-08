@@ -108,6 +108,18 @@ builder.Services.AddScoped<IPaymentService, PaymentService>();
 builder.Services.AddScoped<IPartyLedgerService, PartyLedgerService>();
 builder.Services.AddScoped<PaymentAllocationService>();
 
+// Returns & Credit Notes services
+builder.Services.AddScoped<SalesReturnService>();
+builder.Services.AddScoped<PurchaseReturnService>();
+builder.Services.AddScoped<CreditNoteService>();
+
+// Part References & Equivalent Search services
+builder.Services.AddScoped<PartReferenceService>();
+builder.Services.AddScoped<VariantSearchService>();
+
+// Vehicle Fitment services
+builder.Services.AddScoped<IVehicleService, VehicleService>();
+
 // Purchase module services
 builder.Services.AddScoped<IPurchaseOrderService, PurchaseOrderService>();
 builder.Services.AddScoped<IGoodsReceiptService, GoodsReceiptService>();

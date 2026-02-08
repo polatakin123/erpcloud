@@ -3,7 +3,6 @@ import { StandardListPage, DateRange } from '@/components/shared/StandardListPag
 import { useQuery } from '@tanstack/react-query';
 import { ApiClient } from '@/lib/api-client';
 import { CSVExporter } from '@/lib/csv-exporter';
-import { Button } from '@/components/ui/button';
 import { Download } from 'lucide-react';
 
 interface PartyLedgerEntry {
@@ -33,7 +32,7 @@ export function PartyLedgerPage() {
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(50);
   const [dateRange, setDateRange] = useState<DateRange>({});
-  const [partyFilter, setPartyFilter] = useState('');
+  const [partyFilter, _setPartyFilter] = useState('');
 
   const { data, isLoading } = useQuery<PagedPartyLedger>({
     queryKey: ['party-ledger', page, pageSize, search, dateRange, partyFilter],
@@ -54,21 +53,22 @@ export function PartyLedgerPage() {
   const handleExportCSV = () => {
     if (!data?.items.length) return;
     
-    const csvData = data.items.map((item) => ({
-      Date: new Date(item.entryDate).toLocaleDateString(),
-      Party: item.partyName,
-      'Transaction Type': item.transactionType,
-      Debit: item.debit,
-      Credit: item.credit,
-      Balance: item.balance,
-      Currency: item.currency,
-      'Reference Type': item.referenceType || '',
-      'Reference No': item.referenceNo || '',
-      Note: item.note || '',
-    }));
+    const csvData = data.items;
+    const columns = [
+      { key: 'entryDate', label: 'Date', format: (val: string) => new Date(val).toLocaleDateString() },
+      { key: 'partyName', label: 'Party' },
+      { key: 'transactionType', label: 'Transaction Type' },
+      { key: 'debit', label: 'Debit' },
+      { key: 'credit', label: 'Credit' },
+      { key: 'balance', label: 'Balance' },
+      { key: 'currency', label: 'Currency' },
+      { key: 'referenceType', label: 'Reference Type' },
+      { key: 'referenceNo', label: 'Reference No' },
+      { key: 'note', label: 'Note' },
+    ];
 
     const date = new Date().toISOString().split('T')[0];
-    CSVExporter.export(csvData, `party-ledger_${date}.csv`);
+    CSVExporter.export(csvData, columns, `party-ledger_${date}.csv`);
   };
 
   return (

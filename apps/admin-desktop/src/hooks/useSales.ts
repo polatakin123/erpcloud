@@ -22,10 +22,9 @@ export function useSalesOrders(page: number = 1, pageSize: number = 50) {
     queryKey: ['sales-orders', page, pageSize],
     queryFn: async () => {
       try {
-        const response = await ApiClient.get<PagedResult<SalesOrder>>(
+        return await ApiClient.get<PagedResult<SalesOrder>>(
           `/api/sales-orders?page=${page}&pageSize=${pageSize}`
         );
-        return response;
       } catch (error) {
         if (ErrorMapper.requiresLogin(error)) {
           navigate('/login');
@@ -53,8 +52,7 @@ export function useSalesOrder(id: string | null) {
     queryFn: async () => {
       if (!id) throw new Error('No ID provided');
       try {
-        const response = await ApiClient.get<SalesOrder>(`/api/sales-orders/${id}`);
-        return response;
+        return await ApiClient.get<SalesOrder>(`/api/sales-orders/${id}`);
       } catch (error) {
         if (ErrorMapper.requiresLogin(error)) {
           navigate('/login');
@@ -79,9 +77,7 @@ export function useCreateSalesOrder() {
 
   return useMutation({
     mutationFn: async (data: CreateSalesOrderRequest) => {
-      return await ApiClient.post<SalesOrder>('/api/sales-orders', {
-        body: JSON.stringify(data),
-      });
+      return await ApiClient.post<SalesOrder>('/api/sales-orders', data);
     },
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ['sales-orders'] });
@@ -149,10 +145,9 @@ export function useShipments(page: number = 1, pageSize: number = 50) {
     queryKey: ['shipments', page, pageSize],
     queryFn: async () => {
       try {
-        const response = await ApiClient.get<PagedResult<Shipment>>(
+        return await ApiClient.get<PagedResult<Shipment>>(
           `/api/shipments?page=${page}&pageSize=${pageSize}`
         );
-        return response;
       } catch (error) {
         if (ErrorMapper.requiresLogin(error)) {
           navigate('/login');
@@ -180,8 +175,7 @@ export function useShipment(id: string | null) {
     queryFn: async () => {
       if (!id) throw new Error('No ID provided');
       try {
-        const response = await ApiClient.get<Shipment>(`/api/shipments/${id}`);
-        return response;
+        return await ApiClient.get<Shipment>(`/api/shipments/${id}`);
       } catch (error) {
         if (ErrorMapper.requiresLogin(error)) {
           navigate('/login');
@@ -206,9 +200,7 @@ export function useCreateShipment() {
 
   return useMutation({
     mutationFn: async (data: CreateShipmentRequest) => {
-      return await ApiClient.post<Shipment>('/api/shipments', {
-        body: JSON.stringify(data),
-      });
+      return await ApiClient.post<Shipment>('/api/shipments', data);
     },
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ['shipments'] });

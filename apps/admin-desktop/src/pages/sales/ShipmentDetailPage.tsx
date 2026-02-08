@@ -45,7 +45,7 @@ export function ShipmentDetailPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold">Shipment {shipment.shipmentNo}</h1>
-          <p className="text-sm text-gray-600">{shipment.shipmentDate}</p>
+          <p className="text-sm text-gray-600">{new Date(shipment.shipmentDate).toLocaleDateString('tr-TR')}</p>
         </div>
         <StatusBadge status={shipment.status} />
       </div>
@@ -60,8 +60,8 @@ export function ShipmentDetailPage() {
           <div>
             <label className="text-sm text-gray-600">Related Order</label>
             <p className="font-medium">
-              <Link to={`/sales-orders/${shipment.orderId}`} className="text-blue-600 hover:underline">
-                {shipment.orderNo}
+              <Link to={`/sales-orders/${shipment.salesOrderId}`} className="text-blue-600 hover:underline">
+                {shipment.salesOrderId.substring(0, 8)}...
               </Link>
             </p>
           </div>
@@ -71,7 +71,7 @@ export function ShipmentDetailPage() {
           </div>
           <div>
             <label className="text-sm text-gray-600">Date</label>
-            <p className="font-medium">{shipment.shipmentDate}</p>
+            <p className="font-medium">{new Date(shipment.shipmentDate).toLocaleDateString('tr-TR')}</p>
           </div>
         </div>
       </Card>
@@ -81,21 +81,17 @@ export function ShipmentDetailPage() {
         <table className="w-full">
           <thead className="bg-gray-50">
             <tr>
-              <th className="text-left p-2 text-sm">Product</th>
+              <th className="text-left p-2 text-sm">Variant ID</th>
               <th className="text-right p-2 text-sm">Qty</th>
-              <th className="text-right p-2 text-sm">Invoiced</th>
-              <th className="text-right p-2 text-sm">Remaining</th>
+              <th className="text-left p-2 text-sm">Note</th>
             </tr>
           </thead>
           <tbody>
-            {shipment.lines.map((line, idx) => (
-              <tr key={idx} className="border-t">
-                <td className="p-2 text-sm">{line.productName}</td>
-                <td className="p-2 text-sm text-right">{line.quantity}</td>
-                <td className="p-2 text-sm text-right">{line.invoicedQty || 0}</td>
-                <td className="p-2 text-sm text-right font-medium">
-                  {(line.quantity - (line.invoicedQty || 0)).toFixed(0)}
-                </td>
+            {shipment.lines.map((line) => (
+              <tr key={line.id} className="border-t">
+                <td className="p-2 text-sm font-mono text-xs">{line.variantId.substring(0, 8)}...</td>
+                <td className="p-2 text-sm text-right">{line.qty}</td>
+                <td className="p-2 text-sm text-gray-600">{line.note || '-'}</td>
               </tr>
             ))}
           </tbody>

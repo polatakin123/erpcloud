@@ -9,3 +9,4 @@ C:\xampp\htdocs\projeler\ErpCloud\src\Modules\Sales\obj\Debug\net8.0\ErpCloud.Mo
 C:\xampp\htdocs\projeler\ErpCloud\src\Modules\Sales\obj\Debug\net8.0\refint\ErpCloud.Modules.Sales.dll
 C:\xampp\htdocs\projeler\ErpCloud\src\Modules\Sales\obj\Debug\net8.0\ErpCloud.Modules.Sales.pdb
 C:\xampp\htdocs\projeler\ErpCloud\src\Modules\Sales\obj\Debug\net8.0\ref\ErpCloud.Modules.Sales.dll
+C:\xampp\htdocs\projeler\ErpCloud\src\Modules\Sales\obj\Debug\net8.0\ErpCloud.Modules.Sales.sourcelink.json

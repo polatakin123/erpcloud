@@ -44,33 +44,35 @@ export interface SalesOrder {
   id: string;
   orderNo: string;
   status: 'DRAFT' | 'CONFIRMED' | 'SHIPPED' | 'INVOICED' | 'CANCELLED';
-  branchId: string;
-  warehouseId: string;
   partyId: string;
-  issueDate: string;
+  partyName: string;
+  branchId: string;
+  branchName: string;
+  warehouseId: string;
+  warehouseName: string;
+  priceListId?: string;
+  priceListCode?: string;
+  orderDate: string;
+  totalAmount: number;
   currency: string;
-  subtotal: number;
-  vatTotal: number;
-  grandTotal: number;
   note?: string;
   lines: SalesOrderLineDetail[];
   createdAt: string;
-  createdBy: string;
 }
 
 export interface SalesOrderLineDetail {
   id: string;
   variantId: string;
-  variantSku: string;
+  sku: string;
   variantName: string;
+  qty: number;
   quantity: number;
   unitPrice: number;
+  price: number;
   vatRate: number;
-  discountPercent: number;
   lineTotal: number;
   reservedQty: number;
-  shippedQty: number;
-  remainingQty: number;
+  note?: string;
 }
 
 // Shipment types
@@ -89,12 +91,10 @@ export interface Shipment {
   id: string;
   shipmentNo: string;
   status: 'DRAFT' | 'SHIPPED' | 'INVOICED' | 'CANCELLED';
-  orderId: string;
-  orderNo: string;
+  salesOrderId: string;
   branchId: string;
   warehouseId: string;
-  partyId: string;
-  shipDate?: string;
+  shipmentDate: string;
   lines: ShipmentLineDetail[];
   note?: string;
   createdAt: string;
@@ -103,13 +103,11 @@ export interface Shipment {
 
 export interface ShipmentLineDetail {
   id: string;
-  orderLineId: string;
+  shipmentId: string;
+  salesOrderLineId: string;
   variantId: string;
-  variantSku: string;
-  variantName: string;
-  quantity: number;
-  invoicedQty: number;
-  remainingQty: number;
+  qty: number;
+  note?: string;
 }
 
 // Invoice types
@@ -118,10 +116,10 @@ export interface Invoice {
   invoiceNo: string;
   type: 'SALES' | 'PURCHASE';
   status: 'DRAFT' | 'ISSUED' | 'CANCELLED';
-  sourceType?: string;
-  sourceId?: string;
-  branchId: string;
   partyId: string;
+  partyName: string;
+  branchId: string;
+  branchName: string;
   issueDate: string;
   dueDate?: string;
   currency: string;
@@ -131,19 +129,21 @@ export interface Invoice {
   lines: InvoiceLineDetail[];
   note?: string;
   createdAt: string;
-  createdBy: string;
+  paidAmount: number;
+  openAmount: number;
+  paymentStatus: 'OPEN' | 'PARTIAL' | 'PAID';
 }
 
 export interface InvoiceLineDetail {
   id: string;
-  variantId: string;
-  variantSku: string;
-  variantName: string;
-  quantity: number;
-  unitPrice: number;
+  variantId?: string;
+  sku?: string;
+  description: string;
+  qty?: number;
+  unitPrice?: number;
   vatRate: number;
-  discountPercent: number;
   lineTotal: number;
+  vatAmount: number;
 }
 
 // Purchase Order types
@@ -167,20 +167,21 @@ export interface CreatePurchaseOrderRequest {
 
 export interface PurchaseOrder {
   id: string;
-  orderNo: string;
+  poNo: string;
   status: 'DRAFT' | 'CONFIRMED' | 'RECEIVED' | 'CANCELLED';
-  branchId: string;
-  warehouseId: string;
   partyId: string;
-  issueDate: string;
-  currency: string;
-  subtotal: number;
-  vatTotal: number;
-  grandTotal: number;
+  partyName: string;
+  branchId: string;
+  branchName: string;
+  warehouseId: string;
+  warehouseName: string;
+  orderDate: string;
+  expectedDate?: string;
   note?: string;
+  totalAmount: number;
+  receivedAmount: number;
   lines: PurchaseOrderLineDetail[];
   createdAt: string;
-  createdBy: string;
 }
 
 export interface PurchaseOrderLineDetail {
@@ -188,13 +189,13 @@ export interface PurchaseOrderLineDetail {
   variantId: string;
   variantSku: string;
   variantName: string;
-  quantity: number;
-  unitPrice: number;
-  vatRate: number;
-  discountPercent: number;
-  lineTotal: number;
+  qty: number;
   receivedQty: number;
   remainingQty: number;
+  unitCost?: number;
+  vatRate?: number;
+  lineTotal: number;
+  note?: string;
 }
 
 // Goods Receipt types
@@ -211,27 +212,31 @@ export interface CreateGoodsReceiptRequest {
 
 export interface GoodsReceipt {
   id: string;
-  receiptNo: string;
+  grnNo: string;
   status: 'DRAFT' | 'RECEIVED' | 'CANCELLED';
   purchaseOrderId: string;
   poNo: string;
   branchId: string;
+  branchName: string;
   warehouseId: string;
-  partyId: string;
-  receiveDate?: string;
-  lines: GoodsReceiptLineDetail[];
+  warehouseName: string;
+  receiptDate: string;
   note?: string;
+  totalAmount: number;
+  lines: GoodsReceiptLineDetail[];
   createdAt: string;
-  createdBy: string;
 }
 
 export interface GoodsReceiptLineDetail {
   id: string;
-  poLineId: string;
+  purchaseOrderLineId: string;
   variantId: string;
   variantSku: string;
   variantName: string;
-  quantity: number;
+  qty: number;
+  unitCost?: number;
+  lineTotal: number;
+  note?: string;
 }
 
 // Stock Ledger types

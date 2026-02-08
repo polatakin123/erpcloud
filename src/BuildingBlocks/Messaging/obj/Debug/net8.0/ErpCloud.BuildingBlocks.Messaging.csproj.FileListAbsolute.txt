@@ -10,3 +10,4 @@ C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Messaging\obj\Debug\net8.0\
 C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Messaging\obj\Debug\net8.0\refint\ErpCloud.BuildingBlocks.Messaging.dll
 C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Messaging\obj\Debug\net8.0\ErpCloud.BuildingBlocks.Messaging.pdb
 C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Messaging\obj\Debug\net8.0\ref\ErpCloud.BuildingBlocks.Messaging.dll
+C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Messaging\obj\Debug\net8.0\ErpCloud.BuildingBlocks.Messaging.sourcelink.json

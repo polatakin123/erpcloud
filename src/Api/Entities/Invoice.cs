@@ -110,4 +110,14 @@ public class Invoice : TenantEntity
     /// Payment allocations to this invoice
     /// </summary>
     public ICollection<PaymentAllocation> Allocations { get; set; } = new List<PaymentAllocation>();
+
+    /// <summary>
+    /// Sales returns for this invoice
+    /// </summary>
+    public ICollection<SalesReturn> SalesReturns { get; set; } = new List<SalesReturn>();
+
+    /// <summary>
+    /// Credit notes issued against this invoice
+    /// </summary>
+    public ICollection<CreditNote> CreditNotes { get; set; } = new List<CreditNote>();
 }

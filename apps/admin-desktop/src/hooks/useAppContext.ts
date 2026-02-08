@@ -1,4 +1,4 @@
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import { useState, useEffect } from 'react';
 import { ContextStore, AppContext } from '../lib/context-store';
 
