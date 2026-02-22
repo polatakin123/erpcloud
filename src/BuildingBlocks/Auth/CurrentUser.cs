@@ -51,8 +51,16 @@ public class CurrentUser : ICurrentUser
     public bool IsInRole(string role) =>
         Roles.Contains(role, StringComparer.OrdinalIgnoreCase);
 
-    public bool HasPermission(string permission) =>
-        Permissions.Contains(permission, StringComparer.OrdinalIgnoreCase);
+    public bool HasPermission(string permission)
+    {
+        // Check for wildcard permission
+        if (Permissions.Contains("*.*", StringComparer.OrdinalIgnoreCase))
+        {
+            return true;
+        }
+        
+        return Permissions.Contains(permission, StringComparer.OrdinalIgnoreCase);
+    }
 
     private List<string> ParseRoles()
     {

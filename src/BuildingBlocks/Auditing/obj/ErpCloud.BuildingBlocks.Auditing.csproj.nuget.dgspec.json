@@ -1,33 +1,40 @@
 {
   "format": 1,
   "restore": {
-    "C:\\xampp\\htdocs\\projeler\\ERPCloud\\src\\BuildingBlocks\\Auditing\\ErpCloud.BuildingBlocks.Auditing.csproj": {}
+    "C:\\xampp\\htdocs\\projeler\\ErpCloud\\src\\BuildingBlocks\\Auditing\\ErpCloud.BuildingBlocks.Auditing.csproj": {}
   },
   "projects": {
-    "C:\\xampp\\htdocs\\projeler\\ERPCloud\\src\\BuildingBlocks\\Auditing\\ErpCloud.BuildingBlocks.Auditing.csproj": {
+    "C:\\xampp\\htdocs\\projeler\\ErpCloud\\src\\BuildingBlocks\\Auditing\\ErpCloud.BuildingBlocks.Auditing.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\xampp\\htdocs\\projeler\\ERPCloud\\src\\BuildingBlocks\\Auditing\\ErpCloud.BuildingBlocks.Auditing.csproj",
+        "projectUniqueName": "C:\\xampp\\htdocs\\projeler\\ErpCloud\\src\\BuildingBlocks\\Auditing\\ErpCloud.BuildingBlocks.Auditing.csproj",
         "projectName": "ErpCloud.BuildingBlocks.Auditing",
-        "projectPath": "C:\\xampp\\htdocs\\projeler\\ERPCloud\\src\\BuildingBlocks\\Auditing\\ErpCloud.BuildingBlocks.Auditing.csproj",
+        "projectPath": "C:\\xampp\\htdocs\\projeler\\ErpCloud\\src\\BuildingBlocks\\Auditing\\ErpCloud.BuildingBlocks.Auditing.csproj",
         "packagesPath": "C:\\Users\\Polat\\.nuget\\packages\\",
-        "outputPath": "C:\\xampp\\htdocs\\projeler\\ERPCloud\\src\\BuildingBlocks\\Auditing\\obj\\",
+        "outputPath": "C:\\xampp\\htdocs\\projeler\\ErpCloud\\src\\BuildingBlocks\\Auditing\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\Polat\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\Polat\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\xampp\\htdocs\\projeler\\ERPCloud\\src\\BuildingBlocks\\Tenant\\ErpCloud.BuildingBlocks.Tenant.csproj": {
-                "projectPath": "C:\\xampp\\htdocs\\projeler\\ERPCloud\\src\\BuildingBlocks\\Tenant\\ErpCloud.BuildingBlocks.Tenant.csproj"
+              "C:\\xampp\\htdocs\\projeler\\ErpCloud\\src\\BuildingBlocks\\Tenant\\ErpCloud.BuildingBlocks.Tenant.csproj": {
+                "projectPath": "C:\\xampp\\htdocs\\projeler\\ErpCloud\\src\\BuildingBlocks\\Tenant\\ErpCloud.BuildingBlocks.Tenant.csproj"
               }
             }
           }
@@ -42,7 +49,8 @@
           "enableAudit": "true",
           "auditLevel": "low",
           "auditMode": "direct"
-        }
+        },
+        "SdkAnalysisLevel": "10.0.100"
       },
       "frameworks": {
         "net8.0": {
@@ -64,31 +72,52 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[8.0.23, 8.0.23]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[8.0.23, 8.0.23]"
+            },
+            {
+              "name": "Microsoft.WindowsDesktop.App.Ref",
+              "version": "[8.0.23, 8.0.23]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.417/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.102/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\xampp\\htdocs\\projeler\\ERPCloud\\src\\BuildingBlocks\\Tenant\\ErpCloud.BuildingBlocks.Tenant.csproj": {
+    "C:\\xampp\\htdocs\\projeler\\ErpCloud\\src\\BuildingBlocks\\Tenant\\ErpCloud.BuildingBlocks.Tenant.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\xampp\\htdocs\\projeler\\ERPCloud\\src\\BuildingBlocks\\Tenant\\ErpCloud.BuildingBlocks.Tenant.csproj",
+        "projectUniqueName": "C:\\xampp\\htdocs\\projeler\\ErpCloud\\src\\BuildingBlocks\\Tenant\\ErpCloud.BuildingBlocks.Tenant.csproj",
         "projectName": "ErpCloud.BuildingBlocks.Tenant",
-        "projectPath": "C:\\xampp\\htdocs\\projeler\\ERPCloud\\src\\BuildingBlocks\\Tenant\\ErpCloud.BuildingBlocks.Tenant.csproj",
+        "projectPath": "C:\\xampp\\htdocs\\projeler\\ErpCloud\\src\\BuildingBlocks\\Tenant\\ErpCloud.BuildingBlocks.Tenant.csproj",
         "packagesPath": "C:\\Users\\Polat\\.nuget\\packages\\",
-        "outputPath": "C:\\xampp\\htdocs\\projeler\\ERPCloud\\src\\BuildingBlocks\\Tenant\\obj\\",
+        "outputPath": "C:\\xampp\\htdocs\\projeler\\ErpCloud\\src\\BuildingBlocks\\Tenant\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\Polat\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\Polat\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -107,7 +136,8 @@
           "enableAudit": "true",
           "auditLevel": "low",
           "auditMode": "direct"
-        }
+        },
+        "SdkAnalysisLevel": "10.0.100"
       },
       "frameworks": {
         "net8.0": {
@@ -141,12 +171,26 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[8.0.23, 8.0.23]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[8.0.23, 8.0.23]"
+            },
+            {
+              "name": "Microsoft.WindowsDesktop.App.Ref",
+              "version": "[8.0.23, 8.0.23]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.417/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.102/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

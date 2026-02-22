@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "cX05PVb0H1xxWGkgpeThWEShw9jCjdHIU/HqEHgpAT0=",
+  "Source": "ErpCloud.Api",
+  "BasePath": "_content/ErpCloud.Api",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

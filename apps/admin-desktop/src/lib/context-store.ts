@@ -26,6 +26,7 @@ class BrowserStorage {
 }
 
 export interface AppContext {
+  activeOrgId: string | null;
   activeBranchId: string | null;
   activeWarehouseId: string | null;
 }
@@ -33,13 +34,32 @@ export interface AppContext {
 export class ContextStore {
   static async getContext(): Promise<AppContext> {
     if (isTauri && store) {
+      const activeOrgId = (await store.get('activeOrgId')) || null;
       const activeBranchId = (await store.get('activeBranchId')) || null;
       const activeWarehouseId = (await store.get('activeWarehouseId')) || null;
-      return { activeBranchId, activeWarehouseId };
+      return { activeOrgId, activeBranchId, activeWarehouseId };
     } else {
+      const activeOrgId = BrowserStorage.get('activeOrgId') || null;
       const activeBranchId = BrowserStorage.get('activeBranchId') || null;
       const activeWarehouseId = BrowserStorage.get('activeWarehouseId') || null;
-      return { activeBranchId, activeWarehouseId };
+      return { activeOrgId, activeBranchId, activeWarehouseId };
+    }
+  }
+
+  static async setActiveOrg(orgId: string | null): Promise<void> {
+    if (isTauri && store) {
+      if (orgId) {
+        await store.set('activeOrgId', orgId);
+      } else {
+        await store.delete('activeOrgId');
+      }
+      await store.save();
+    } else {
+      if (orgId) {
+        BrowserStorage.set('activeOrgId', orgId);
+      } else {
+        BrowserStorage.delete('activeOrgId');
+      }
     }
   }
 
@@ -79,10 +99,12 @@ export class ContextStore {
 
   static async clearContext(): Promise<void> {
     if (isTauri && store) {
+      await store.delete('activeOrgId');
       await store.delete('activeBranchId');
       await store.delete('activeWarehouseId');
       await store.save();
     } else {
+      BrowserStorage.delete('activeOrgId');
       BrowserStorage.delete('activeBranchId');
       BrowserStorage.delete('activeWarehouseId');
     }

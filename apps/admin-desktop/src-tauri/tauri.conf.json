@@ -47,16 +47,6 @@
       "timestampUrl": "",
       "wix": {
         "language": ["tr-TR", "en-US"]
-      },
-      "nsis": {
-        "languages": ["Turkish", "English"],
-        "installerIcon": "icons/icon.ico",
-        "installMode": "perUser",
-        "allowDowngrades": false,
-        "createDesktopShortcut": true,
-        "createStartMenuShortcut": true,
-        "displayLanguageSelector": false,
-        "license": null
       }
     },
     "macOS": {
@@ -73,11 +63,7 @@
   },
   "plugins": {
     "shell": {
-      "open": true,
-      "scope": []
-    },
-    "store": {
-      "enabled": true
+      "open": true
     }
   }
 }

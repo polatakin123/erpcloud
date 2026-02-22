@@ -16,6 +16,7 @@ export default function FastSearchPage() {
   const [includeUndefinedFitment, setIncludeUndefinedFitment] = useState(false);
   const [showStockCard, setShowStockCard] = useState(false);
   const [selectedVariant, setSelectedVariant] = useState<any>(null);
+  const [selectedVariants, setSelectedVariants] = useState<Set<string>>(new Set());
   const navigate = useNavigate();
 
   const { data: warehouses } = useWarehouses();
@@ -64,23 +65,65 @@ export default function FastSearchPage() {
     setShowStockCard(true);
   };
 
-  const handleInvoiceSale = (variant: any) => {
-    navigate('/fast-sales', { state: { addToCart: variant } });
+  const handleToggleSelection = (variantId: string) => {
+    setSelectedVariants(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(variantId)) {
+        newSet.delete(variantId);
+      } else {
+        newSet.add(variantId);
+      }
+      return newSet;
+    });
   };
 
-  const handleInvoicePurchase = (variant: any) => {
+  const handleInvoiceSale = () => {
+    if (selectedVariants.size === 0) return;
+    const variants = searchResults?.results
+      ?.filter(r => selectedVariants.has(r.variantId))
+      .map(result => ({
+        variantId: result.variantId,
+        sku: result.sku,
+        barcode: result.barcode,
+        name: result.name,
+        brand: result.brand,
+        brandCode: result.brandCode,
+        stock: result.available || 0,
+        available: result.available || 0,
+        price: result.price || 0,
+        oemRefs: result.oemRefs || [],
+      }));
+    navigate('/tezgah/satis', { state: { addToCart: variants } });
+  };
+
+  const handleInvoicePurchase = () => {
     alert("Faturalı alış özelliği yakında eklenecek");
   };
 
-  const handleShipmentSale = (variant: any) => {
-    navigate('/fast-sales', { state: { addToCart: variant } });
+  const handleShipmentSale = () => {
+    if (selectedVariants.size === 0) return;
+    const variants = searchResults?.results
+      ?.filter(r => selectedVariants.has(r.variantId))
+      .map(result => ({
+        variantId: result.variantId,
+        sku: result.sku,
+        barcode: result.barcode,
+        name: result.name,
+        brand: result.brand,
+        brandCode: result.brandCode,
+        stock: result.available || 0,
+        available: result.available || 0,
+        price: result.price || 0,
+        oemRefs: result.oemRefs || [],
+      }));
+    navigate('/tezgah/satis', { state: { addToCart: variants } });
   };
 
-  const handleShipmentPurchase = (variant: any) => {
+  const handleShipmentPurchase = () => {
     alert("İrsaliyeli alış özelliği yakında eklenecek");
   };
 
-  const handleStockMovements = (variant: any) => {
+  const handleStockMovements = () => {
     alert("Stok hareketleri özelliği yakında eklenecek");
   };
 
@@ -284,8 +327,18 @@ export default function FastSearchPage() {
                     <ContextMenu key={result.variantId}>
                       <ContextMenuTrigger asChild>
                         <tr
-                          className={`hover:bg-blue-50 cursor-pointer ${isUndefinedFitment ? 'opacity-60 bg-gray-50' : ''}`}
-                          onDoubleClick={() => handleOpenStockCard(variant)}
+                          className={`cursor-pointer ${
+                            isUndefinedFitment 
+                              ? 'opacity-60 bg-gray-50' 
+                              : selectedVariants.has(result.variantId)
+                                ? 'bg-green-50 hover:bg-green-100'
+                                : 'hover:bg-blue-50'
+                          }`}
+                          onClick={() => handleToggleSelection(result.variantId)}
+                          onDoubleClick={(e) => {
+                            e.stopPropagation();
+                            handleOpenStockCard(variant);
+                          }}
                         >
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-2">
@@ -453,25 +506,25 @@ export default function FastSearchPage() {
                         </tr>
                       </ContextMenuTrigger>
                       <ContextMenuContent className="w-56">
-                        <ContextMenuItem onClick={() => handleInvoiceSale(variant)} className="cursor-pointer">
+                        <ContextMenuItem onClick={handleInvoiceSale} className="cursor-pointer" disabled={selectedVariants.size === 0}>
                           <Receipt className="mr-2 h-4 w-4" />
-                          <span>Faturalı Satış</span>
+                          <span>Faturalı Satış {selectedVariants.size > 0 && `(${selectedVariants.size})`}</span>
                         </ContextMenuItem>
-                        <ContextMenuItem onClick={() => handleInvoicePurchase(variant)} className="cursor-pointer">
+                        <ContextMenuItem onClick={handleInvoicePurchase} className="cursor-pointer" disabled={selectedVariants.size === 0}>
                           <ShoppingCart className="mr-2 h-4 w-4" />
-                          <span>Faturalı Alış</span>
+                          <span>Faturalı Alış {selectedVariants.size > 0 && `(${selectedVariants.size})`}</span>
                         </ContextMenuItem>
-                        <ContextMenuItem onClick={() => handleShipmentSale(variant)} className="cursor-pointer">
+                        <ContextMenuItem onClick={handleShipmentSale} className="cursor-pointer" disabled={selectedVariants.size === 0}>
                           <Truck className="mr-2 h-4 w-4" />
-                          <span>İrsaliyeli Satış</span>
+                          <span>İrsaliyeli Satış {selectedVariants.size > 0 && `(${selectedVariants.size})`}</span>
                         </ContextMenuItem>
-                        <ContextMenuItem onClick={() => handleShipmentPurchase(variant)} className="cursor-pointer">
+                        <ContextMenuItem onClick={handleShipmentPurchase} className="cursor-pointer" disabled={selectedVariants.size === 0}>
                           <Package className="mr-2 h-4 w-4" />
-                          <span>İrsaliyeli Alış</span>
+                          <span>İrsaliyeli Alış {selectedVariants.size > 0 && `(${selectedVariants.size})`}</span>
                         </ContextMenuItem>
-                        <ContextMenuItem onClick={() => handleStockMovements(variant)} className="cursor-pointer">
+                        <ContextMenuItem onClick={handleStockMovements} className="cursor-pointer" disabled={selectedVariants.size === 0}>
                           <FileText className="mr-2 h-4 w-4" />
-                          <span>Stok Hareketleri</span>
+                          <span>Stok Hareketleri {selectedVariants.size > 0 && `(${selectedVariants.size})`}</span>
                         </ContextMenuItem>
                       </ContextMenuContent>
                     </ContextMenu>

@@ -147,11 +147,6 @@ C:\xampp\htdocs\projeler\ErpCloud\src\Api\obj\Debug\net8.0\ErpCloud.Api.MvcAppli
 C:\xampp\htdocs\projeler\ErpCloud\src\Api\obj\Debug\net8.0\ErpCloud.Api.sourcelink.json
 C:\xampp\htdocs\projeler\ErpCloud\src\Api\obj\Debug\net8.0\staticwebassets.build.json
 C:\xampp\htdocs\projeler\ErpCloud\src\Api\obj\Debug\net8.0\staticwebassets.development.json
-C:\xampp\htdocs\projeler\ErpCloud\src\Api\obj\Debug\net8.0\staticwebassets\msbuild.ErpCloud.Api.Microsoft.AspNetCore.StaticWebAssets.props
-C:\xampp\htdocs\projeler\ErpCloud\src\Api\obj\Debug\net8.0\staticwebassets\msbuild.build.ErpCloud.Api.props
-C:\xampp\htdocs\projeler\ErpCloud\src\Api\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.ErpCloud.Api.props
-C:\xampp\htdocs\projeler\ErpCloud\src\Api\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.ErpCloud.Api.props
-C:\xampp\htdocs\projeler\ErpCloud\src\Api\obj\Debug\net8.0\staticwebassets.pack.json
 C:\xampp\htdocs\projeler\ErpCloud\src\Api\obj\Debug\net8.0\scopedcss\bundle\ErpCloud.Api.styles.css
 C:\xampp\htdocs\projeler\ErpCloud\src\Api\obj\Debug\net8.0\ErpCloud.399FDA43.Up2Date
 C:\xampp\htdocs\projeler\ErpCloud\src\Api\obj\Debug\net8.0\ErpCloud.Api.dll
@@ -159,3 +154,12 @@ C:\xampp\htdocs\projeler\ErpCloud\src\Api\obj\Debug\net8.0\refint\ErpCloud.Api.d
 C:\xampp\htdocs\projeler\ErpCloud\src\Api\obj\Debug\net8.0\ErpCloud.Api.pdb
 C:\xampp\htdocs\projeler\ErpCloud\src\Api\obj\Debug\net8.0\ErpCloud.Api.genruntimeconfig.cache
 C:\xampp\htdocs\projeler\ErpCloud\src\Api\obj\Debug\net8.0\ref\ErpCloud.Api.dll
+C:\xampp\htdocs\projeler\ErpCloud\src\Api\bin\Debug\net8.0\BCrypt.Net-Next.dll
+C:\xampp\htdocs\projeler\ErpCloud\src\Api\bin\Debug\net8.0\ErpCloud.Api.staticwebassets.endpoints.json
+C:\xampp\htdocs\projeler\ErpCloud\src\Api\obj\Debug\net8.0\rpswa.dswa.cache.json
+C:\xampp\htdocs\projeler\ErpCloud\src\Api\obj\Debug\net8.0\rjimswa.dswa.cache.json
+C:\xampp\htdocs\projeler\ErpCloud\src\Api\obj\Debug\net8.0\rjsmrazor.dswa.cache.json
+C:\xampp\htdocs\projeler\ErpCloud\src\Api\obj\Debug\net8.0\rjsmcshtml.dswa.cache.json
+C:\xampp\htdocs\projeler\ErpCloud\src\Api\obj\Debug\net8.0\staticwebassets.build.json.cache
+C:\xampp\htdocs\projeler\ErpCloud\src\Api\obj\Debug\net8.0\staticwebassets.build.endpoints.json
+C:\xampp\htdocs\projeler\ErpCloud\src\Api\obj\Debug\net8.0\swae.build.ex.cache

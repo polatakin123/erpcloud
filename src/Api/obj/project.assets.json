@@ -2,6 +2,19 @@
   "version": 3,
   "targets": {
     "net8.0": {
+      "BCrypt.Net-Next/4.0.3": {
+        "type": "package",
+        "compile": {
+          "lib/net6.0/BCrypt.Net-Next.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0/BCrypt.Net-Next.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "FluentValidation/12.1.1": {
         "type": "package",
         "compile": {
@@ -1674,6 +1687,37 @@
     }
   },
   "libraries": {
+    "BCrypt.Net-Next/4.0.3": {
+      "sha512": "W+U9WvmZQgi5cX6FS5GDtDoPzUCV4LkBLkywq/kRZhuDwcbavOzcDAr3LXJFqHUi952Yj3LEYoWW0jbEUQChsA==",
+      "type": "package",
+      "path": "bcrypt.net-next/4.0.3",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "bcrypt.net-next.4.0.3.nupkg.sha512",
+        "bcrypt.net-next.nuspec",
+        "ico.png",
+        "lib/net20/BCrypt.Net-Next.dll",
+        "lib/net20/BCrypt.Net-Next.xml",
+        "lib/net35/BCrypt.Net-Next.dll",
+        "lib/net35/BCrypt.Net-Next.xml",
+        "lib/net462/BCrypt.Net-Next.dll",
+        "lib/net462/BCrypt.Net-Next.xml",
+        "lib/net472/BCrypt.Net-Next.dll",
+        "lib/net472/BCrypt.Net-Next.xml",
+        "lib/net48/BCrypt.Net-Next.dll",
+        "lib/net48/BCrypt.Net-Next.xml",
+        "lib/net5.0/BCrypt.Net-Next.dll",
+        "lib/net5.0/BCrypt.Net-Next.xml",
+        "lib/net6.0/BCrypt.Net-Next.dll",
+        "lib/net6.0/BCrypt.Net-Next.xml",
+        "lib/netstandard2.0/BCrypt.Net-Next.dll",
+        "lib/netstandard2.0/BCrypt.Net-Next.xml",
+        "lib/netstandard2.1/BCrypt.Net-Next.dll",
+        "lib/netstandard2.1/BCrypt.Net-Next.xml",
+        "readme.md"
+      ]
+    },
     "FluentValidation/12.1.1": {
       "sha512": "EPpkIe1yh1a0OXyC100oOA8WMbZvqUu5plwhvYcb7oSELfyUZzfxV48BLhvs3kKo4NwG7MGLNgy1RJiYtT8Dpw==",
       "type": "package",
@@ -4238,6 +4282,7 @@
   },
   "projectFileDependencyGroups": {
     "net8.0": [
+      "BCrypt.Net-Next >= 4.0.3",
       "ErpCloud.BuildingBlocks.Auth >= 1.0.0",
       "ErpCloud.BuildingBlocks.Common >= 1.0.0",
       "ErpCloud.BuildingBlocks.Messaging >= 1.0.0",
@@ -4257,47 +4302,55 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Polat\\.nuget\\packages\\": {}
+    "C:\\Users\\Polat\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\xampp\\htdocs\\projeler\\ERPCloud\\src\\Api\\ErpCloud.Api.csproj",
+      "projectUniqueName": "C:\\xampp\\htdocs\\projeler\\ErpCloud\\src\\Api\\ErpCloud.Api.csproj",
       "projectName": "ErpCloud.Api",
-      "projectPath": "C:\\xampp\\htdocs\\projeler\\ERPCloud\\src\\Api\\ErpCloud.Api.csproj",
+      "projectPath": "C:\\xampp\\htdocs\\projeler\\ErpCloud\\src\\Api\\ErpCloud.Api.csproj",
       "packagesPath": "C:\\Users\\Polat\\.nuget\\packages\\",
-      "outputPath": "C:\\xampp\\htdocs\\projeler\\ERPCloud\\src\\Api\\obj\\",
+      "outputPath": "C:\\xampp\\htdocs\\projeler\\ErpCloud\\src\\Api\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "C:\\Users\\Polat\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\Polat\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "C:\\xampp\\htdocs\\projeler\\ERPCloud\\src\\BuildingBlocks\\Auth\\ErpCloud.BuildingBlocks.Auth.csproj": {
-              "projectPath": "C:\\xampp\\htdocs\\projeler\\ERPCloud\\src\\BuildingBlocks\\Auth\\ErpCloud.BuildingBlocks.Auth.csproj"
+            "C:\\xampp\\htdocs\\projeler\\ErpCloud\\src\\BuildingBlocks\\Auth\\ErpCloud.BuildingBlocks.Auth.csproj": {
+              "projectPath": "C:\\xampp\\htdocs\\projeler\\ErpCloud\\src\\BuildingBlocks\\Auth\\ErpCloud.BuildingBlocks.Auth.csproj"
             },
-            "C:\\xampp\\htdocs\\projeler\\ERPCloud\\src\\BuildingBlocks\\Common\\ErpCloud.BuildingBlocks.Common.csproj": {
-              "projectPath": "C:\\xampp\\htdocs\\projeler\\ERPCloud\\src\\BuildingBlocks\\Common\\ErpCloud.BuildingBlocks.Common.csproj"
+            "C:\\xampp\\htdocs\\projeler\\ErpCloud\\src\\BuildingBlocks\\Common\\ErpCloud.BuildingBlocks.Common.csproj": {
+              "projectPath": "C:\\xampp\\htdocs\\projeler\\ErpCloud\\src\\BuildingBlocks\\Common\\ErpCloud.BuildingBlocks.Common.csproj"
             },
-            "C:\\xampp\\htdocs\\projeler\\ERPCloud\\src\\BuildingBlocks\\Messaging\\ErpCloud.BuildingBlocks.Messaging.csproj": {
-              "projectPath": "C:\\xampp\\htdocs\\projeler\\ERPCloud\\src\\BuildingBlocks\\Messaging\\ErpCloud.BuildingBlocks.Messaging.csproj"
+            "C:\\xampp\\htdocs\\projeler\\ErpCloud\\src\\BuildingBlocks\\Messaging\\ErpCloud.BuildingBlocks.Messaging.csproj": {
+              "projectPath": "C:\\xampp\\htdocs\\projeler\\ErpCloud\\src\\BuildingBlocks\\Messaging\\ErpCloud.BuildingBlocks.Messaging.csproj"
             },
-            "C:\\xampp\\htdocs\\projeler\\ERPCloud\\src\\BuildingBlocks\\Outbox\\ErpCloud.BuildingBlocks.Outbox.csproj": {
-              "projectPath": "C:\\xampp\\htdocs\\projeler\\ERPCloud\\src\\BuildingBlocks\\Outbox\\ErpCloud.BuildingBlocks.Outbox.csproj"
+            "C:\\xampp\\htdocs\\projeler\\ErpCloud\\src\\BuildingBlocks\\Outbox\\ErpCloud.BuildingBlocks.Outbox.csproj": {
+              "projectPath": "C:\\xampp\\htdocs\\projeler\\ErpCloud\\src\\BuildingBlocks\\Outbox\\ErpCloud.BuildingBlocks.Outbox.csproj"
             },
-            "C:\\xampp\\htdocs\\projeler\\ERPCloud\\src\\BuildingBlocks\\Persistence\\ErpCloud.BuildingBlocks.Persistence.csproj": {
-              "projectPath": "C:\\xampp\\htdocs\\projeler\\ERPCloud\\src\\BuildingBlocks\\Persistence\\ErpCloud.BuildingBlocks.Persistence.csproj"
+            "C:\\xampp\\htdocs\\projeler\\ErpCloud\\src\\BuildingBlocks\\Persistence\\ErpCloud.BuildingBlocks.Persistence.csproj": {
+              "projectPath": "C:\\xampp\\htdocs\\projeler\\ErpCloud\\src\\BuildingBlocks\\Persistence\\ErpCloud.BuildingBlocks.Persistence.csproj"
             },
-            "C:\\xampp\\htdocs\\projeler\\ERPCloud\\src\\BuildingBlocks\\Tenant\\ErpCloud.BuildingBlocks.Tenant.csproj": {
-              "projectPath": "C:\\xampp\\htdocs\\projeler\\ERPCloud\\src\\BuildingBlocks\\Tenant\\ErpCloud.BuildingBlocks.Tenant.csproj"
+            "C:\\xampp\\htdocs\\projeler\\ErpCloud\\src\\BuildingBlocks\\Tenant\\ErpCloud.BuildingBlocks.Tenant.csproj": {
+              "projectPath": "C:\\xampp\\htdocs\\projeler\\ErpCloud\\src\\BuildingBlocks\\Tenant\\ErpCloud.BuildingBlocks.Tenant.csproj"
             }
           }
         }
@@ -4312,12 +4365,17 @@
         "enableAudit": "true",
         "auditLevel": "low",
         "auditMode": "direct"
-      }
+      },
+      "SdkAnalysisLevel": "10.0.100"
     },
     "frameworks": {
       "net8.0": {
         "targetAlias": "net8.0",
         "dependencies": {
+          "BCrypt.Net-Next": {
+            "target": "Package",
+            "version": "[4.0.3, )"
+          },
           "FluentValidation.AspNetCore": {
             "target": "Package",
             "version": "[11.3.1, )"
@@ -4372,6 +4430,24 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
+        "downloadDependencies": [
+          {
+            "name": "Microsoft.AspNetCore.App.Ref",
+            "version": "[8.0.23, 8.0.23]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Host.win-x64",
+            "version": "[8.0.23, 8.0.23]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Ref",
+            "version": "[8.0.23, 8.0.23]"
+          },
+          {
+            "name": "Microsoft.WindowsDesktop.App.Ref",
+            "version": "[8.0.23, 8.0.23]"
+          }
+        ],
         "frameworkReferences": {
           "Microsoft.AspNetCore.App": {
             "privateAssets": "none"
@@ -4380,7 +4456,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.417/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.102/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

@@ -129,16 +129,7 @@ export default function FastSalesPage() {
   const barcodeInputRef = useRef<HTMLInputElement>(null);
   const paymentMethodRef = useRef<HTMLSelectElement>(null);
   const discountInputRef = useRef<HTMLInputElement>(null);
-
-  // Add item from FastSearchPage if passed via location state
-  useEffect(() => {
-    if (location.state?.addToCart) {
-      const item = location.state.addToCart;
-      addToCart(item);
-      // Clear location state
-      window.history.replaceState({}, document.title);
-    }
-  }, [location.state]);
+  const hasProcessedLocationState = useRef(false);
 
   // Calculate totals
   const subtotal = useMemo(() => 
@@ -243,12 +234,21 @@ export default function FastSalesPage() {
     }
   }, [showCustomerPicker, isProcessing, handleBarcodeFocus]);
 
-  // Add item from FastSearchPage if passed via location state
+  // Add item from FastSearchPage if passed via location state (run only once)
   useEffect(() => {
-    if (location.state?.addToCart) {
+    if (location.state?.addToCart && !hasProcessedLocationState.current) {
+      hasProcessedLocationState.current = true;
       const item = location.state.addToCart;
-      addToCart(item);
-      // Clear location state
+      
+      console.log('[FastSales] Received items from navigation:', Array.isArray(item) ? item.length : 1);
+      
+      // Handle both single item and array of items
+      if (Array.isArray(item)) {
+        item.forEach(variant => addToCart(variant));
+      } else {
+        addToCart(item);
+      }
+      // Clear location state immediately
       window.history.replaceState({}, document.title);
     }
   }, [location.state]);
@@ -332,6 +332,8 @@ export default function FastSalesPage() {
 
     const warehouse = warehouses?.find((w: any) => w.isDefault) || warehouses?.[0];
     
+    console.log('[Pricing] Calculating for variantId:', variantId, 'quantity:', quantity);
+    
     try {
       const result = await pricingCalculation.mutateAsync({
         partyId: selectedParty?.id || "00000000-0000-0000-0000-000000000000",
@@ -355,8 +357,12 @@ export default function FastSalesPage() {
         appliedRuleDescription: result.ruleDescription,
         pricingWarning: result.hasWarning ? result.warningMessage : undefined,
       };
-    } catch (error) {
+    } catch (error: any) {
       console.error("Pricing calculation error:", error);
+      console.error("Error details:", error?.response?.data || error?.message);
+      console.error("VarıantId not found in database, using fallback pricing");
+      
+      // Fallback: return empty pricing data (will use default values)
       return {};
     }
   };

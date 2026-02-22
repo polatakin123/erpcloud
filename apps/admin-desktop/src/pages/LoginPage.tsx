@@ -1,50 +1,64 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { SettingsService } from '@/lib/settings';
 import { ApiClient } from '@/lib/api-client';
+import { useAuthStore } from '@/lib/auth-store';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
+interface LoginResponse {
+  token: string;
+  expiresAt: string;
+  username: string;
+  role: string;
+}
+
 export function LoginPage({ onLoginSuccess }: { onLoginSuccess?: () => void }) {
-  const [token, setToken] = useState('');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-
-  // Auto-load demo token in development
-  useEffect(() => {
-    if (import.meta.env.DEV) {
-      const demoToken = import.meta.env.VITE_DEMO_TOKEN;
-      if (demoToken) {
-        setToken(demoToken);
-      }
-    }
-  }, []);
+  const setAuth = useAuthStore((state) => state.setAuth);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
     
-    if (!token.trim()) {
-      setError('Lütfen bir token girin');
+    if (!username.trim() || !password.trim()) {
+      setError('Kullanıcı adı ve şifre gerekli');
       return;
     }
 
     setLoading(true);
     try {
-      // Save token
-      await SettingsService.setAuthToken(token);
-      ApiClient.setToken(token);
+      const response = await ApiClient.post<LoginResponse>('/api/auth/login', {
+        username: username.trim(),
+        password: password.trim()
+      }, { skipAuth: true });
+      
+      localStorage.setItem('accessToken', response.token);
+      ApiClient.setToken(response.token);
+      setAuth(response.token);
 
-      // Notify parent component
       onLoginSuccess?.();
-
-      // Navigate to dashboard
-      navigate('/');
-    } catch (err) {
-      setError('Token kaydedilemedi');
-      console.error('Giriş hatası:', err);
+      
+      // Permission based redirect - wait for setAuth to complete
+      setTimeout(() => {
+        const { hasPerm } = useAuthStore.getState();
+        if (hasPerm('ADMIN.SETTINGS')) {
+          navigate('/dashboard');
+        } else {
+          navigate('/tezgah');
+        }
+      }, 0);
+    } catch (err: any) {
+      console.error('Login failed:', err);
+      if (err.status === 401) {
+        setError('Kullanıcı adı veya şifre hatalı');
+      } else {
+        setError(err.message || 'Giriş yapılırken bir hata oluştu');
+      }
     } finally {
       setLoading(false);
     }
@@ -56,22 +70,38 @@ export function LoginPage({ onLoginSuccess }: { onLoginSuccess?: () => void }) {
         <CardHeader>
           <CardTitle>ERP Cloud Yönetim</CardTitle>
           <p className="text-sm text-muted-foreground">
-            Devam etmek için JWT token'ınızı yapıştırın
+            Lütfen giriş yapın
           </p>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleLogin} className="space-y-4">
             <div>
-              <label htmlFor="token" className="block text-sm font-medium mb-2">
-                JWT Token
+              <label htmlFor="username" className="block text-sm font-medium mb-2">
+                Kullanıcı Adı
               </label>
               <Input
-                id="token"
+                id="username"
                 type="text"
-                placeholder="eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9..."
-                value={token}
-                onChange={(e) => setToken(e.target.value)}
-                className="font-mono text-xs"
+                placeholder="admin veya kasiyer"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                disabled={loading}
+                autoComplete="username"
+              />
+            </div>
+
+            <div>
+              <label htmlFor="password" className="block text-sm font-medium mb-2">
+                Şifre
+              </label>
+              <Input
+                id="password"
+                type="password"
+                placeholder="Şifrenizi girin"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                disabled={loading}
+                autoComplete="current-password"
               />
             </div>
             
@@ -80,14 +110,13 @@ export function LoginPage({ onLoginSuccess }: { onLoginSuccess?: () => void }) {
             )}
             
             <Button type="submit" className="w-full" disabled={loading}>
-              {loading ? 'Kaydediliyor...' : 'Giriş Yap'}
+              {loading ? 'Giriş yapılıyor...' : 'Giriş Yap'}
             </Button>
             
-            {import.meta.env.DEV && (
-              <div className="text-xs text-muted-foreground text-center">
-                Development mode: Token otomatik yüklendi
-              </div>
-            )}
+            <div className="text-xs text-muted-foreground space-y-1">
+              <div>Admin: admin / Admin123!</div>
+              <div>Kasiyer: kasiyer / Kasiyer123!</div>
+            </div>
           </form>
         </CardContent>
       </Card>

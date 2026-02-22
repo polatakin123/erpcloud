@@ -40,7 +40,7 @@ public static class DevTokenGenerator
             "product.read", "product.write",
             "variant.read", "variant.write",
             "pricelist.read", "pricelist.write",
-            "pricing.read",
+            "pricing.read", "pricing.calculate",
             "purchaseorder.read", "purchaseorder.write",
             "goodsreceipt.read", "goodsreceipt.write",
             "cashbox.read", "cashbox.write",

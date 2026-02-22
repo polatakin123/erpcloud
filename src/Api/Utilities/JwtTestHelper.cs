@@ -51,6 +51,7 @@ public static class JwtTestHelper
             new Claim("policy", "pricelist.read"),
             new Claim("policy", "pricelist.write"),
             new Claim("policy", "pricing.read"),
+            new Claim("policy", "pricing.calculate"),
             new Claim("policy", "purchaseorder.read"),
             new Claim("policy", "purchaseorder.write"),
             new Claim("policy", "goodsreceipt.read"),
@@ -71,7 +72,7 @@ public static class JwtTestHelper
             issuer: "ErpCloud",
             audience: "erp-cloud",
             claims: claims,
-            expires: DateTime.UtcNow.AddHours(1),
+            expires: DateTime.UtcNow.AddDays(365), // 1 yıl - development için
             signingCredentials: creds
         );
 

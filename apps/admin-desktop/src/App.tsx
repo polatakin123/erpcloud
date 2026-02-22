@@ -40,6 +40,8 @@ import { BrandListPage } from './pages/admin/BrandListPage';
 import { useEffect, useState } from 'react';
 import { ApiClient } from './lib/api-client';
 import { SettingsService } from './lib/settings';
+import { useAuthStore } from './lib/auth-store';
+import { RequirePerm } from './components/RequirePerm';
 
 // Placeholder pages
 const PlaceholderPage = ({ title }: { title: string }) => (
@@ -58,31 +60,52 @@ const queryClient = new QueryClient({
   },
 });
 
+function DefaultRedirect() {
+  const { hasPerm } = useAuthStore();
+  // Admin users go to dashboard, others go to tezgah
+  if (hasPerm('ADMIN.SETTINGS')) {
+    return <Navigate to="/dashboard" replace />;
+  }
+  return <Navigate to="/tezgah" replace />;
+}
+
 function App() {
   const [isInitialized, setIsInitialized] = useState(false);
-  const [hasToken, setHasToken] = useState(false);
+  const hydrated = useAuthStore((state) => state.hydrated);
+  const token = useAuthStore((state) => state.token);
+  const setAuth = useAuthStore((state) => state.setAuth);
 
   useEffect(() => {
     async function init() {
       await ApiClient.initialize();
       const settings = await SettingsService.getSettings();
-      setHasToken(!!settings.authToken);
+      const storedToken = localStorage.getItem('accessToken') || settings.authToken;
+      
+      if (storedToken) {
+        setAuth(storedToken);
+      } else {
+        // No token, mark as hydrated anyway
+        useAuthStore.setState({ hydrated: true });
+      }
+      
       setIsInitialized(true);
     }
     init();
-  }, []);
+  }, [setAuth]);
 
   const handleLoginSuccess = () => {
-    setHasToken(true);
+    // No-op, navigation handled by LoginPage
   };
 
-  if (!isInitialized) {
+  if (!isInitialized || !hydrated) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div>Yükleniyor...</div>
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="text-gray-600">Yükleniyor...</div>
       </div>
     );
   }
+
+  const hasToken = !!token;
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -99,21 +122,22 @@ function App() {
             path="/"
             element={hasToken ? <MainLayout /> : <Navigate to="/login" replace />}
           >
-            <Route index element={<Navigate to="/tezgah" replace />} />
+            <Route index element={<DefaultRedirect />} />
             <Route path="dashboard" element={<DashboardPage />} />
             
             {/* Tezgah Mode - Operation UI */}
-            <Route path="tezgah" element={<TezgahDashboardPage />} />
-            <Route path="tezgah/satis" element={<FastSalesPage />} />
-            <Route path="tezgah/tahsilat" element={<TahsilatPage />} />
-            <Route path="tezgah/stok-sorgu" element={<StokSorguPage />} />
-            <Route path="tezgah/raporlar" element={<PlaceholderPage title="Raporlar" />} />
+            <Route path="tezgah" element={<RequirePerm perm="POS.VIEW" fallback="/dashboard"><TezgahDashboardPage /></RequirePerm>} />
+            <Route path="tezgah/satis" element={<RequirePerm perm="POS.SELL" fallback="/tezgah"><FastSalesPage /></RequirePerm>} />
+            <Route path="tezgah/fast-search" element={<RequirePerm perm="POS.VIEW" fallback="/tezgah"><FastSearchPage /></RequirePerm>} />
+            <Route path="tezgah/tahsilat" element={<RequirePerm perm="FINANCE.COLLECT" fallback="/tezgah"><TahsilatPage /></RequirePerm>} />
+            <Route path="tezgah/stok-sorgu" element={<RequirePerm perm="STOCK.VIEW" fallback="/tezgah"><StokSorguPage /></RequirePerm>} />
+            <Route path="tezgah/raporlar" element={<RequirePerm perm="POS.VIEW" fallback="/tezgah"><PlaceholderPage title="Raporlar" /></RequirePerm>} />
             
             <Route path="settings" element={<SettingsPage />} />
-            <Route path="setup/organization" element={<OrganizationSetupPage />} />
+            <Route path="setup/organization" element={<RequirePerm perm="ADMIN.SETTINGS" fallback="/tezgah"><OrganizationSetupPage /></RequirePerm>} />
             
-            {/* Admin */}
-            <Route path="admin/brands" element={<BrandListPage />} />
+            {/* Admin - Only for Admin permission */}
+            <Route path="admin/brands" element={<RequirePerm perm="ADMIN.SETTINGS" fallback="/tezgah"><BrandListPage /></RequirePerm>} />
             
             {/* Catalog */}
             <Route path="products" element={<ProductsPage />} />

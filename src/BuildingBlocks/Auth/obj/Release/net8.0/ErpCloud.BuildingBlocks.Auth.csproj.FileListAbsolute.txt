@@ -1,0 +1,13 @@
+C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Auth\bin\Release\net8.0\ErpCloud.BuildingBlocks.Auth.deps.json
+C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Auth\bin\Release\net8.0\ErpCloud.BuildingBlocks.Auth.dll
+C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Auth\bin\Release\net8.0\ErpCloud.BuildingBlocks.Auth.pdb
+C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Auth\obj\Release\net8.0\ErpCloud.BuildingBlocks.Auth.csproj.AssemblyReference.cache
+C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Auth\obj\Release\net8.0\ErpCloud.BuildingBlocks.Auth.GeneratedMSBuildEditorConfig.editorconfig
+C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Auth\obj\Release\net8.0\ErpCloud.BuildingBlocks.Auth.AssemblyInfoInputs.cache
+C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Auth\obj\Release\net8.0\ErpCloud.BuildingBlocks.Auth.AssemblyInfo.cs
+C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Auth\obj\Release\net8.0\ErpCloud.BuildingBlocks.Auth.csproj.CoreCompileInputs.cache
+C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Auth\obj\Release\net8.0\ErpCloud.BuildingBlocks.Auth.sourcelink.json
+C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Auth\obj\Release\net8.0\ErpCloud.BuildingBlocks.Auth.dll
+C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Auth\obj\Release\net8.0\refint\ErpCloud.BuildingBlocks.Auth.dll
+C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Auth\obj\Release\net8.0\ErpCloud.BuildingBlocks.Auth.pdb
+C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Auth\obj\Release\net8.0\ref\ErpCloud.BuildingBlocks.Auth.dll

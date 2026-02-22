@@ -1,11 +1,1 @@
-{
-  "Version": 1,
-  "Hash": "cX05PVb0H1xxWGkgpeThWEShw9jCjdHIU/HqEHgpAT0=",
-  "Source": "ErpCloud.Api",
-  "BasePath": "_content/ErpCloud.Api",
-  "Mode": "Default",
-  "ManifestType": "Build",
-  "ReferencedProjectsConfiguration": [],
-  "DiscoveryPatterns": [],
-  "Assets": []
-}
+{"Version":1,"Hash":"rW0LRsy9zSAu7soDFFfQD2P00zwGRxyRHQ16pCrRB8g=","Source":"ErpCloud.Api","BasePath":"/","Mode":"Root","ManifestType":"Build","ReferencedProjectsConfiguration":[],"DiscoveryPatterns":[],"Assets":[],"Endpoints":[]}

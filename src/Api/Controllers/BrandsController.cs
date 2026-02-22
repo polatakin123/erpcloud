@@ -1,5 +1,6 @@
 using ErpCloud.Api.Data;
 using ErpCloud.Api.Entities;
+using ErpCloud.Api.Constants;
 using ErpCloud.BuildingBlocks.Tenant;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -10,7 +11,7 @@ namespace ErpCloud.Api.Controllers;
 /// <summary>
 /// Brand master data CRUD operations
 /// </summary>
-[Authorize]
+[Authorize(Roles = Roles.Admin)]
 [ApiController]
 [Route("api/brands")]
 public class BrandsController : ControllerBase

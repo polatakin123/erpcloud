@@ -22,7 +22,10 @@ export class ApiClient {
   static async initialize() {
     const settings = await SettingsService.getSettings();
     this.baseUrl = settings.apiBaseUrl;
-    this.token = settings.authToken;
+    const token = localStorage.getItem('accessToken') || settings.authToken;
+    if (token) {
+      this.token = token;
+    }
   }
 
   static setToken(token: string | null) {
@@ -57,6 +60,13 @@ export class ApiClient {
       });
 
       if (!response.ok) {
+        if (response.status === 401) {
+          localStorage.removeItem('accessToken');
+          this.token = null;
+          window.location.href = '/login';
+          throw new ApiError(response.status, 'Unauthorized', 'Oturum süresi doldu');
+        }
+
         let errorData;
         const contentType = response.headers.get('content-type');
         

@@ -3,6 +3,7 @@ import { Plus, Building2, MapPin } from 'lucide-react';
 import { useOrganizations } from '../hooks/useOrganizations';
 import { useBranches } from '../hooks/useBranches';
 import { useWarehousesByBranch } from '../hooks/useWarehouses';
+import { ApiClient } from '../lib/api-client';
 
 export default function OrganizationSetupPage() {
   const [selectedOrgId, setSelectedOrgId] = useState<string>('');
@@ -37,33 +38,21 @@ export default function OrganizationSetupPage() {
     }
 
     try {
-      const token = localStorage.getItem('authToken');
-      const response = await fetch('http://localhost:5039/api/orgs', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          code: newOrgCode,
-          name: newOrgName,
-          taxNumber: newOrgTaxNumber || null,
-        }),
+      await ApiClient.post('/api/orgs', {
+        code: newOrgCode,
+        name: newOrgName,
+        taxNumber: newOrgTaxNumber || null,
       });
 
-      if (response.ok) {
-        alert('Organization created successfully!');
-        setShowOrgForm(false);
-        setNewOrgCode('');
-        setNewOrgName('');
-        setNewOrgTaxNumber('');
-        window.location.reload(); // Refresh to see new data
-      } else {
-        const error = await response.json();
-        alert(`Error: ${error.error || 'Failed to create organization'}`);
-      }
+      alert('Organization created successfully!');
+      setShowOrgForm(false);
+      setNewOrgCode('');
+      setNewOrgName('');
+      setNewOrgTaxNumber('');
+      window.location.reload();
     } catch (error) {
-      alert('Network error');
+      console.error('Error creating organization:', error);
+      alert('Failed to create organization');
     }
   };
 
@@ -78,31 +67,18 @@ export default function OrganizationSetupPage() {
     }
 
     try {
-      const token = localStorage.getItem('authToken');
-      const response = await fetch(`http://localhost:5039/api/orgs/${selectedOrgId}/branches`, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          code: newBranchCode,
-          name: newBranchName,
-          address: newBranchAddress || null,
-        }),
+      await ApiClient.post(`/api/orgs/${selectedOrgId}/branches`, {
+        code: newBranchCode,
+        name: newBranchName,
+        address: newBranchAddress || null,
       });
 
-      if (response.ok) {
-        alert('Branch created successfully!');
-        setShowBranchForm(false);
-        setNewBranchCode('');
-        setNewBranchName('');
-        setNewBranchAddress('');
-        window.location.reload();
-      } else {
-        const error = await response.json();
-        alert(`Error: ${error.error || 'Failed to create branch'}`);
-      }
+      alert('Branch created successfully!');
+      setShowBranchForm(false);
+      setNewBranchCode('');
+      setNewBranchName('');
+      setNewBranchAddress('');
+      window.location.reload();
     } catch (error) {
       alert('Network error');
     }
@@ -119,32 +95,19 @@ export default function OrganizationSetupPage() {
     }
 
     try {
-      const token = localStorage.getItem('authToken');
-      const response = await fetch(`http://localhost:5039/api/branches/${selectedBranchId}/warehouses`, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          code: newWarehouseCode,
-          name: newWarehouseName,
-          address: newWarehouseAddress || null,
-          type: 'MAIN', // Default warehouse type
-        }),
+      await ApiClient.post(`/api/branches/${selectedBranchId}/warehouses`, {
+        code: newWarehouseCode,
+        name: newWarehouseName,
+        address: newWarehouseAddress || null,
+        type: 'MAIN',
       });
 
-      if (response.ok) {
-        alert('Warehouse created successfully!');
-        setShowWarehouseForm(false);
-        setNewWarehouseCode('');
-        setNewWarehouseName('');
-        setNewWarehouseAddress('');
-        window.location.reload();
-      } else {
-        const error = await response.json();
-        alert(`Error: ${error.error || 'Failed to create warehouse'}`);
-      }
+      alert('Warehouse created successfully!');
+      setShowWarehouseForm(false);
+      setNewWarehouseCode('');
+      setNewWarehouseName('');
+      setNewWarehouseAddress('');
+      window.location.reload();
     } catch (error) {
       alert('Network error');
     }

@@ -34,13 +34,13 @@ builder.Services.AddTenantContext();
 // Add Outbox Pattern
 builder.Services.AddOutbox<ErpDbContext>();
 
-// Add RabbitMQ Messaging
-builder.Services.AddRabbitMq(builder.Configuration);
+// Add RabbitMQ Messaging - TEMPORARILY DISABLED (RabbitMQ not running)
+// builder.Services.AddRabbitMq(builder.Configuration);
 
 // Add Background Services - TEMPORARILY DISABLED FOR DESKTOP APP TESTING
 // builder.Services.AddHostedService<OutboxDispatcherService>();
-builder.Services.AddSingleton<DemoEventConsumer>();
-builder.Services.AddHostedService<DemoEventConsumerHostedService>();
+// builder.Services.AddSingleton<DemoEventConsumer>();
+// builder.Services.AddHostedService<DemoEventConsumerHostedService>();
 
 // Add Authentication & Authorization
 builder.Services.AddErpAuth(builder.Configuration);
@@ -73,6 +73,7 @@ builder.Services.AddAuthorization(options =>
         ("pricelist.read", "pricelist.read"),
         ("pricelist.write", "pricelist.write"),
         ("pricing.read", "pricing.read"),
+        ("pricing.calculate", "pricing.calculate"),
         ("purchaseorder.read", "purchaseorder.read"),
         ("purchaseorder.write", "purchaseorder.write"),
         ("goodsreceipt.read", "goodsreceipt.read"),
@@ -188,6 +189,16 @@ builder.Services.AddSwaggerGen(options =>
 builder.Services.AddHealthChecks();
 
 var app = builder.Build();
+
+// Seed demo users in development
+if (app.Environment.IsDevelopment())
+{
+    using (var scope = app.Services.CreateScope())
+    {
+        var context = scope.ServiceProvider.GetRequiredService<ErpDbContext>();
+        // await ErpCloud.Api.Dev.DatabaseSeeder.SeedDemoUsers(context); // Temporarily disabled due to FK constraint issue
+    }
+}
 
 // Configure CORS for desktop app
 app.UseCors(policy =>

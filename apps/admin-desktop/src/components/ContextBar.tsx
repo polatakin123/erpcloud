@@ -1,6 +1,7 @@
 import { useAppContext } from '../hooks/useAppContext';
-import { useWarehouses } from '../hooks/useWarehouses';
+import { useWarehousesByBranch } from '../hooks/useWarehouses';
 import { useOrganizations } from '../hooks/useOrganizations';
+import { useBranches } from '../hooks/useBranches';
 import {
   Select,
   SelectContent,
@@ -11,9 +12,15 @@ import {
 import { AlertCircle, Settings } from 'lucide-react';
 
 export function ContextBar() {
-  const { activeBranchId, activeWarehouseId, setActiveBranch, setActiveWarehouse } = useAppContext();
+  const { activeOrgId, activeBranchId, activeWarehouseId, setActiveOrg, setActiveBranch, setActiveWarehouse } = useAppContext();
   const { data: organizations, isLoading: orgsLoading } = useOrganizations();
-  const { data: warehouses, isLoading: warehousesLoading } = useWarehouses();
+  
+  // Get branches for selected organization
+  const { data: branchesData, isLoading: branchesLoading } = useBranches(activeOrgId || undefined);
+  const branches = branchesData?.items || [];
+  
+  // Get warehouses for selected branch
+  const { data: warehouses, isLoading: warehousesLoading } = useWarehousesByBranch(activeBranchId || undefined);
 
   const showWarning = !activeBranchId || !activeWarehouseId;
   const apiUrl = (import.meta as any).env.VITE_API_BASE_URL || 'http://localhost:5039';
@@ -23,19 +30,19 @@ export function ContextBar() {
       {showWarning && (
         <div className="flex items-center gap-2 text-orange-600">
           <AlertCircle className="h-4 w-4" />
-          <span className="text-sm font-medium">Please select Branch & Warehouse</span>
+          <span className="text-sm font-medium">Please select Organization, Branch & Warehouse</span>
         </div>
       )}
 
       <div className="flex items-center gap-2">
-        <label className="text-sm font-medium text-gray-700">Branch:</label>
+        <label className="text-sm font-medium text-gray-700">Organization:</label>
         <Select
-          value={activeBranchId || undefined}
-          onValueChange={(value: string) => setActiveBranch(value)}
+          value={activeOrgId || undefined}
+          onValueChange={(value: string) => setActiveOrg(value)}
           disabled={orgsLoading}
         >
           <SelectTrigger className="w-[200px]">
-            <SelectValue placeholder="Select Branch" />
+            <SelectValue placeholder="Select Organization" />
           </SelectTrigger>
           <SelectContent>
             {organizations?.map((org) => (
@@ -48,11 +55,31 @@ export function ContextBar() {
       </div>
 
       <div className="flex items-center gap-2">
+        <label className="text-sm font-medium text-gray-700">Branch:</label>
+        <Select
+          value={activeBranchId || undefined}
+          onValueChange={(value: string) => setActiveBranch(value)}
+          disabled={branchesLoading || !activeOrgId}
+        >
+          <SelectTrigger className="w-[200px]">
+            <SelectValue placeholder="Select Branch" />
+          </SelectTrigger>
+          <SelectContent>
+            {branches?.map((branch) => (
+              <SelectItem key={branch.id} value={branch.id}>
+                {branch.name} ({branch.code})
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
+
+      <div className="flex items-center gap-2">
         <label className="text-sm font-medium text-gray-700">Warehouse:</label>
         <Select
           value={activeWarehouseId || undefined}
           onValueChange={(value: string) => setActiveWarehouse(value)}
-          disabled={warehousesLoading}
+          disabled={warehousesLoading || !activeBranchId}
         >
           <SelectTrigger className="w-[200px]">
             <SelectValue placeholder="Select Warehouse" />

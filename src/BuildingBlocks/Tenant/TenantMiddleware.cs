@@ -14,7 +14,11 @@ public class TenantMiddleware
     {
         "/health",
         "/swagger",
-        "/api/test"
+        "/api/test",
+        "/api/auth/login",
+        "/api/debug/check-demo-user",
+        "/api/debug/update-demo-password",
+        "/api/debug/update-admin-password"
     };
 
     public TenantMiddleware(RequestDelegate next)
@@ -26,17 +30,32 @@ public class TenantMiddleware
     {
         var path = context.Request.Path.Value ?? string.Empty;
 
-        // DEBUG: Log all claims
-        Console.WriteLine($"[TenantMiddleware] Path: {path}, IsAuthenticated: {context.User.Identity?.IsAuthenticated}");
-        Console.WriteLine($"[TenantMiddleware] Total Claims: {context.User.Claims.Count()}");
-        foreach (var claim in context.User.Claims)
-        {
-            Console.WriteLine($"[TenantMiddleware]   - {claim.Type}: {claim.Value}");
-        }
-
         // Skip tenant requirement for public paths and swagger
         if (IsPublicPath(path))
         {
+            await _next(context);
+            return;
+        }
+
+        // 🔧 DEVELOPMENT MODE BYPASS - Authentication olmadan geliştirme yapabilmek için
+        var isDevelopment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development";
+        var bypassAuth = Environment.GetEnvironmentVariable("BYPASS_AUTH") == "true";
+        
+        if (isDevelopment && bypassAuth)
+        {
+            // Development modunda hard-coded tenant ve user kullan
+            var devTenantId = Guid.Parse("a1b2c3d4-e5f6-7890-abcd-ef1234567890");
+            var devUserId = Guid.Parse("00000000-0000-0000-0000-000000000001");
+            
+            var devContext = new TenantContext
+            {
+                TenantId = devTenantId,
+                UserId = devUserId
+            };
+            tenantAccessor.SetContext(devContext);
+            
+            Console.WriteLine($"[TenantMiddleware] 🔧 DEVELOPMENT BYPASS ACTIVE - Tenant: {devTenantId}, User: {devUserId}");
+            
             await _next(context);
             return;
         }

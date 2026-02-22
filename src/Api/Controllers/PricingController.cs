@@ -47,6 +47,7 @@ public class PricingController : ControllerBase
     /// <param name="request">Pricing calculation request</param>
     /// <returns>Full pricing breakdown including profit analysis and warnings</returns>
     [HttpPost("calculate")]
+    [Authorize(Policy = "pricing.calculate")]
     public async Task<ActionResult<PricingCalculationResult>> Calculate(
         [FromBody] PricingCalculationRequest request,
         CancellationToken ct = default)
@@ -76,6 +77,7 @@ public class PricingController : ControllerBase
     /// <param name="requests">List of pricing calculation requests</param>
     /// <returns>List of pricing results with breakdowns</returns>
     [HttpPost("calculate/batch")]
+    [Authorize(Policy = "pricing.calculate")]
     public async Task<ActionResult<List<PricingCalculationResult>>> CalculateBatch(
         [FromBody] List<PricingCalculationRequest> requests,
         CancellationToken ct = default)

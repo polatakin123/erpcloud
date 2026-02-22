@@ -1,0 +1,12 @@
+C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Common\bin\Release\net8.0\ErpCloud.BuildingBlocks.Common.deps.json
+C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Common\bin\Release\net8.0\ErpCloud.BuildingBlocks.Common.dll
+C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Common\bin\Release\net8.0\ErpCloud.BuildingBlocks.Common.pdb
+C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Common\obj\Release\net8.0\ErpCloud.BuildingBlocks.Common.GeneratedMSBuildEditorConfig.editorconfig
+C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Common\obj\Release\net8.0\ErpCloud.BuildingBlocks.Common.AssemblyInfoInputs.cache
+C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Common\obj\Release\net8.0\ErpCloud.BuildingBlocks.Common.AssemblyInfo.cs
+C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Common\obj\Release\net8.0\ErpCloud.BuildingBlocks.Common.csproj.CoreCompileInputs.cache
+C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Common\obj\Release\net8.0\ErpCloud.BuildingBlocks.Common.sourcelink.json
+C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Common\obj\Release\net8.0\ErpCloud.BuildingBlocks.Common.dll
+C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Common\obj\Release\net8.0\refint\ErpCloud.BuildingBlocks.Common.dll
+C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Common\obj\Release\net8.0\ErpCloud.BuildingBlocks.Common.pdb
+C:\xampp\htdocs\projeler\ErpCloud\src\BuildingBlocks\Common\obj\Release\net8.0\ref\ErpCloud.BuildingBlocks.Common.dll

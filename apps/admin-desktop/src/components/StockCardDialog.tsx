@@ -1,5 +1,6 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./ui/dialog";
-import { Package, TrendingUp, Calendar, DollarSign } from "lucide-react";
+import { Package, TrendingUp, Calendar, DollarSign, Save } from "lucide-react";
+import { useState, useEffect } from "react";
 
 interface StockCardDialogProps {
   open: boolean;
@@ -19,60 +20,104 @@ interface StockCardDialogProps {
 }
 
 export function StockCardDialog({ open, onOpenChange, variant }: StockCardDialogProps) {
+  const [editedName, setEditedName] = useState(variant.name);
+  const [editedBarcode, setEditedBarcode] = useState(variant.barcode || "");
+  const [editedPrice, setEditedPrice] = useState(variant.price?.toString() || "0");
+  const [editedStock, setEditedStock] = useState(variant.stock?.toString() || "0");
+
+  // Variant değiştiğinde state'i güncelle
+  useEffect(() => {
+    setEditedName(variant.name);
+    setEditedBarcode(variant.barcode || "");
+    setEditedPrice(variant.price?.toString() || "0");
+    setEditedStock(variant.stock?.toString() || "0");
+  }, [variant]);
+
+  const handleSave = () => {
+    console.log("Saving changes:", {
+      name: editedName,
+      barcode: editedBarcode,
+      price: parseFloat(editedPrice),
+      stock: parseInt(editedStock),
+    });
+    alert("Değişiklikler kaydedildi! (API entegrasyonu yapılacak)");
+    onOpenChange(false);
+  };
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-w-5xl max-h-[95vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Package className="h-5 w-5" />
-            Stok Kartı
+            Stok Kartı - Detaylı Görünüm
           </DialogTitle>
         </DialogHeader>
 
         <div className="space-y-6">
           {/* Basic Info */}
-          <div className="border border-slate-200 rounded-lg p-4 bg-slate-50">
-            <h3 className="font-semibold text-slate-700 mb-3">Ürün Bilgileri</h3>
-            <div className="grid grid-cols-2 gap-4">
+          <div className="border border-slate-200 rounded-lg p-6 bg-slate-50">
+            <h3 className="font-semibold text-slate-700 mb-4 text-lg">Ürün Bilgileri</h3>
+            <div className="grid grid-cols-2 gap-6">
               <div>
-                <label className="text-sm text-slate-600">SKU</label>
-                <div className="font-mono font-medium">{variant.sku}</div>
+                <label className="block text-sm font-medium text-slate-600 mb-2">SKU (Değiştirilemez)</label>
+                <div className="font-mono font-medium text-lg bg-white px-4 py-3 rounded-lg border border-slate-300">
+                  {variant.sku}
+                </div>
               </div>
               <div>
-                <label className="text-sm text-slate-600">Barkod</label>
-                <div className="font-mono font-medium">{variant.barcode || "-"}</div>
+                <label className="block text-sm font-medium text-slate-600 mb-2">Barkod</label>
+                <input
+                  type="text"
+                  value={editedBarcode}
+                  onChange={(e) => setEditedBarcode(e.target.value)}
+                  className="w-full font-mono px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="Barkod giriniz"
+                />
               </div>
               <div className="col-span-2">
-                <label className="text-sm text-slate-600">Ürün Adı</label>
-                <div className="font-medium">{variant.name}</div>
+                <label className="block text-sm font-medium text-slate-600 mb-2">Ürün Adı</label>
+                <input
+                  type="text"
+                  value={editedName}
+                  onChange={(e) => setEditedName(e.target.value)}
+                  className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent text-lg"
+                />
               </div>
               <div>
-                <label className="text-sm text-slate-600">Marka</label>
-                <div className="font-medium">{variant.brand || "-"}</div>
+                <label className="block text-sm font-medium text-slate-600 mb-2">Marka</label>
+                <div className="font-medium text-lg bg-white px-4 py-3 rounded-lg border border-slate-300">
+                  {variant.brand || "-"}
+                </div>
               </div>
               <div>
-                <label className="text-sm text-slate-600">Marka Kodu</label>
-                <div className="font-medium">{variant.brandCode || "-"}</div>
+                <label className="block text-sm font-medium text-slate-600 mb-2">Marka Kodu</label>
+                <div className="font-medium text-lg bg-white px-4 py-3 rounded-lg border border-slate-300">
+                  {variant.brandCode || "-"}
+                </div>
               </div>
             </div>
           </div>
 
           {/* Stock Info */}
-          <div className="border border-slate-200 rounded-lg p-4">
-            <h3 className="font-semibold text-slate-700 mb-3 flex items-center gap-2">
-              <TrendingUp className="h-4 w-4" />
+          <div className="border border-slate-200 rounded-lg p-6">
+            <h3 className="font-semibold text-slate-700 mb-4 text-lg flex items-center gap-2">
+              <TrendingUp className="h-5 w-5" />
               Stok Durumu
             </h3>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 gap-6">
               <div>
-                <label className="text-sm text-slate-600">Toplam Stok</label>
-                <div className="text-2xl font-bold text-slate-900">
-                  {variant.stock ?? 0}
-                </div>
+                <label className="block text-sm font-medium text-slate-600 mb-2">Toplam Stok</label>
+                <input
+                  type="number"
+                  value={editedStock}
+                  onChange={(e) => setEditedStock(e.target.value)}
+                  className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent text-2xl font-bold"
+                />
               </div>
               <div>
-                <label className="text-sm text-slate-600">Kullanılabilir</label>
-                <div className="text-2xl font-bold text-green-600">
+                <label className="block text-sm font-medium text-slate-600 mb-2">Kullanılabilir</label>
+                <div className="text-3xl font-bold text-green-600 bg-green-50 px-4 py-3 rounded-lg border border-green-200">
                   {variant.available ?? 0}
                 </div>
               </div>
@@ -80,16 +125,26 @@ export function StockCardDialog({ open, onOpenChange, variant }: StockCardDialog
           </div>
 
           {/* Pricing Info */}
-          <div className="border border-slate-200 rounded-lg p-4">
-            <h3 className="font-semibold text-slate-700 mb-3 flex items-center gap-2">
-              <DollarSign className="h-4 w-4" />
+          <div className="border border-slate-200 rounded-lg p-6">
+            <h3 className="font-semibold text-slate-700 mb-4 text-lg flex items-center gap-2">
+              <DollarSign className="h-5 w-5" />
               Fiyat Bilgisi
             </h3>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 gap-6">
               <div>
-                <label className="text-sm text-slate-600">Satış Fiyatı</label>
-                <div className="text-2xl font-bold text-blue-600">
-                  ₺{(variant.price ?? 0).toFixed(2)}
+                <label className="block text-sm font-medium text-slate-600 mb-2">Satış Fiyatı (₺)</label>
+                <input
+                  type="number"
+                  step="0.01"
+                  value={editedPrice}
+                  onChange={(e) => setEditedPrice(e.target.value)}
+                  className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent text-2xl font-bold"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-slate-600 mb-2">KDV Dahil</label>
+                <div className="text-2xl font-bold text-blue-600 bg-blue-50 px-4 py-3 rounded-lg border border-blue-200">
+                  ₺{(parseFloat(editedPrice) * 1.20).toFixed(2)}
                 </div>
               </div>
             </div>
@@ -97,13 +152,13 @@ export function StockCardDialog({ open, onOpenChange, variant }: StockCardDialog
 
           {/* OEM References */}
           {variant.oemRefs && variant.oemRefs.length > 0 && (
-            <div className="border border-slate-200 rounded-lg p-4">
-              <h3 className="font-semibold text-slate-700 mb-3">OEM Referansları</h3>
+            <div className="border border-slate-200 rounded-lg p-6">
+              <h3 className="font-semibold text-slate-700 mb-4 text-lg">OEM Referansları</h3>
               <div className="flex flex-wrap gap-2">
                 {variant.oemRefs.map((oem, index) => (
                   <span
                     key={index}
-                    className="bg-blue-100 text-blue-800 text-sm px-3 py-1 rounded-full font-mono"
+                    className="bg-blue-100 text-blue-800 text-sm px-4 py-2 rounded-full font-mono"
                   >
                     {oem}
                   </span>
@@ -112,13 +167,21 @@ export function StockCardDialog({ open, onOpenChange, variant }: StockCardDialog
             </div>
           )}
 
-          {/* Future: Stock Movements */}
-          <div className="border border-slate-200 rounded-lg p-4 bg-slate-50">
-            <h3 className="font-semibold text-slate-700 mb-3 flex items-center gap-2">
-              <Calendar className="h-4 w-4" />
-              Son Hareketler
-            </h3>
-            <p className="text-sm text-slate-500 italic">Yakında eklenecek...</p>
+          {/* Action Buttons */}
+          <div className="flex justify-end gap-3 pt-4 border-t border-slate-200">
+            <button
+              onClick={() => onOpenChange(false)}
+              className="px-6 py-3 text-slate-700 border border-slate-300 rounded-lg hover:bg-slate-50 font-medium transition-colors"
+            >
+              İptal
+            </button>
+            <button
+              onClick={handleSave}
+              className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium transition-colors flex items-center gap-2"
+            >
+              <Save className="h-4 w-4" />
+              Kaydet
+            </button>
           </div>
         </div>
       </DialogContent>

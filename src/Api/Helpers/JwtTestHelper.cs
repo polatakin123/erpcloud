@@ -36,6 +36,12 @@ public static class JwtTestHelper
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
         };
 
+        // Add roles as individual claims for [Authorize(Roles = ...)]
+        foreach (var role in roles)
+        {
+            claims.Add(new Claim(ClaimTypes.Role, role));
+        }
+
         // Add Keycloak-style realm_access roles
         if (roles.Length > 0)
         {

@@ -19,6 +19,11 @@ public class ErpDbContext : AppDbContext
     public DbSet<DemoItem> DemoItems => Set<DemoItem>();
     public DbSet<DemoEventLog> DemoEventLogs => Set<DemoEventLog>();
     
+    // Users
+    public DbSet<User> Users => Set<User>();
+    public DbSet<Permission> Permissions => Set<Permission>();
+    public DbSet<UserPermission> UserPermissions => Set<UserPermission>();
+    
     // Organization module
     public DbSet<Organization> Organizations => Set<Organization>();
     public DbSet<Branch> Branches => Set<Branch>();
@@ -140,6 +145,34 @@ public class ErpDbContext : AppDbContext
                 .IsUnique()
                 .HasDatabaseName("ix_demo_event_logs_tenant_message");
         });
+        
+        // Configure Permission
+        modelBuilder.Entity<Permission>(entity =>
+        {
+            entity.ToTable("permissions");
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.Code).IsRequired().HasMaxLength(100);
+            entity.Property(e => e.Name).IsRequired().HasMaxLength(200);
+            entity.HasIndex(e => e.Code).IsUnique();
+        });
+        
+        // Configure UserPermission
+        modelBuilder.Entity<UserPermission>(entity =>
+        {
+            entity.ToTable("user_permissions");
+            entity.HasKey(e => new { e.UserId, e.PermissionId });
+            
+            entity.HasOne(e => e.User)
+                .WithMany()
+                .HasForeignKey(e => e.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+                
+            entity.HasOne(e => e.Permission)
+                .WithMany(p => p.UserPermissions)
+                .HasForeignKey(e => e.PermissionId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+        
         // Configure Organization
         modelBuilder.Entity<Organization>(entity =>
         {
